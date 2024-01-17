@@ -1,4 +1,4 @@
-// signin.tsx TS-Doc?
+// signin/page.tsx TS-Doc?
 
 import type {
   GetServerSidePropsContext,
@@ -6,25 +6,9 @@ import type {
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/rm/v0/auth/[...nextauth]";
+import { authOptions } from "@auth/signin";
 
-export default function SignIn({
-  providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return (
-    <>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
-    </>
-  );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+async function getData(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   // If the user is already logged in, redirect.
@@ -39,4 +23,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: { providers: providers ?? [] },
   };
+}
+
+export default async function SignIn({
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { providers } = await getData()
+  return (
+    <>
+      {Object.values(providers).map((provider) => (
+        <div key={provider.name}>
+          <button onClick={() => signIn(provider.id)}>
+            Sign in with {provider.name}
+          </button>
+        </div>
+      ))}
+    </>
+  );
 }

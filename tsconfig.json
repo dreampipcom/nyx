@@ -22,6 +22,7 @@
       "@styles/*": ["./styles/*"],
       "@model": ["./lib/model"],
       "@model/*": ["./lib/model/*"],
+      "@auth/*": ["./src/app/api/rm/v0/auth/*"]
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
