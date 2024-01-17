@@ -1,0 +1,21 @@
+PLEASE REVIEW YOUR OWN PR BEFORE OPENING/UN-DRAFTING IT
+
+# [Ticket Title]
+
+[ticket description]
+
+## Have you?
+
+[ ] Reviewed your own PR?
+[ ] Tested your own feature/fix meets Acceptance Criteria?
+[ ] Made sure it passes all checks? (lint, build, integrations, scripts, etc)?
+[ ] Added unit tests? (if necessary)
+[ ] Added documentation? (if necessary)
+
+
+If so, THANKS! You can pop a beer/soda.
+
+Please open your PR and ping your colleagues to review it on #web-devs channel.
+
+Also, make sure to remind them on a daily basis during stand-up.
+
