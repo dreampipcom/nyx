@@ -1,5 +1,5 @@
 // index.ts TS-Doc?
 
-import clientPromise from './mdb-connector'
+import clientPromise from "./mdb-connector";
 
-export const MongoConnector = clientPromise
+export const MongoConnector = clientPromise;
