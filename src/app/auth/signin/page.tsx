@@ -1,14 +1,16 @@
 // signin/page.tsx TS-Doc?
 
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import type { GetServerSidePropsContext } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@auth/signin";
 
-async function getData(context: GetServerSidePropsContext) {
+interface IAuthProviders {
+  id: string;
+  name: string;
+}
+
+async function getData(context: GetServerSidePropsContext): IAuthProviders {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   // If the user is already logged in, redirect.
@@ -20,14 +22,12 @@ async function getData(context: GetServerSidePropsContext) {
 
   const providers = await getProviders();
 
-  return {
-    props: { providers: providers ?? [] },
-  };
+  return { providers: providers ?? [] };
 }
 
-export default async function SignIn({
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { providers } = await getData()
+export default async function SignIn() {
+  const props = await getData();
+  const providers: IAuthProviders = props?.providers || {};
   return (
     <>
       {Object.values(providers).map((provider) => (
