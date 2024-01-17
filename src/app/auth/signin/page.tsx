@@ -1,7 +1,7 @@
 // signin/page.tsx TS-Doc?
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@auth/signin";
+import { authOptions } from "@auth/constants";
 
 interface ISignInData {
   providers?: IAuthProviders[];
