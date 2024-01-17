@@ -7,7 +7,25 @@ on:
 
 jobs:
   run-linters:
-    name: lint
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        
+  name: lint
     runs-on: ubuntu-latest
 
     steps:
