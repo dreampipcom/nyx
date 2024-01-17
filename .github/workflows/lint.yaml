@@ -1,4 +1,4 @@
-name: lint-check
+name: checks/lint
 
 on:
   pull_request:
