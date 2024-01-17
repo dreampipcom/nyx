@@ -15,10 +15,10 @@
   },
   "devDependencies": {
     "@auth/mongodb-adapter": "^2.0.13",
-    "mongodb": "^6.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "mongodb": "^6.3.0",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.8",
     "eslint": "^8",
