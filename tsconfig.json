@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "styles/*": ["./src/*"]
+      "styles/*": ["./styles/*"],
+      "model/*": ["./lib/model/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
