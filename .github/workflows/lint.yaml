@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  run-linters:
+  run-build:
     name: build
     runs-on: ubuntu-latest
 
@@ -24,8 +24,9 @@ jobs:
 
       - name: Build
         run: npm run build
-        
-  name: lint
+
+  run-lint:
+    name: lint
     runs-on: ubuntu-latest
 
     steps:
