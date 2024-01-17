@@ -15,14 +15,19 @@
   },
   "devDependencies": {
     "@auth/mongodb-adapter": "^2.0.13",
+    "@babel/core": "^7.23.7",
+    "@babel/eslint-parser": "^7.23.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "eslint": "^8",
+    "eslint-config-alloy": "^5.1.2",
+    "eslint-config-next": "14.0.4",
     "mongodb": "^6.3.0",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.8",
-    "eslint": "^8",
-    "eslint-config-next": "14.0.4",
+    "prettier": "^3.2.4",
     "typescript": "^5"
   }
 }
