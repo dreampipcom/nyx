@@ -19,8 +19,9 @@
       },
     ],
     "paths": {
-      "styles/*": ["./styles/*"],
-      "model/*": ["./lib/model/*"],
+      "@styles/*": ["./styles/*"],
+      "@model": ["./lib/model"],
+      "@model/*": ["./lib/model/*"],
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
