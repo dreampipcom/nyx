@@ -1,4 +1,4 @@
-# auth.ts
+// [...nextauth].ts// auth.ts TS-Doc?
 
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
@@ -20,11 +20,21 @@ export const authOptions = {
   	}),
     // ...add more providers here
   ],
+  pages: {
+    // signIn: '/auth/signin',
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+  }
 }
 
 // For more information on each option (and a full list of options) go to
 // https://authjs.dev/reference/providers/oauth
-export default NextAuth({
+const handler = NextAuth({
   adapter: MongoDBAdapter(ModelConnector),
-  ...
+  ...authOptions
 })
+
+
+export { handler as GET, handler as POST }
