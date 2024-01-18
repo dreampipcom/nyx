@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Providers } from "@state"
+import { RootProviders } from "@state"
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}><Providers>{children}</Providers></body>
+      <body className={inter.className}><RootProviders>{children}</RootProviders></body>
     </html>
   );
 }
