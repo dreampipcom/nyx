@@ -4,31 +4,63 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "@state";
 
-const CreateAction =
-  ({ action, type, dataName }) =>
-  ({ cb }) => {
-    const authContext = useContext(AuthContext);
-    const { setAuth } = authContext;
+type ActionT = "login" | "logout";
+type ActionTypes = "auth";
+type ActionAuthNames = "load user" | "unload user";
+
+interface IAction {
+  action?: ActionT;
+  type?: ActionTypes;
+  dataName?: ActionAuthNames;
+  cb?: () => void;
+}
+
+interface IStatus {
+  str: string;
+  ok?: boolean;
+}
+
+interface IALoginPayload {
+  name?: string;
+  avatar?: string;
+  setAuth?: () => void;
+}
+
+type ICreateAction = (
+  options: IAction,
+) => (
+  _options: IAction,
+) => [boolean | undefined, (clientPayload?: IAPayload) => void];
+
+type IAPayload = IALoginPayload | Record<any, unknown>;
+
+const CreateAction: ICreateAction =
+  ({ action, type, dataName }: IAction) =>
+  ({ cb }: IAction) => {
+    // to-do: abstract from auth context
+    const authContext: any = useContext(AuthContext);
+    const { setAuth }: any = authContext;
+
     const init = useRef(false);
     const verb = useRef("action");
-    const status = useRef({
+    const status = useRef<IStatus>({
       str: `Flux: --- ${verb.current} / ${type} / ${action} / loaded ---`,
       ok: undefined,
     });
-    const payload = useRef();
+    const payload = useRef<IAPayload>();
     const [dispatchd, setDispatchd] = useState(false);
 
-    const updateStatus = (nextStatus) => {
+    const updateStatus = (nextStatus: IStatus) => {
       status.current = nextStatus;
-      console.log(status.current.str);
+      console.log(status?.current.str);
     };
 
-    const cancel = (reason) => {
+    const cancel = (reason: IStatus) => {
       updateStatus(reason);
       return;
     };
 
-    const dispatch = (clientPayload) => {
+    const dispatch = (clientPayload?: IAPayload) => {
       payload.current = { ...clientPayload };
       verb.current = "dispatch";
       updateStatus({
@@ -62,10 +94,12 @@ const CreateAction =
         ok: undefined,
       });
 
-      setAuth({
-        ...authContext,
-        ...payload.current,
-      });
+      if (setAuth) {
+        setAuth({
+          ...authContext,
+          ...payload.current,
+        });
+      }
 
       init.current = true;
 
@@ -90,7 +124,7 @@ const CreateAction =
     return [status?.current?.ok, dispatch];
   };
 
-const BuildAction = (Component, options) => {
+const BuildAction = (Component: ICreateAction, options: IAction) => {
   return Component(options);
 };
 

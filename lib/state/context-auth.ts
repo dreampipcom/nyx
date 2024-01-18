@@ -1,15 +1,17 @@
 // context-auth.ts
 "use client";
+import type { Dispatch, SetStateAction } from "react";
 import { createContext } from "react";
 
-interface AuthContext {
+export interface IAuthContext {
   authd: boolean;
   id: string;
   name: string;
-  setAuth?: () => {};
+  setAuth?: Dispatch<SetStateAction<IAuthContext>>;
+  initd?: boolean;
 }
 
-export const AuthContext = createContext({
+export const AuthContext = createContext<IAuthContext>({
   authd: false,
   id: "",
   name: "",

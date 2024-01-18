@@ -3,7 +3,7 @@
 import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@auth";
-import VSignIn from "@components";
+import { VSignIn } from "@components/client";
 
 interface ISignInData {
   providers?: IAuthProviders[];

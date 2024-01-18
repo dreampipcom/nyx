@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // providers.tsx
 "use client";
+import type { IAuthContext } from "./context-auth";
 import { useContext, useState, useEffect, useRef } from "react";
 import { SessionProvider } from "next-auth/react";
 import { AuthContext } from "./context-auth";
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
-  const authContext = useContext(AuthContext);
-  const [authState, setAuthState] = useState({ ...authContext });
+  const authContext = useContext<IAuthContext>(AuthContext);
+  const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
   const init = useRef(false);
 
   useEffect(() => {

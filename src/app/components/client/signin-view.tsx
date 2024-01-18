@@ -5,17 +5,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { AuthContext } from "@state";
 import { ALogIn, ALogOut } from "@actions";
 
-interface IAuthProviders {
+interface IAuthProvider {
   id?: string;
   name?: string;
 }
 
 interface VSignInProps {
-  providers?: IAuthProviders[];
-  onSignIn?: ({ id: string }) => {};
+  providers: IAuthProvider[];
 }
 
-async function doSignIn({ id }) {
+async function doSignIn({ id }: IAuthProvider) {
   await signIn(id);
 }
 
@@ -36,9 +35,8 @@ export const VSignIn = ({ providers }: VSignInProps) => {
     if (!isUserLoaded && session?.user && !initd.current) {
       loadUser({
         authd: true,
-        id: session.user.id,
         name: session.user.name,
-        avatar: session.user.avatar,
+        avatar: session.user.image,
       });
       initd.current = true;
     }
@@ -49,7 +47,7 @@ export const VSignIn = ({ providers }: VSignInProps) => {
     await doSignOut();
   };
 
-  if (isUserLoaded === "false" && !authd) return <span>Loading...</span>;
+  if (isUserLoaded === false && !authd) return <span>Loading...</span>;
 
   if (authd)
     return (
@@ -60,7 +58,7 @@ export const VSignIn = ({ providers }: VSignInProps) => {
 
   return (
     <>
-      {Object.values(providers).map((provider) => (
+      {Object.values(providers).map((provider: IAuthProvider) => (
         <span key={provider.name}>
           <button onClick={async () => await doSignIn({ id: provider?.id })}>
             Sign in with {provider.name}
