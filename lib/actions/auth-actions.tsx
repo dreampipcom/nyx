@@ -8,21 +8,33 @@ export const ALogIn = ({ session, cb }) => {
 	const { setAuth } = authContext
 	const status = useRef({ str: "Flux: --- action / auth / login / loaded ---", ok: undefined })
 	const init = useRef(false)
+	const [dispatchd, setDispatchd] = useState(false)
 
 	const updateStatus = (nextStatus) => {
 		status.current = nextStatus
 		console.log(status.current.str)
 	}
 
+	const cancel = (reason) => {
+		updateStatus(reason)
+		return
+	}
+
+	const dispatch = () => {
+		setDispatchd(!dispatchd)
+	}
+
+	const reset = () => {
+		setDispatchd(false)
+	}
+
 
 
 	useEffect(() => {
+	if(!dispatchd) return cancel({ str: "Flux: --- action / auth / login / cancelled(message: not dispatched yet) ---", ok: false })
 	updateStatus({ str: "Flux: --- action / auth / login / started ---", ok: undefined })
 
-	if(!session?.user) {
-		updateStatus({ str: "Flux: --- action / auth / login / cancelled(message: no user data) ---", ok: false })
-		return
-	}
+	if(!session?.user) return cancel({ str: "Flux: --- action / auth / login / cancelled(message: no user data) ---", ok: false })
 
 	updateStatus({ str: "Flux: --- action / auth / login / initiated ---", ok: undefined})
 
@@ -37,14 +49,16 @@ export const ALogIn = ({ session, cb }) => {
 	init.current = true
 
 	updateStatus({str: `Flux: --- action / auth / login / finished(message: user: ${session.user.name} loaded) ---`, ok: true})
+	reset()
 
     return () => {
       updateStatus({str: "Flux: --- action / auth / login / ended ---", ok: status?.current?.ok})
+      reset()
     };
-  }, [session]);
+  }, [dispatchd]);
 
 	if (cb && typeof cb === 'function') cb()
 
-		return [status?.ok]
+	return [status?.ok, dispatch]
 }
 

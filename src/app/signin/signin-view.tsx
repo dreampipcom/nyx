@@ -25,15 +25,15 @@ async function doSignIn({ id, }) {
 export default function VSignIn({ providers, onSignIn }: VSignInProps) {
   const authContext = useContext(AuthContext)
   const { data: session } = useSession(); 
-  const [ok] = ALogIn({ session })
+  const [ok, dispatch] = ALogIn({ session })
   console.log({ session, authContext })
 
-  // useEffect(() => {
-  // 	if(session?.user?.email) {
-  // 		console.log("ACTION")
-  // 		ALogIn({ session })
-  // 	}
-  // }, [session])
+  useEffect(() => {
+  	if(session?.user?.email) {
+  		console.log("DISPATCH")
+  		dispatch()
+  	}
+  }, [session])
 
 
 
