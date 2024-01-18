@@ -42,6 +42,7 @@ export default function VSignIn({ providers, onSignIn }: VSignInProps) {
 
   return (
     <>
+       {/*<ALogIn />*/}
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <button onClick={async () => await doSignIn({ id: provider?.id })}>

@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { AuthContext } from '@state';
 
-export const ALogIn = ({ session, cb }) => {
+const CreateAction = ({ action, type }) => ({ session, cb }) => {
 	const authContext = useContext(AuthContext)
 	const { setAuth } = authContext
-	const status = useRef({ str: "Flux: --- action / auth / login / loaded ---", ok: undefined })
+	const status = useRef({ str: `Flux: --- action / ${type} / ${action} / loaded ---`, ok: undefined })
 	const init = useRef(false)
 	const [dispatchd, setDispatchd] = useState(false)
 
@@ -31,12 +31,12 @@ export const ALogIn = ({ session, cb }) => {
 
 
 	useEffect(() => {
-	if(!dispatchd) return cancel({ str: "Flux: --- action / auth / login / init:idle(message: not dispatched yet) ---", ok: false })
-	updateStatus({ str: "Flux: --- action / auth / login / init:active ---", ok: undefined })
+	if(!dispatchd) return cancel({ str: `Flux: --- action / ${type} / ${action} / init:idle(message: not dispatched yet) ---`, ok: false })
+	updateStatus({ str: `Flux: --- action / ${type} / ${action} / init:active ---`, ok: undefined })
 
-	if(!session?.user) return cancel({ str: "Flux: --- action / auth / login / cancelled(message: no user data) ---", ok: false })
+	if(!session?.user) return cancel({ str: `Flux: --- action / ${type} / ${action} / cancelled(message: no user data) ---`, ok: false })
 
-	updateStatus({ str: "Flux: --- action / auth / login / started ---", ok: undefined})
+	updateStatus({ str: `Flux: --- action / ${type} / ${action} / started ---`, ok: undefined})
 
     setAuth({
     	...authContext,
@@ -48,11 +48,11 @@ export const ALogIn = ({ session, cb }) => {
 
 	init.current = true
 
-	updateStatus({str: `Flux: --- action / auth / login / finished(message: user: ${session.user.name} loaded) ---`, ok: true})
+	updateStatus({str: `Flux: --- action / ${type} / ${action} / finished(message: user: ${session.user.name} loaded) ---`, ok: true})
 	reset()
 
     return () => {
-      updateStatus({str: "Flux: --- action / auth / login / ended ---", ok: status?.current?.ok})
+      updateStatus({str: `Flux: --- action / ${type} / ${action} / ended ---`, ok: status?.current?.ok})
       reset()
     };
   }, [dispatchd]);
@@ -61,4 +61,13 @@ export const ALogIn = ({ session, cb }) => {
 
 	return [status?.current?.ok, dispatch]
 }
+
+const BuildAction = (Component, options) => {
+  return Component(options)
+};
+
+export const ALogin = BuildAction(CreateAction, { action: 'login', type: 'auth' })
+
+export { ALogin as ALogIn }
+
 
