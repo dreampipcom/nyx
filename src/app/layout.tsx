@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RootProviders } from "@state"
+import { RootProviders } from "@state";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -11,13 +11,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}><RootProviders>{children}</RootProviders></body>
+      <body className={inter.className}>
+        <RootProviders>{children}</RootProviders>
+      </body>
     </html>
   );
 }

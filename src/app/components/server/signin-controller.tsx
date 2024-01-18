@@ -1,9 +1,9 @@
 // signin-controller.tsx
-'use server'
+"use server";
 import { getProviders } from "next-auth/react";
-import { getServerSession } from "next-auth/next"
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@auth";
-import { VSignIn } from "@components/client"
+import { VSignIn } from "@components/client";
 
 interface ISignInData {
   providers?: IAuthProviders[];
@@ -35,8 +35,6 @@ async function getProvidersData(): Promise<ISignInData> {
 export const CSignIn = async () => {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  const onSignIn: unknown = async ({ id }) => await doSignIn({ id })
-  // console.log({ signIn: (async () => await signIn())() })
-  return <VSignIn providers={providers} />
+  return <VSignIn providers={providers} />;
   // return <div>LOREM</div>
-}
+};

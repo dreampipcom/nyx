@@ -1,2 +1,2 @@
 // index.ts
-export { ALogIn, ALogOut } from "./auth-actions"
+export { ALogIn, ALogOut } from "./auth-actions";

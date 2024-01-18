@@ -1,10 +1,7 @@
 // signin.tsx
-'use server'
-import { useContext } from 'react'
-import { AuthContext } from '@state'
-import { CSignIn } from '@components/server'
-//import styles from "@styles/page.module.css";
+"use server";
+import { CSignIn } from "@components/server";
 
 export const SignIn = () => {
-	return <CSignIn />
-}
+  return <CSignIn />;
+};

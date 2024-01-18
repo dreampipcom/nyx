@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import Image from "next/image";
 import styles from "@styles/page.module.css";
-import { SignIn } from "@components"
+import { SignIn } from "@components";
 
 export default function Home() {
   return (
