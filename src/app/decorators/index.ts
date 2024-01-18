@@ -1,2 +1,2 @@
 // index.ts
-export { navigate } from './client/actions'
+export { navigate } from "./client/actions";

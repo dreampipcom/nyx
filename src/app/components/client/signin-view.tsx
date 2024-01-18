@@ -1,10 +1,10 @@
 // signin-view.ts
 "use client";
 import { useContext, useEffect, useRef } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { AuthContext } from "@state";
 import { ALogIn, ALogOut } from "@actions";
-import { navigate } from "@decorators"
+import { navigate } from "@decorators";
 
 interface IAuthProvider {
   id?: string;
@@ -48,6 +48,8 @@ export const VSignIn = ({ providers }: VSignInProps) => {
     await doSignOut();
   };
 
+  if (!providers) return;
+
   if (typeof session === "undefined") return <span>Loading...</span>;
 
   if (authd)
@@ -57,9 +59,7 @@ export const VSignIn = ({ providers }: VSignInProps) => {
       </span>
     );
 
-  return <button onClick={() => navigate('/api/auth/signin')}>
-            Sign in
-          </button>;
+  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
 
   // return (
   //   <>
