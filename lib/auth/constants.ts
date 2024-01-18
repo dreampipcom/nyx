@@ -17,9 +17,14 @@ export const authOptions: AuthOptions = {
     // }),
     // ...add more providers here
   ],
+  callbacks: {
+    signIn: async function signIn({ user, account, profile, email, credentials }) {
+      return 
+    }
+  },
   pages: {
-    // signIn: '/api/rm/v0/auth/signin',
-    // signOut: '/api/rm/v0/auth/signout',
+    signIn: '/signin',
+    signOut: '/',
     // error: '/api/rm/v0/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/api/rm/v0/auth/verify-request', // (used for check email message)
     // newUser: '/' // New users will be directed here on first sign in (leave the property out if not of interest)
