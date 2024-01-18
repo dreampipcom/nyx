@@ -3,11 +3,11 @@ const nextConfig = {
   transpilePackages: ["next-auth"],
   async redirects() {
     return [
-      // {
-      //   source: "/",
-      //   destination: "/",
-      //   permanent: true,
-      // },
+      {
+        source: "/signin",
+        destination: "/",
+        permanent: false,
+      },
     ];
   },
 };
