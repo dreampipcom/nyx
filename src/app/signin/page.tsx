@@ -1,4 +1,5 @@
 // signin/page.tsx TS-Doc?
+'use server'
 import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@auth";
@@ -34,6 +35,7 @@ async function getProvidersData(): Promise<ISignInData> {
 export default async function SignIn() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
+  const onSignIn: unknown = async ({ id }) => await doSignIn({ id })
   //console.log({ signIn: (async () => await signIn())() })
   return <VSignIn providers={providers} />
 }

@@ -26,6 +26,8 @@
       "@auth/*": ["./lib/auth/*"],
       "@state/*": ["./lib/state/*"],
       "@state": ["./lib/state"],
+      "@actions/*": ["./lib/actions/*"],
+      "@actions": ["./lib/actions"],
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
