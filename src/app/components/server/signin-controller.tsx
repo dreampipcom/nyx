@@ -1,8 +1,8 @@
 // signin-controller.tsx
 "use server";
 import { getProviders } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@auth";
+// import { getServerSession } from "next-auth/next";
+// import { authOptions } from "@auth";
 import { VSignIn } from "@components/client";
 
 interface ISignInData {
@@ -18,7 +18,11 @@ interface IAuthProviders {
 }
 
 async function getProvidersData(): Promise<ISignInData> {
-  const session = await getServerSession(authOptions);
+  // to-do: default logged in ssr behavior (link to ticket)
+  // const session = await getServerSession(authOptions);
+  // if (session) {
+  //   return { redirect: { destination: "/" } };
+  // }
 
   const providers = (await getProviders()) as unknown as IAuthProviders[];
 

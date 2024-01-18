@@ -37,7 +37,7 @@ type IAPayload = IALoginPayload | Record<any, unknown>;
 const CreateAction: ICreateAction =
   ({ action, type, dataName }: IAction) =>
   ({ cb }: IAction) => {
-    // to-do: abstract from auth context
+    // to-do: abstract from auth context (link to ticket)
     const authContext: any = useContext(AuthContext);
     const { setAuth }: any = authContext;
 
