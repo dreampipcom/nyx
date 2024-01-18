@@ -29,6 +29,8 @@
       "@state": ["./lib/state"],
       "@actions/*": ["./lib/actions/*"],
       "@actions": ["./lib/actions"],
+      "@decorators/*": ["./src/app/decorators/*"],
+      "@decorators": ["./src/app/decorators"],
       "@components/*": ["./src/app/components/*"],
       "@components": ["./src/app/components"],
     },
