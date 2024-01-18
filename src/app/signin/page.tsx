@@ -1,7 +1,8 @@
 // signin/page.tsx TS-Doc?
-import { getProviders, signIn } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
+import { getProviders } from "next-auth/react";
+import { getServerSession } from "next-auth/next"
 import { authOptions } from "@auth";
+import VSignIn from "./signin-view"
 
 interface ISignInData {
   providers?: IAuthProviders[];
@@ -15,7 +16,7 @@ interface IAuthProviders {
   name?: string;
 }
 
-async function getData(): Promise<ISignInData> {
+async function getProvidersData(): Promise<ISignInData> {
   const session = await getServerSession(authOptions);
 
   // If the user is already logged in, redirect.
@@ -31,17 +32,8 @@ async function getData(): Promise<ISignInData> {
 }
 
 export default async function SignIn() {
-  const props: ISignInData = await getData();
+  const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  return (
-    <>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
-    </>
-  );
+  //console.log({ signIn: (async () => await signIn())() })
+  return <VSignIn providers={providers} />
 }
