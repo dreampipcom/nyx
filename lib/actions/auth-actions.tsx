@@ -31,12 +31,12 @@ export const ALogIn = ({ session, cb }) => {
 
 
 	useEffect(() => {
-	if(!dispatchd) return cancel({ str: "Flux: --- action / auth / login / cancelled(message: not dispatched yet) ---", ok: false })
-	updateStatus({ str: "Flux: --- action / auth / login / started ---", ok: undefined })
+	if(!dispatchd) return cancel({ str: "Flux: --- action / auth / login / init:idle(message: not dispatched yet) ---", ok: false })
+	updateStatus({ str: "Flux: --- action / auth / login / init:active ---", ok: undefined })
 
 	if(!session?.user) return cancel({ str: "Flux: --- action / auth / login / cancelled(message: no user data) ---", ok: false })
 
-	updateStatus({ str: "Flux: --- action / auth / login / initiated ---", ok: undefined})
+	updateStatus({ str: "Flux: --- action / auth / login / started ---", ok: undefined})
 
     setAuth({
     	...authContext,
@@ -59,6 +59,6 @@ export const ALogIn = ({ session, cb }) => {
 
 	if (cb && typeof cb === 'function') cb()
 
-	return [status?.ok, dispatch]
+	return [status?.current?.ok, dispatch]
 }
 
