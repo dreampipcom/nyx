@@ -15,7 +15,7 @@ interface VSignInProps {
 	onSignIn?: ({ id: string }) => {}
 }
 
-async function doSignIn({ id }) {
+async function doSignIn({ id, }) {
     console.log({ id })
     const res = await signIn(id)
     console.log({ res })
@@ -25,13 +25,15 @@ async function doSignIn({ id }) {
 export default function VSignIn({ providers, onSignIn }: VSignInProps) {
   const authContext = useContext(AuthContext)
   const { data: session } = useSession(); 
+  const [ok] = ALogIn({ session })
   console.log({ session, authContext })
 
-  useEffect(() => {
-  	if(session?.user?.email) {
-  		authContext.setAuth({...authContext, authd: true})
-  	}
-  }, [session])
+  // useEffect(() => {
+  // 	if(session?.user?.email) {
+  // 		console.log("ACTION")
+  // 		ALogIn({ session })
+  // 	}
+  // }, [session])
 
 
 
