@@ -1,14 +1,17 @@
 // auth-actions.ts
 'use client'
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { AuthContext } from '@state';
 
-const CreateAction = ({ action, type }) => ({ session, cb }) => {
+const CreateAction = ({ action, type, dataName }) => ({ cb }) => {
 	const authContext = useContext(AuthContext)
 	const { setAuth } = authContext
-	const status = useRef({ str: `Flux: --- action / ${type} / ${action} / loaded ---`, ok: undefined })
 	const init = useRef(false)
+	const verb = useRef("action")
+	const status = useRef({ str: `Flux: --- ${verb.current} / ${type} / ${action} / loaded ---`, ok: undefined })
+	const payload = useRef()
 	const [dispatchd, setDispatchd] = useState(false)
+    
 
 	const updateStatus = (nextStatus) => {
 		status.current = nextStatus
@@ -20,39 +23,42 @@ const CreateAction = ({ action, type }) => ({ session, cb }) => {
 		return
 	}
 
-	const dispatch = () => {
+	const dispatch = (clientPayload) => {
+		payload.current = {...clientPayload}
+		verb.current = "dispatch"
+		updateStatus({ str: `Flux: --- ${verb.current} / ${type} / ${action} / init:active ---`, ok: undefined })
 		setDispatchd(!dispatchd)
+		verb.current = "action"
 	}
 
 	const reset = () => {
+		payload.current = undefined
 		setDispatchd(false)
 	}
 
 
 
 	useEffect(() => {
-	if(!dispatchd) return cancel({ str: `Flux: --- action / ${type} / ${action} / init:idle(message: not dispatched yet) ---`, ok: false })
-	updateStatus({ str: `Flux: --- action / ${type} / ${action} / init:active ---`, ok: undefined })
 
-	if(!session?.user) return cancel({ str: `Flux: --- action / ${type} / ${action} / cancelled(message: no user data) ---`, ok: false })
+	if(!dispatchd) return cancel({ str: `Flux: --- ${verb.current} / ${type} / ${action} / init:idle(message: not dispatched yet) ---`, ok: false })
 
-	updateStatus({ str: `Flux: --- action / ${type} / ${action} / started ---`, ok: undefined})
+	if(!payload?.current) return cancel({ str: `Flux: --- ${verb.current} / ${type} / ${action} / cancelled(message: no payload data) ---`, ok: false })
+
+	updateStatus({ str: `Flux: --- ${verb.current} / ${type} / ${action} / started ---`, ok: undefined})
 
     setAuth({
     	...authContext,
-		authd: true,
-		id: session.user.id,
-		name: session.user.name,
-		avatar: session.user.avatar
+		...payload.current
 	})
 
 	init.current = true
 
-	updateStatus({str: `Flux: --- action / ${type} / ${action} / finished(message: user: ${session.user.name} loaded) ---`, ok: true})
+	updateStatus({str: `Flux: --- ${verb.current} / ${type} / ${action} / finished(message: data: ${dataName} completed) ---`, ok: true})
+
 	reset()
 
     return () => {
-      updateStatus({str: `Flux: --- action / ${type} / ${action} / ended ---`, ok: status?.current?.ok})
+      updateStatus({str: `Flux: --- ${verb.current} / ${type} / ${action} / ended ---`, ok: status?.current?.ok})
       reset()
     };
   }, [dispatchd]);
@@ -66,8 +72,9 @@ const BuildAction = (Component, options) => {
   return Component(options)
 };
 
-export const ALogin = BuildAction(CreateAction, { action: 'login', type: 'auth' })
+export const ALogin = BuildAction(CreateAction, { action: 'login', type: 'auth', dataName: 'load user' })
+export const ALogout = BuildAction(CreateAction, { action: 'logout', type: 'auth', dataName: 'unload user' })
 
-export { ALogin as ALogIn }
+export { ALogin as ALogIn, ALogout as ALogOut }
 
 

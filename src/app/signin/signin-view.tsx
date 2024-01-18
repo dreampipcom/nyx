@@ -1,9 +1,9 @@
 // signin-view.ts
 'use client'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react";
 import { AuthContext } from "@state"
-import { ALogIn } from "@actions"
+import { ALogIn, ALogOut } from "@actions"
 
 interface IAuthProviders {
   id?: string;
@@ -26,23 +26,32 @@ async function doSignOut() {
 export default function VSignIn({ providers, onSignIn }: VSignInProps) {
   const authContext = useContext(AuthContext)
   const { data: session } = useSession(); 
-  const [isUserLoaded, loadUser] = ALogIn({ session })
+  const [isUserLoaded, loadUser] = ALogIn({})
+  const [isUserUnloaded, unloadUser] = ALogOut({})
+  const initd = useRef(false)
 
   useEffect(() => {
-  	if(!isUserLoaded) {
-  		loadUser()
+  	if(!isUserLoaded && session?.user && !initd.current) {
+  		loadUser({ authd: true,
+		id: session.user.id,
+		name: session.user.name,
+		avatar: session.user.avatar })
+		initd.current = true
   	}
   }, [session])
 
+  const handleSignOut = async () => {
+  	unloadUser()
+	await doSignOut()
+  }
 
 
-  if (authContext?.authd) return (<button onClick={async () => await doSignOut()}>
+  if (authContext?.authd) return (<button onClick={handleSignOut}>
             Sign out
           </button>)
 
   return (
     <>
-       {/*<ALogIn />*/}
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <button onClick={async () => await doSignIn({ id: provider?.id })}>

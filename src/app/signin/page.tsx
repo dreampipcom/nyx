@@ -36,6 +36,6 @@ export default async function SignIn() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
   const onSignIn: unknown = async ({ id }) => await doSignIn({ id })
-  //console.log({ signIn: (async () => await signIn())() })
+  // console.log({ signIn: (async () => await signIn())() })
   return <VSignIn providers={providers} />
 }
