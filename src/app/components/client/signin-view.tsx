@@ -23,12 +23,14 @@ async function doSignOut() {
     const res = await signOut()
 }
 
-export default function VSignIn({ providers, onSignIn }: VSignInProps) {
+export const VSignIn = ({ providers, onSignIn }: VSignInProps) => {
   const authContext = useContext(AuthContext)
   const { data: session } = useSession(); 
   const [isUserLoaded, loadUser] = ALogIn({})
   const [isUserUnloaded, unloadUser] = ALogOut({})
   const initd = useRef(false)
+
+  const { authd, name } = authContext
 
   useEffect(() => {
   	if(!isUserLoaded && session?.user && !initd.current) {
