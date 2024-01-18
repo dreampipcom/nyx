@@ -1,9 +1,10 @@
 // signin-view.ts
 "use client";
 import { useContext, useEffect, useRef } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { AuthContext } from "@state";
 import { ALogIn, ALogOut } from "@actions";
+import { navigate } from "@decorators";
 
 interface IAuthProvider {
   id?: string;
@@ -14,9 +15,9 @@ interface VSignInProps {
   providers: IAuthProvider[];
 }
 
-async function doSignIn({ id }: IAuthProvider) {
-  await signIn(id);
-}
+// async function doSignIn({ id }: IAuthProvider) {
+//   await signIn(id);
+// }
 
 async function doSignOut() {
   await signOut();
@@ -47,6 +48,8 @@ export const VSignIn = ({ providers }: VSignInProps) => {
     await doSignOut();
   };
 
+  if (!providers) return;
+
   if (typeof session === "undefined") return <span>Loading...</span>;
 
   if (authd)
@@ -56,15 +59,17 @@ export const VSignIn = ({ providers }: VSignInProps) => {
       </span>
     );
 
-  return (
-    <>
-      {Object.values(providers).map((provider: IAuthProvider) => (
-        <span key={provider.name}>
-          <button onClick={async () => await doSignIn({ id: provider?.id })}>
-            Sign in with {provider.name}
-          </button>
-        </span>
-      ))}
-    </>
-  );
+  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
+
+  // return (
+  //   <>
+  //     {Object.values(providers).map((provider: IAuthProvider) => (
+  //       <span key={provider.name}>
+  //         <button onClick={() => navigate('/api/auth/signin')}>
+  //           Sign in
+  //         </button>
+  //       </span>
+  //     ))}
+  //   </>
+  // );
 };

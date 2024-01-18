@@ -24,6 +24,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          MONGODB_URI: ${{ vars.MONGODB_URI }}
+          EMAIL_SERVER: ${{ vars.EMAIL_SERVER }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
 
   run-lint:
     name: lint
