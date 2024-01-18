@@ -15,11 +15,12 @@ interface VSignInProps {
 	onSignIn?: ({ id: string }) => {}
 }
 
-async function doSignIn({ id, }) {
-    console.log({ id })
+async function doSignIn({ id }) {
     const res = await signIn(id)
-    console.log({ res })
-    // await setAuth()
+}
+
+async function doSignOut() {
+    const res = await signOut()
 }
 
 export default function VSignIn({ providers, onSignIn }: VSignInProps) {
@@ -28,7 +29,6 @@ export default function VSignIn({ providers, onSignIn }: VSignInProps) {
   const [isUserLoaded, loadUser] = ALogIn({ session })
 
   useEffect(() => {
-  	console.log({ isUserLoaded })
   	if(!isUserLoaded) {
   		loadUser()
   	}
@@ -36,7 +36,9 @@ export default function VSignIn({ providers, onSignIn }: VSignInProps) {
 
 
 
-  if (authContext?.authd) return (<div> LOGGED IN </div>)
+  if (authContext?.authd) return (<button onClick={async () => await doSignOut()}>
+            Sign out
+          </button>)
 
   return (
     <>
