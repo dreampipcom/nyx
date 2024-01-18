@@ -40,14 +40,14 @@ export const VSignIn = ({ providers }: VSignInProps) => {
       });
       initd.current = true;
     }
-  }, [session]);
+  }, [session, isUserLoaded, loadUser]);
 
   const handleSignOut = async () => {
     unloadUser();
     await doSignOut();
   };
 
-  if (typeof session == undefined) return <span>Loading...</span>;
+  if (typeof session === "undefined") return <span>Loading...</span>;
 
   if (authd)
     return (
