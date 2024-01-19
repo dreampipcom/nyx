@@ -6,6 +6,7 @@ export type {
   IRMContext,
   INCharacter,
   IDCharacter,
+  History
 } from "./contexts";
 
 // model

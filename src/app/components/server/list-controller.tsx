@@ -3,7 +3,8 @@
 "use server";
 import type { INCharacter } from "@types";
 import { VList } from "@components/client";
-import { getRMCharacters, decorateRMCharacters } from "@model";
+import { decorateRMCharacters } from "@model";
+import { getRMCharacters } from "@controller"
 import { RickMortyProvider } from "@state";
 import { getServerSession } from "next-auth/next";
 import { finalAuth } from "@auth/adapter";

@@ -4,8 +4,8 @@ import type { INCharacter } from "@types";
 import { useContext, useEffect, useRef } from "react";
 import Image from "next/image";
 import { RMContext, AuthContext } from "@state";
-import { ALoadChars, AUnloadChars, ADecorateChars } from "@actions";
-import { navigate } from "@decorators";
+import { ALoadChars, AUnloadChars, ADecorateChars, AAddToFavoriteChars } from "@actions";
+import { navigate, addToFavorites } from "@gateway";
 
 import styles from "@styles/list.module.css";
 import icons from "@styles/components/icons.module.css";
@@ -18,14 +18,27 @@ interface VCharactersListProps {
 type VListProps = VCharactersListProps;
 
 export const VList = ({ characters }: VListProps) => {
+
+
   const rmContext = useContext(RMContext);
-  const { authd } = useContext(AuthContext);
+  const { authd, email } = useContext(AuthContext);
   const [isCharsLoaded, loadChars] = ALoadChars({});
   const [, decChars] = ADecorateChars({});
   const [, unloadChars] = AUnloadChars({});
+  const [isFavd, favChar] = AAddToFavoriteChars({});
   const initd = useRef(false);
 
   const { characters: chars }: { characters?: INCharacter[] } = rmContext;
+
+    const dispatchAddToFavorites = (cid) => {
+    console.log("running dispatch prep")
+    const cb = () => {
+      console.log(" running right to call")
+      addToFavorites(email, cid)
+    }
+    favChar({ email, cid }, addToFavorites);
+    
+  }
 
   useEffect(() => {
     if (authd && characters && !isCharsLoaded && !initd.current) {
@@ -83,7 +96,7 @@ export const VList = ({ characters }: VListProps) => {
               </div>
             </div>
             </div>
-            <button className={styles.list__fav} onClick={() => {}} ><div className={icons.heart} /></button>
+            <button className={styles.list__fav} onClick={() => { dispatchAddToFavorites(char?.id) }} ><div className={icons.heart} /></button>
           </div>
         ))}
       </article>

@@ -1,7 +1,7 @@
 // rm-decorator.ts
 "use server";
 import type { IDCharacter, INCharacter, UserSchema } from "@types";
-import { getUserMeta } from "@model";
+import { getUserMeta } from "@controller";
 
 /* private */
 const decorateCharacter = (

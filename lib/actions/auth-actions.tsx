@@ -4,19 +4,21 @@
 import type { Context } from "react";
 import type { IAuthContext, IRMContext, INCharacter } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
-import { AuthContext, RMContext } from "@state";
+import { AuthContext, RMContext, LogContext } from "@state";
 
 /* to-do: chained actions */
 // import { decorateRMCharacters } from "@model"
 
-type ActionT = "login" | "logout" | "hydrate";
+type ActionT = "login" | "logout" | "hydrate" | "update_db";
 type ActionTypes = "auth" | "rickmorty";
 type ActionAuthNames =
   | "load user"
   | "unload user"
   | "load characters"
   | "unload characters"
-  | "decorate characters";
+  | "decorate characters"
+  | "add char to favorites";
+
 type ISupportedContexts = IAuthContext | IRMContext;
 
 interface IActionBack {
@@ -59,6 +61,8 @@ type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
 const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
   ({ cb }: IAction) => {
+    const noop = () => {}
+    console.log({ cb })
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
@@ -70,6 +74,7 @@ const CreateAction: ICreateAction =
     const init = useRef(false);
     const s_current = useRef("loaded");
     const message = useRef("");
+    const to_call = useRef(noop);
     const status = useRef<IStatus>({
       current: s_current.current,
       str: createStatusStr(),
@@ -97,10 +102,11 @@ const CreateAction: ICreateAction =
       return;
     };
 
-    const dispatch = (clientPayload?: IAPayload) => {
+    const dispatch = (clientPayload?: IAPayload, toCall) => {
       payload.current = { ...clientPayload };
       s_current.current = "init:active";
       message.current = "dispatched";
+      to_call.current = toCall;
       updateStatus();
       setDispatchd(!dispatchd);
     };
@@ -131,14 +137,33 @@ const CreateAction: ICreateAction =
         setter({
           ..._context,
           ...payload.current,
+          history: [..._context.history, status.current.str]
         });
       }
 
       init.current = true;
 
+      s_current.current = "in progress";
+      message.current = "calling functions";
+      updateStatus({ ok: undefined });
+
+      console.log("check to call", { to_call })
+
+      if(typeof to_call?.current === 'function') to_call.current(payload.current)
+
       s_current.current = "completed";
       message.current = "success";
       updateStatus({ ok: true });
+      
+
+    console.log("check cb", { cb })
+    if (cb?.length > 0) {
+      console.log("going to run cbs")
+      cb.forEach((_cb) => {
+        console.log(" running cb ")
+        _cb()
+      });
+    }
 
       reset();
 
@@ -149,10 +174,6 @@ const CreateAction: ICreateAction =
         reset();
       };
     }, [dispatchd]);
-
-    if (cb?.length) {
-      cb.forEach((_cb) => _cb());
-    }
 
     return [status?.current?.ok, dispatch];
   };
@@ -200,6 +221,13 @@ export const AUnloadChars = BuildAction(CreateAction, {
   type: "rickmorty",
   verb: "unload characters",
   context: RMContext,
+});
+
+export const AAddToFavoriteChars = BuildAction(CreateAction, {
+  action: "update_db",
+  type: "rickmorty",
+  verb: "add char to favorites",
+  context: LogContext,
 });
 
 /* tmp-public */

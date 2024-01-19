@@ -7,4 +7,5 @@ export const AuthContext = createContext<IAuthContext>({
   authd: false,
   name: "",
   setter: undefined,
+  history: []
 });
