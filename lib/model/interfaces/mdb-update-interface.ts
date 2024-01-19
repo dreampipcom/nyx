@@ -71,7 +71,7 @@ export const addToFavorites = async ({
 }: { email: UserSchema["email"], cid: number }) => {
   const collection = await getUserCollection();
   const query = `rickmorty.favorites.${type}`
-  console.log({ query })
-  //const user = await collection.updateOne({ email }, {$addToSet: { [query]: cid }});
+  console.log({ query, email })
+  const user = await collection.updateOne({ email }, {$addToSet: { [query]: cid }});
   return user;
 };
