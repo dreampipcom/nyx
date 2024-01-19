@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // providers.tsx
 "use client";
-import type { IAuthContext } from "./context-auth";
+import type { IAuthContext, IRMContext } from "@types";
 import { useContext, useState, useEffect, useRef } from "react";
 import { SessionProvider } from "next-auth/react";
-import { AuthContext } from "./context-auth";
+import { AuthContext, RMContext } from "@state";
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
   const authContext = useContext<IAuthContext>(AuthContext);
@@ -12,8 +12,8 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const init = useRef(false);
 
   useEffect(() => {
-    if (!init.current && authContext && !authState?.setAuth) {
-      setAuthState({ ...authState, setAuth: setAuthState, initd: true });
+    if (!init.current && authContext && !authState?.setter) {
+      setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log("Flux: --- auth context loaded ---");
       init.current = true;
     }
@@ -28,15 +28,20 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   );
 }
 
-// export function ScopedProvider({children}: {children: React.ReactNode}) {
-//   const authContext = useContext(AuthContext)
-//   const [authState, setAuthState] = useState({...authContext})
+export function RickMortyProvider({ children }: { children: React.ReactNode }) {
+  const rmContext = useContext<IRMContext>(RMContext);
+  const [rmState, setRMState] = useState<IRMContext>({ ...rmContext });
+  const init = useRef(false);
 
-//   useEffect(() => {
-//   	if(!authContext?.setAuth) {
-//   		setAuthState({...authContext, setAuth: setAuthState})
-//   	}
-//   }, [authContext])
+  useEffect(() => {
+    if (!init.current && rmContext && !rmState?.setter) {
+      setRMState({ ...rmState, setter: setRMState, initd: true });
+      console.log("Flux: --- rickmorty context loaded ---");
+      init.current = true;
+    }
+  }, [JSON.stringify(rmContext)]);
 
-//   return <SessionProvider>{children}</SessionProvider>;
-// }
+  if (!rmState?.initd) return;
+
+  return <RMContext.Provider value={rmState}>{children}</RMContext.Provider>;
+}

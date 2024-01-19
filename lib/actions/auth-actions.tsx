@@ -1,17 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
+import type { Context } from "react";
+import type { IAuthContext, IRMContext } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
-import { AuthContext } from "@state";
+import { AuthContext, RMContext } from "@state";
 
-type ActionT = "login" | "logout";
-type ActionTypes = "auth";
-type ActionAuthNames = "load user" | "unload user";
+type ActionT = "login" | "logout" | "hydrate";
+type ActionTypes = "auth" | "rickmorty";
+type ActionAuthNames =
+  | "load user"
+  | "unload user"
+  | "load characters"
+  | "unload characters";
+type ISupportedContexts = IAuthContext | IRMContext;
 
-interface IAction {
+interface IActionBack {
   action?: ActionT;
   type?: ActionTypes;
   verb?: ActionAuthNames;
+  context: Context<ISupportedContexts>;
+}
+
+interface IAction {
   cb?: () => void;
 }
 
@@ -24,26 +35,33 @@ interface IStatus {
 interface IALoginPayload {
   name?: string;
   avatar?: string;
-  setAuth?: () => void;
+  authd?: boolean;
+  setter?: () => void;
+}
+
+interface ICharacterPayload {
+  characters?: Record<any, unknown>;
+  setter?: () => void;
 }
 
 type ICreateAction = (
-  options: IAction,
+  options: IActionBack,
 ) => (
   _options: IAction,
 ) => [boolean | undefined, (clientPayload?: IAPayload) => void];
 
-type IAPayload = IALoginPayload | Record<any, unknown>;
+type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
 
 const CreateAction: ICreateAction =
-  ({ action, type, verb }: IAction) =>
+  ({ action, type, verb, context }: IActionBack) =>
   ({ cb }: IAction) => {
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
     // to-do: abstract from auth context (link to ticket)
-    const authContext: any = useContext(AuthContext);
-    const { setAuth }: any = authContext;
+    const _context: ISupportedContexts =
+      useContext<ISupportedContexts>(context);
+    const { setter }: ISupportedContexts = _context;
 
     const init = useRef(false);
     const s_current = useRef("loaded");
@@ -105,9 +123,9 @@ const CreateAction: ICreateAction =
       message.current = "loading payload data";
       updateStatus();
 
-      if (setAuth) {
-        setAuth({
-          ...authContext,
+      if (setter) {
+        setter({
+          ..._context,
           ...payload.current,
         });
       }
@@ -133,7 +151,7 @@ const CreateAction: ICreateAction =
     return [status?.current?.ok, dispatch];
   };
 
-const BuildAction = (Component: ICreateAction, options: IAction) => {
+const BuildAction = (Component: ICreateAction, options: IActionBack) => {
   return Component(options);
 };
 
@@ -141,11 +159,28 @@ export const ALogin = BuildAction(CreateAction, {
   action: "login",
   type: "auth",
   verb: "load user",
+  context: AuthContext,
 });
+
 export const ALogout = BuildAction(CreateAction, {
   action: "logout",
   type: "auth",
   verb: "unload user",
+  context: AuthContext,
+});
+
+export const ALoadChars = BuildAction(CreateAction, {
+  action: "hydrate",
+  type: "rickmorty",
+  verb: "load characters",
+  context: RMContext,
+});
+
+export const AUnloadChars = BuildAction(CreateAction, {
+  action: "hydrate",
+  type: "rickmorty",
+  verb: "unload characters",
+  context: RMContext,
 });
 
 export { ALogin as ALogIn, ALogout as ALogOut };
