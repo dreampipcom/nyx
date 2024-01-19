@@ -33,7 +33,7 @@ export const VList = ({ characters }: VListProps) => {
   useEffect(() => {
     if (!isCharsLoaded) return;
     return unloadChars;
-  }, [isCharsLoaded, unloadChars]);
+  }, []);
 
   if (!authd || !characters) return;
 
