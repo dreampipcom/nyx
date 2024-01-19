@@ -11,13 +11,14 @@ type ActionAuthNames = "load user" | "unload user";
 interface IAction {
   action?: ActionT;
   type?: ActionTypes;
-  dataName?: ActionAuthNames;
+  verb?: ActionAuthNames;
   cb?: () => void;
 }
 
 interface IStatus {
   str: string;
-  ok?: boolean;
+  ok: boolean | undefined;
+  current: string;
 }
 
 interface IALoginPayload {
@@ -55,8 +56,14 @@ const CreateAction: ICreateAction =
     const payload = useRef<IAPayload>();
     const [dispatchd, setDispatchd] = useState(false);
 
-    const updateStatus = ({ ok } = { ok: undefined }) => {
-      status.current = { str: createStatusStr(), ok };
+    const updateStatus = (
+      { ok }: { ok: boolean | undefined } = { ok: undefined },
+    ) => {
+      status.current = {
+        str: createStatusStr(),
+        ok,
+        current: s_current.current,
+      };
       console.log(
         status?.current.str,
         `background: #1f1f1f; color: ${s_current.current.includes("error") ? "error" : s_current.current.includes("idle") ? "yellow" : "green"};`,
