@@ -1,6 +1,5 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
-import { decorateRMCharacters } from "@model"
 
 const CHARS = `
 query {
@@ -42,7 +41,5 @@ export const getRMCharacters: () => Promise<
   Record<any, unknown>
 > = async () => {
   const entries = await fetchGraphQL(CHARS);
-  // console.log({ entries: JSON.stringify(entries) })
-  const decd =  decorateRMCharacters(entries?.data?.characters)
-  return entries.data.characters;
+  return entries?.data?.characters;
 };

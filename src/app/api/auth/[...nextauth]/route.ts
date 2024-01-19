@@ -9,9 +9,12 @@ import { MongoConnector } from "@model";
 
 // For more information on each option (and a full list of options) go to
 // https://authjs.dev/reference/providers/oauth
-const handler = NextAuth({
+
+export const finalAuth = {
   adapter: MongoDBAdapter(MongoConnector),
   ...authOptions,
-});
+}
+
+const handler = NextAuth(finalAuth);
 
 export { handler as GET, handler as POST };

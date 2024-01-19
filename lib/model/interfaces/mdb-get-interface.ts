@@ -2,6 +2,8 @@
 import type { UserSchema } from "@types"
 import { MongoConnector } from "@model"
 
+/* to-do: database connection logs and error handling */
+
 /* schemas */
 const _UserSchema: UserSchema = {
 	rickmorty: {
@@ -53,7 +55,6 @@ const getUserCollection = async () => {
 const defineSchema = ({db, collection, schema}) => async () => {
 	const collection = await getUserCollection()
 	const result = collection.updateMany({}, {$set: schema}, { upsert: true })
-	console.log({ result })
 }
 
 const defineUserSchema = defineSchema({ db: 'test', collection: 'users', schema: _UserSchema })
@@ -68,6 +69,5 @@ initSchemas()
 export const getUserMeta = async ({ email = "varsnothing@gmail.com" }) => {
 	const collection = await getUserCollection()
 	const user = await collection.findOne({ email })
-	console.log({ user })
 	return user
 }
