@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
+import type { IAuthContext, IRMCOntext } from "@state";
 import { useState, useEffect, useContext, useRef } from "react";
-import { AuthContext } from "@state";
+import { AuthContext, RMContext } from "@state";
 
 type ActionT = "login" | "logout";
 type ActionTypes = "auth";
@@ -12,6 +13,7 @@ interface IAction {
   action?: ActionT;
   type?: ActionTypes;
   verb?: ActionAuthNames;
+  context?: IAuthContext | IRMContext
   cb?: () => void;
 }
 
@@ -24,7 +26,7 @@ interface IStatus {
 interface IALoginPayload {
   name?: string;
   avatar?: string;
-  setAuth?: () => void;
+  setter?: () => void;
 }
 
 type ICreateAction = (
@@ -36,14 +38,14 @@ type ICreateAction = (
 type IAPayload = IALoginPayload | Record<any, unknown>;
 
 const CreateAction: ICreateAction =
-  ({ action, type, verb }: IAction) =>
+  ({ action, type, verb, context }: IAction) =>
   ({ cb }: IAction) => {
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
     // to-do: abstract from auth context (link to ticket)
-    const authContext: any = useContext(AuthContext);
-    const { setAuth }: any = authContext;
+    const _context: any = useContext(context);
+    const { setter }: any = _context;
 
     const init = useRef(false);
     const s_current = useRef("loaded");
@@ -105,9 +107,9 @@ const CreateAction: ICreateAction =
       message.current = "loading payload data";
       updateStatus();
 
-      if (setAuth) {
-        setAuth({
-          ...authContext,
+      if (setter) {
+        setter({
+          ..._context,
           ...payload.current,
         });
       }
@@ -141,11 +143,28 @@ export const ALogin = BuildAction(CreateAction, {
   action: "login",
   type: "auth",
   verb: "load user",
+  context: AuthContext
 });
+
 export const ALogout = BuildAction(CreateAction, {
   action: "logout",
   type: "auth",
   verb: "unload user",
+  context: AuthContext
+});
+
+export const ALoadChars = BuildAction(CreateAction, {
+  action: "hydrate",
+  type: "rickmorty",
+  verb: "load characters",
+  context: RMContext
+});
+
+export const AUnloadChars = BuildAction(CreateAction, {
+  action: "hydrate",
+  type: "rickmorty",
+  verb: "unload characters",
+  context: RMContext
 });
 
 export { ALogin as ALogIn, ALogout as ALogOut };

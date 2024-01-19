@@ -7,7 +7,7 @@ export interface IAuthContext {
   authd: boolean;
   id: string;
   name: string;
-  setAuth?: Dispatch<SetStateAction<IAuthContext>>;
+  setter?: Dispatch<SetStateAction<IAuthContext>>;
   initd?: boolean;
 }
 
@@ -15,5 +15,5 @@ export const AuthContext = createContext<IAuthContext>({
   authd: false,
   id: "",
   name: "",
-  setAuth: undefined,
+  setter: undefined,
 });
