@@ -38,7 +38,7 @@ export const VSignIn = ({ providers }: VSignInProps) => {
         authd: true,
         name: session.user.name,
         avatar: session.user.image,
-        email: session.user.email
+        email: session.user.email,
       });
       initd.current = true;
     }

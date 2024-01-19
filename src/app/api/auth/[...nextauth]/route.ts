@@ -13,7 +13,7 @@ import { MongoConnector } from "@model";
 export const finalAuth = {
   adapter: MongoDBAdapter(MongoConnector),
   ...authOptions,
-}
+};
 
 const handler = NextAuth(finalAuth);
 

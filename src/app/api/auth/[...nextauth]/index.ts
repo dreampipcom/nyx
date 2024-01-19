@@ -1,2 +1,2 @@
 // index.ts
-export { finalAuth } from "./route"
+export { finalAuth } from "./route";

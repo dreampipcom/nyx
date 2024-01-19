@@ -6,7 +6,6 @@ import type { IAuthContext, IRMContext, INCharacter } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext } from "@state";
 
-
 /* to-do: chained actions */
 // import { decorateRMCharacters } from "@model"
 
@@ -151,9 +150,9 @@ const CreateAction: ICreateAction =
       };
     }, [dispatchd]);
 
-    // if (cb?.length) {
-    //   cb.foreach((_cb) => cb.call())
-    // }
+    if (cb?.length) {
+      cb.foreach((_cb) => _cb.call());
+    }
 
     return [status?.current?.ok, dispatch];
   };
@@ -209,8 +208,8 @@ export const ADecorateChars = BuildAction(CreateAction, {
   type: "rickmorty",
   verb: "decorate characters",
   context: RMContext,
-  //to-do: chained actions
-  //cb: [() => decorateRMCharacters()]
+  // to-do: chained actions
+  // cb: [() => decorateRMCharacters()]
 });
 
 export { ALogin as ALogIn, ALogout as ALogOut };
