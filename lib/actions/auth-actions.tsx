@@ -38,16 +38,15 @@ const CreateAction: ICreateAction =
   ({ action, type, verb }: IAction) =>
   ({ cb }: IAction) => {
     const createStatusStr = () => {
-      return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`
-    }
+      return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
+    };
     // to-do: abstract from auth context (link to ticket)
     const authContext: any = useContext(AuthContext);
     const { setAuth }: any = authContext;
 
     const init = useRef(false);
-    //const verb = useRef("action");
     const s_current = useRef("loaded");
-    const message = useRef("")
+    const message = useRef("");
     const status = useRef<IStatus>({
       current: s_current.current,
       str: createStatusStr(),
@@ -58,7 +57,10 @@ const CreateAction: ICreateAction =
 
     const updateStatus = ({ ok } = { ok: undefined }) => {
       status.current = { str: createStatusStr(), ok };
-      console.log(status?.current.str, `background: #1f1f1f; color: ${s_current.current.includes('error') ? 'error' : s_current.current.includes('idle') ? 'yellow' : 'green'};`);
+      console.log(
+        status?.current.str,
+        `background: #1f1f1f; color: ${s_current.current.includes("error") ? "error" : s_current.current.includes("idle") ? "yellow" : "green"};`,
+      );
     };
 
     const cancel = () => {
@@ -68,8 +70,8 @@ const CreateAction: ICreateAction =
 
     const dispatch = (clientPayload?: IAPayload) => {
       payload.current = { ...clientPayload };
-      s_current.current = "init:active"
-      message.current = "dispatched"
+      s_current.current = "init:active";
+      message.current = "dispatched";
       updateStatus();
       setDispatchd(!dispatchd);
     };
@@ -81,19 +83,19 @@ const CreateAction: ICreateAction =
 
     useEffect(() => {
       if (!dispatchd) {
-        s_current.current = "init:idle"
-        message.current = "not dispatched yet"
+        s_current.current = "init:idle";
+        message.current = "not dispatched yet";
         return cancel();
       }
 
       if (!payload?.current) {
-        s_current.current = "cancelled"
-        message.current = "no payload data"
+        s_current.current = "cancelled";
+        message.current = "no payload data";
         return cancel();
       }
 
-      s_current.current = "started"
-      message.current = "loading payload data"
+      s_current.current = "started";
+      message.current = "loading payload data";
       updateStatus();
 
       if (setAuth) {
@@ -105,15 +107,15 @@ const CreateAction: ICreateAction =
 
       init.current = true;
 
-      s_current.current = "completed"
-      message.current = "success"
+      s_current.current = "completed";
+      message.current = "success";
       updateStatus({ ok: true });
 
       reset();
 
       return () => {
-        s_current.current = "ended"
-        message.current = "exit 0"
+        s_current.current = "ended";
+        message.current = "exit 0";
         updateStatus();
         reset();
       };
