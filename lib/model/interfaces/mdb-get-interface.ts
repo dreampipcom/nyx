@@ -1,5 +1,6 @@
 // mdb-get-interface.ts
 // @ts-nocheck
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector } from "@model";
 
@@ -63,11 +64,17 @@ const getUserCollection = async () => {
 };
 
 /** ORM **/
-const defineSchema = ({ schema }) => async () => {
-  const collection = await getUserCollection();
-  const result = collection.updateMany({}, { $set: schema }, { upsert: true });
-  console.log("----- success! ------", { result: JSON.stringify(result) });
-};
+const defineSchema =
+  ({ schema }) =>
+  async () => {
+    const collection = await getUserCollection();
+    const result = collection.updateMany(
+      {},
+      { $set: schema },
+      { upsert: true },
+    );
+    console.log("----- success! ------", { result: JSON.stringify(result) });
+  };
 
 const defineUserSchema = defineSchema({
   db: "test",
