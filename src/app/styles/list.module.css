@@ -69,7 +69,7 @@
     --heart: lightgray;
 }
 
-.list__fav--is {
+.list__fav__is {
   --heart: red;
 }
 

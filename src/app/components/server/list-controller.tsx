@@ -16,6 +16,8 @@ export const CList = async () => {
     (await getRMCharacters()).results,
     email,
   );
+
+  console.log({ decdChars: characters})
   return (
     <RickMortyProvider>
       <VList characters={characters} />
