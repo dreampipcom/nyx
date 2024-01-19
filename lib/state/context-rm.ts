@@ -5,7 +5,7 @@ import { createContext } from "react";
 
 // to-do: characters type annotations
 export interface IRMContext {
-  characters?: unknown[]
+  characters?: unknown[];
   setChars?: Dispatch<SetStateAction<IRMContext>>;
   initd?: boolean;
 }
@@ -13,5 +13,5 @@ export interface IRMContext {
 export const RMContext = createContext<IRMContext>({
   initd: false,
   characters: [],
-  setChars: undefined
+  setChars: undefined,
 });

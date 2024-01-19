@@ -2,7 +2,7 @@
 "use client";
 import { useContext, useEffect, useRef } from "react";
 import { RMContext, AuthContext } from "@state";
-import { ALoadChars, AUnloadChars } from "@actions"
+import { ALoadChars, AUnloadChars } from "@actions";
 import { navigate } from "@decorators";
 
 // to-do: character type annotations
@@ -10,7 +10,7 @@ interface VCharactersListProps {
   characters: unknown;
 }
 
-type VListProps = VCharactersListProps | Record<any, unknown>
+type VListProps = VCharactersListProps | Record<any, unknown>;
 
 export const VList = ({ characters }: VListProps) => {
   const rmContext = useContext(RMContext);
@@ -24,11 +24,16 @@ export const VList = ({ characters }: VListProps) => {
   useEffect(() => {
     if (!isCharsLoaded && !initd.current) {
       loadChars({
-        characters: characters.results
+        characters: characters.results,
       });
       initd.current = true;
     }
   }, [characters, isCharsLoaded, loadChars]);
+
+  useEffect(() => {
+    if (!isCharsLoaded) return;
+    return unloadChars;
+  }, []);
 
   if (!authd || !characters) return;
 
@@ -37,7 +42,9 @@ export const VList = ({ characters }: VListProps) => {
   if (authd)
     return (
       <span>
-        {chars.map((char, i) => (<div key={`${name}--${i}`}>{char.name}</div>))}
+        {chars.map((char, i) => (
+          <div key={`${name}--${i}`}>{char.name}</div>
+        ))}
       </span>
     );
 

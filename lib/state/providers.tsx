@@ -28,7 +28,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function RickMortyProvider({children}: {children: React.ReactNode}) {
+export function RickMortyProvider({ children }: { children: React.ReactNode }) {
   const rmContext = useContext<IRMContext>(RMContext);
   const [rmState, setRMState] = useState<IRMContext>({ ...rmContext });
   const init = useRef(false);
@@ -43,7 +43,5 @@ export function RickMortyProvider({children}: {children: React.ReactNode}) {
 
   if (!rmState?.initd) return;
 
-  return (
-      <RMContext.Provider value={rmState}>{children}</RMContext.Provider>
-  );
+  return <RMContext.Provider value={rmState}>{children}</RMContext.Provider>;
 }

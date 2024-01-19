@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
-import type { IAuthContext, IRMCOntext } from "@state";
+import type { IAuthContext, IRMContext } from "@state";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext } from "@state";
 
@@ -13,7 +13,7 @@ interface IAction {
   action?: ActionT;
   type?: ActionTypes;
   verb?: ActionAuthNames;
-  context?: IAuthContext | IRMContext
+  context?: IAuthContext | IRMContext;
   cb?: () => void;
 }
 
@@ -143,28 +143,28 @@ export const ALogin = BuildAction(CreateAction, {
   action: "login",
   type: "auth",
   verb: "load user",
-  context: AuthContext
+  context: AuthContext,
 });
 
 export const ALogout = BuildAction(CreateAction, {
   action: "logout",
   type: "auth",
   verb: "unload user",
-  context: AuthContext
+  context: AuthContext,
 });
 
 export const ALoadChars = BuildAction(CreateAction, {
   action: "hydrate",
   type: "rickmorty",
   verb: "load characters",
-  context: RMContext
+  context: RMContext,
 });
 
 export const AUnloadChars = BuildAction(CreateAction, {
   action: "hydrate",
   type: "rickmorty",
   verb: "unload characters",
-  context: RMContext
+  context: RMContext,
 });
 
 export { ALogin as ALogIn, ALogout as ALogOut };

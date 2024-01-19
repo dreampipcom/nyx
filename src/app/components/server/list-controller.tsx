@@ -2,10 +2,14 @@
 // signin-controller.tsx
 "use server";
 import { VList } from "@components/client";
-import { getRMCharacters } from "@model"
-import { RickMortyProvider } from "@state"
+import { getRMCharacters } from "@model";
+import { RickMortyProvider } from "@state";
 
 export const CList = async () => {
   const characters: unknown = await getRMCharacters();
-  return <RickMortyProvider><VList characters={characters}/></RickMortyProvider>
+  return (
+    <RickMortyProvider>
+      <VList characters={characters} />
+    </RickMortyProvider>
+  );
 };
