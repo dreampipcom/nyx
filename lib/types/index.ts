@@ -1,7 +1,12 @@
 // index.ts
 
 // contexts
-export type { IAuthContext, IRMContext, INCharacter } from "./contexts";
+export type {
+  IAuthContext,
+  IRMContext,
+  INCharacter,
+  IDCharacter,
+} from "./contexts";
 
 // model
-export type { UserSchema } from "./model";
+export type { UserSchema, User, UserDecoration } from "./model";

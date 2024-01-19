@@ -1,31 +1,43 @@
 // mdb-get-interface.ts
-import type { UserSchema } from "@types";
+// @ts-nocheck
+import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector } from "@model";
+
+type Tdbs = "test";
+
+interface TModelSingleton {
+  [x: string]: {
+    db: unknown;
+    collection: unknown;
+  };
+}
 
 /* to-do: database connection logs and error handling */
 
 /* schemas */
-const _UserSchema: UserSchema = {
+const _UserSchema: UserDecoration = {
   rickmorty: {
     favorites: {
-      characters: [],
+      characters: [] as INCharacter["id"][],
     },
   },
 };
 
 /* private */
-const getDB = (name) => async () => {
+const getDB = (name: Tdbs) => async () => {
   const conn = await MongoConnector;
   const db = await conn.db(name);
   return db;
 };
 
-const init = (db) => async () => {
-  const _getDB = getDB(db);
-  const _db = await _getDB();
-  // console.log({ _db })
-  return _db;
-};
+const init =
+  (db: Tdbs): (() => Promise<Db>) =>
+  async (): TModelSingleton => {
+    const _getDB = getDB(db);
+    const _db = await _getDB();
+    // console.log({ _db })
+    return _db;
+  };
 
 init.test = init("test");
 
@@ -70,7 +82,9 @@ const initSchemas = async () => {
 initSchemas();
 
 /* public */
-export const getUserMeta = async ({ email = "varsnothing@gmail.com" }) => {
+export const getUserMeta = async ({
+  email = "varsnothing@gmail.com",
+}: Pick<UserSchema, "email">) => {
   const collection = await getUserCollection();
   const user = await collection.findOne({ email });
   return user;

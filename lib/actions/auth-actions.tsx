@@ -27,7 +27,7 @@ interface IActionBack {
 }
 
 interface IAction {
-  cb?: () => void;
+  cb?: Array<() => void>;
 }
 
 interface IStatus {
@@ -58,7 +58,7 @@ type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
 
 const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
-  ({ cb }: IAction[]) => {
+  ({ cb }: IAction) => {
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
@@ -151,7 +151,7 @@ const CreateAction: ICreateAction =
     }, [dispatchd]);
 
     if (cb?.length) {
-      cb.foreach((_cb) => _cb.call());
+      cb.forEach((_cb) => _cb());
     }
 
     return [status?.current?.ok, dispatch];

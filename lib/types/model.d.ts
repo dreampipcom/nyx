@@ -2,10 +2,14 @@
 import type { User } from "next-auth";
 import type { INCharacter } from "@types";
 
-export interface UserSchema extends User {
+export { User };
+
+export interface UserDecoration {
   rickmorty: {
     favorites: {
-      characters: INCharacter[];
+      characters: INCharacter["id"][];
     };
   };
 }
+
+export interface UserSchema extends User, UserDecoration {}

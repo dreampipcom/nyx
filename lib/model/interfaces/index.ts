@@ -1,3 +1,2 @@
 // index.ts
-
-export { getUserMeta } from "./mdb-get-interface.ts";
+export { getUserMeta } from "./mdb-get-interface";

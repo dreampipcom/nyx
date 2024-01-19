@@ -10,8 +10,8 @@ import { finalAuth } from "@auth/adapter";
 
 export const CList = async () => {
   const session = await getServerSession(finalAuth);
-  const email = session?.user?.email;
-  const characters: { results?: INCharacter[] } = await decorateRMCharacters(
+  const email = session?.user?.email || "";
+  const characters: INCharacter[] = await decorateRMCharacters(
     (await getRMCharacters()).results,
     email,
   );

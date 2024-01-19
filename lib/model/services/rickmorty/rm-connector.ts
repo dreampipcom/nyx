@@ -1,6 +1,6 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
-
+import type { INCharacter } from "@types";
 const CHARS = `
 query {
   characters() {
@@ -37,9 +37,10 @@ async function fetchGraphQL(query: string) {
   }).then((response) => response.json());
 }
 
-export const getRMCharacters: () => Promise<
-  Record<any, unknown>
-> = async () => {
+export const getRMCharacters: () => Promise<{
+  results: INCharacter[];
+  info: any;
+}> = async () => {
   const entries = await fetchGraphQL(CHARS);
   return entries?.data?.characters;
 };
