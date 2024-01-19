@@ -39,9 +39,9 @@ export default function Home() {
         />
       </div>
 
-      <div className={styles.grid}>
+      <section className={styles.container}>
         <List />
-      </div>
+      </section>
     </main>
   );
 }

@@ -2,7 +2,7 @@
 // auth-actions.ts
 "use client";
 import type { Context } from "react";
-import type { IAuthContext, IRMContext } from "@types";
+import type { IAuthContext, IRMContext, INCharacter } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext } from "@state";
 
@@ -40,7 +40,7 @@ interface IALoginPayload {
 }
 
 interface ICharacterPayload {
-  characters?: Record<any, unknown>;
+  characters?: INCharacter[];
   setter?: () => void;
 }
 

@@ -7,7 +7,16 @@ query {
       count
     }
     results {
+      id
       name
+      status
+      origin {
+        name
+      }
+      location {
+        name
+      }
+      image
     }
   }
 }
@@ -31,5 +40,6 @@ export const getRMCharacters: () => Promise<
   Record<any, unknown>
 > = async () => {
   const entries = await fetchGraphQL(CHARS);
+  // console.log({ entries: JSON.stringify(entries) })
   return entries.data.characters;
 };
