@@ -1,7 +1,7 @@
 // mdb-get-interface.ts
 import { MongoConnector } from "@model"
 
-
+/* private */
 const getDB = (name) => async () => {
 	const conn = await MongoConnector
 	const db = await conn.db(name)
@@ -36,6 +36,7 @@ const getUserCollection = async () => {
 	return _col
 }
 
+/* public */
 export const getUserMeta = async ({ email = "varsnothing@gmail.com" }) => {
 	const collection = await getUserCollection()
 	const user = await collection.findOne({ email })
