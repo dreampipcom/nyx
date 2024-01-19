@@ -39,11 +39,18 @@
   font-family: var(--font-mono);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
+.container {
   max-width: 100%;
   width: var(--max-width);
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(25%, auto));
+  max-width: 100%;
+  width: var(--max-width);
+  grid-gap: 16px;
 }
 
 .card {
@@ -204,8 +211,8 @@
   }
 }
 
-/* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1120px) {
+/* Desktop */
+@media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
   }

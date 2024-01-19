@@ -1,2 +1,2 @@
 // index.ts
-export type { IAuthContext, IRMContext } from "./contexts";
+export type { IAuthContext, IRMContext, INCharacter } from "./contexts";

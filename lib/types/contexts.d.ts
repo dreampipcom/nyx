@@ -1,6 +1,19 @@
 // contexts.d.ts
 import type { Dispatch, SetStateAction } from "react";
 
+export interface INCharacter {
+  id: number;
+  name: string;
+  status: string;
+  image: string;
+  origin: {
+    name: string;
+  };
+  location: {
+    name: string;
+  };
+}
+
 export interface IAuthContext {
   authd?: boolean;
   name?: string;
@@ -10,7 +23,7 @@ export interface IAuthContext {
 
 // to-do: characters type annotations
 export interface IRMContext {
-  characters?: Record<any, unknown>[];
+  characters?: INCharacter[];
   setter: Dispatch<SetStateAction<IAuthContext>> | undefined;
   initd?: boolean;
 }
