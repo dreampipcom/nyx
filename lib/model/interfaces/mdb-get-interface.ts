@@ -63,7 +63,7 @@ const getUserCollection = async () => {
 };
 
 /** ORM **/
-const defineSchema = () => async () => {
+const defineSchema = ({ schema }) => async () => {
   const collection = await getUserCollection();
   const result = collection.updateMany({}, { $set: schema }, { upsert: true });
   console.log("----- success! ------", { result: JSON.stringify(result) });
@@ -79,7 +79,8 @@ const initSchemas = async () => {
   await defineUserSchema();
 };
 
-initSchemas();
+// migrations: uncomment this line to enforce schemas
+// initSchemas();
 
 /* public */
 export const getUserMeta = async ({

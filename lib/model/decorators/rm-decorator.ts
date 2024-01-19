@@ -10,7 +10,7 @@ const decorateCharacter = (
 ): IDCharacter => {
   const decd: IDCharacter = { ...character };
   decd.favorite = undefined;
-  if (uMeta.rickmorty.favorites.characters.includes(character?.id))
+  if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id))
     decd.favorite = true;
   decd.favorite = false;
   return decd;
