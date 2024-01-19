@@ -8,6 +8,7 @@ import { ALoadChars, AUnloadChars, ADecorateChars } from "@actions";
 import { navigate } from "@decorators";
 
 import styles from "@styles/list.module.css";
+import icons from "@styles/components/icons.module.css";
 
 // to-do: character type annotations
 interface VCharactersListProps {
@@ -69,6 +70,7 @@ export const VList = ({ characters }: VListProps) => {
               />
             </div>
             <div className={styles.list__meta}>
+            <div>
               <h2>{char?.name}</h2>
               <span>{char?.status}</span>
               <div>
@@ -80,6 +82,8 @@ export const VList = ({ characters }: VListProps) => {
                 <span>{char?.origin?.name}</span>
               </div>
             </div>
+            </div>
+            <button className={styles.list__fav} onClick={() => {}} ><div className={icons.heart} /></button>
           </div>
         ))}
       </article>
