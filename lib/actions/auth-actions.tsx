@@ -6,13 +6,17 @@ import type { IAuthContext, IRMContext, INCharacter } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext } from "@state";
 
+/* to-do: chained actions */
+// import { decorateRMCharacters } from "@model"
+
 type ActionT = "login" | "logout" | "hydrate";
 type ActionTypes = "auth" | "rickmorty";
 type ActionAuthNames =
   | "load user"
   | "unload user"
   | "load characters"
-  | "unload characters";
+  | "unload characters"
+  | "decorate characters";
 type ISupportedContexts = IAuthContext | IRMContext;
 
 interface IActionBack {
@@ -23,7 +27,7 @@ interface IActionBack {
 }
 
 interface IAction {
-  cb?: () => void;
+  cb?: Array<() => void>;
 }
 
 interface IStatus {
@@ -146,7 +150,9 @@ const CreateAction: ICreateAction =
       };
     }, [dispatchd]);
 
-    if (cb && typeof cb === "function") cb();
+    if (cb?.length) {
+      cb.forEach((_cb) => _cb());
+    }
 
     return [status?.current?.ok, dispatch];
   };
@@ -154,6 +160,19 @@ const CreateAction: ICreateAction =
 const BuildAction = (Component: ICreateAction, options: IActionBack) => {
   return Component(options);
 };
+
+/* private */
+
+// const ADecorateChars = BuildAction(CreateAction, {
+//   action: "hydrate",
+//   type: "rickmorty",
+//   verb: "decorate character",
+//   context: RMContext,
+//   //to-do: chained actions
+//   //cb: [() => decorateRMCharacters()]
+// });
+
+/* public */
 
 export const ALogin = BuildAction(CreateAction, {
   action: "login",
@@ -181,6 +200,16 @@ export const AUnloadChars = BuildAction(CreateAction, {
   type: "rickmorty",
   verb: "unload characters",
   context: RMContext,
+});
+
+/* tmp-public */
+export const ADecorateChars = BuildAction(CreateAction, {
+  action: "hydrate",
+  type: "rickmorty",
+  verb: "decorate characters",
+  context: RMContext,
+  // to-do: chained actions
+  // cb: [() => decorateRMCharacters()]
 });
 
 export { ALogin as ALogIn, ALogout as ALogOut };

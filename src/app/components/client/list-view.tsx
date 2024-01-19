@@ -4,14 +4,14 @@ import type { INCharacter } from "@types";
 import { useContext, useEffect, useRef } from "react";
 import Image from "next/image";
 import { RMContext, AuthContext } from "@state";
-import { ALoadChars, AUnloadChars } from "@actions";
+import { ALoadChars, AUnloadChars, ADecorateChars } from "@actions";
 import { navigate } from "@decorators";
 
 import styles from "@styles/list.module.css";
 
 // to-do: character type annotations
 interface VCharactersListProps {
-  characters: { results?: INCharacter[] };
+  characters: INCharacter[];
 }
 
 type VListProps = VCharactersListProps;
@@ -20,19 +20,30 @@ export const VList = ({ characters }: VListProps) => {
   const rmContext = useContext(RMContext);
   const { authd } = useContext(AuthContext);
   const [isCharsLoaded, loadChars] = ALoadChars({});
+  const [, decChars] = ADecorateChars({});
   const [, unloadChars] = AUnloadChars({});
   const initd = useRef(false);
 
   const { characters: chars }: { characters?: INCharacter[] } = rmContext;
 
   useEffect(() => {
-    if (characters?.results && !isCharsLoaded && !initd.current) {
+    if (authd && characters && !isCharsLoaded && !initd.current) {
       loadChars({
-        characters: characters.results as INCharacter[],
+        characters: characters as INCharacter[],
       });
       initd.current = true;
     }
-  }, [characters, isCharsLoaded, loadChars]);
+  }, [characters, isCharsLoaded, loadChars, authd]);
+
+  useEffect(() => {
+    if (authd && isCharsLoaded) {
+      decChars({});
+
+      return () => {
+        // to-do decorate clean up
+      };
+    }
+  }, [isCharsLoaded, authd]);
 
   useEffect(() => {
     if (!isCharsLoaded) return;

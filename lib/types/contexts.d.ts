@@ -14,6 +14,10 @@ export interface INCharacter {
   };
 }
 
+export interface IDCharacter extends INCharacter {
+  favorite?: boolean;
+}
+
 export interface IAuthContext {
   authd?: boolean;
   name?: string;
