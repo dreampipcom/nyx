@@ -21,8 +21,6 @@ export const VList = ({ characters }: VListProps) => {
 
   const { characters: chars } = rmContext;
 
-  console.log({ chars, characters })
-
   useEffect(() => {
     if (!isCharsLoaded && !initd.current) {
       loadChars({
@@ -44,16 +42,4 @@ export const VList = ({ characters }: VListProps) => {
     );
 
   return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
-
-  // return (
-  //   <>
-  //     {Object.values(providers).map((provider: IAuthProvider) => (
-  //       <span key={provider.name}>
-  //         <button onClick={() => navigate('/api/auth/signin')}>
-  //           Sign in
-  //         </button>
-  //       </span>
-  //     ))}
-  //   </>
-  // );
 };
