@@ -1,64 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
-import type { Context } from "react";
-import type { IAuthContext, IRMContext, INCharacter } from "@types";
+import type {
+  ISupportedContexts,
+  IActionBack,
+  IAction,
+  IStatus,
+  ICreateAction,
+  IDispatch,
+  IPayload,
+} from "@types";
+
 import { useState, useEffect, useContext, useRef } from "react";
-import { AuthContext, RMContext } from "@state";
+import { AuthContext, RMContext, LogContext } from "@state";
 
 /* to-do: chained actions */
 // import { decorateRMCharacters } from "@model"
 
-type ActionT = "login" | "logout" | "hydrate";
-type ActionTypes = "auth" | "rickmorty";
-type ActionAuthNames =
-  | "load user"
-  | "unload user"
-  | "load characters"
-  | "unload characters"
-  | "decorate characters";
-type ISupportedContexts = IAuthContext | IRMContext;
-
-interface IActionBack {
-  action?: ActionT;
-  type?: ActionTypes;
-  verb?: ActionAuthNames;
-  context: Context<ISupportedContexts>;
-}
-
-interface IAction {
-  cb?: Array<() => void>;
-}
-
-interface IStatus {
-  str: string;
-  ok: boolean | undefined;
-  current: string;
-}
-
-interface IALoginPayload {
-  name?: string;
-  avatar?: string;
-  authd?: boolean;
-  setter?: () => void;
-}
-
-interface ICharacterPayload {
-  characters?: INCharacter[];
-  setter?: () => void;
-}
-
-type ICreateAction = (
-  options: IActionBack,
-) => (
-  _options: IAction,
-) => [boolean | undefined, (clientPayload?: IAPayload) => void];
-
-type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
-
 const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
   ({ cb }: IAction) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
@@ -70,12 +33,13 @@ const CreateAction: ICreateAction =
     const init = useRef(false);
     const s_current = useRef("loaded");
     const message = useRef("");
+    const to_call = useRef<IDispatch>(noop);
     const status = useRef<IStatus>({
       current: s_current.current,
       str: createStatusStr(),
       ok: undefined,
     });
-    const payload = useRef<IAPayload>();
+    const payload = useRef<IPayload>();
     const [dispatchd, setDispatchd] = useState(false);
 
     const updateStatus = (
@@ -97,10 +61,11 @@ const CreateAction: ICreateAction =
       return;
     };
 
-    const dispatch = (clientPayload?: IAPayload) => {
+    const dispatch: IDispatch = (clientPayload, toCall) => {
       payload.current = { ...clientPayload };
       s_current.current = "init:active";
       message.current = "dispatched";
+      to_call.current = toCall || noop;
       updateStatus();
       setDispatchd(!dispatchd);
     };
@@ -131,14 +96,28 @@ const CreateAction: ICreateAction =
         setter({
           ..._context,
           ...payload.current,
+          history: [..._context.history, status.current.str],
         });
       }
 
       init.current = true;
 
+      s_current.current = "in progress";
+      message.current = "calling functions";
+      updateStatus({ ok: undefined });
+
+      if (typeof to_call?.current === "function")
+        to_call.current(payload.current);
+
       s_current.current = "completed";
       message.current = "success";
       updateStatus({ ok: true });
+
+      if (cb && cb?.length > 0) {
+        cb.forEach((_cb) => {
+          _cb();
+        });
+      }
 
       reset();
 
@@ -149,10 +128,6 @@ const CreateAction: ICreateAction =
         reset();
       };
     }, [dispatchd]);
-
-    if (cb?.length) {
-      cb.forEach((_cb) => _cb());
-    }
 
     return [status?.current?.ok, dispatch];
   };
@@ -200,6 +175,13 @@ export const AUnloadChars = BuildAction(CreateAction, {
   type: "rickmorty",
   verb: "unload characters",
   context: RMContext,
+});
+
+export const AAddToFavoriteChars = BuildAction(CreateAction, {
+  action: "update_db",
+  type: "rickmorty",
+  verb: "add char to favorites",
+  context: LogContext,
 });
 
 /* tmp-public */

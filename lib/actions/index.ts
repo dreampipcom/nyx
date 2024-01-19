@@ -5,4 +5,5 @@ export {
   ALoadChars,
   AUnloadChars,
   ADecorateChars,
+  AAddToFavoriteChars,
 } from "./auth-actions";

@@ -1,4 +1,4 @@
-// mdb-get-interface.ts
+// mdb-update-interface.ts
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
@@ -63,39 +63,21 @@ const getUserCollection = async () => {
   return _col;
 };
 
-/** ORM **/
-const defineSchema =
-  ({ schema }) =>
-  async () => {
-    const collection = await getUserCollection();
-    const result = collection.updateMany(
-      {},
-      { $set: schema },
-      { upsert: true },
-    );
-    console.log("----- db op success! ------", {
-      result: JSON.stringify(result),
-    });
-  };
-
-const defineUserSchema = defineSchema({
-  db: "test",
-  collection: "users",
-  schema: _UserSchema,
-});
-
-const initSchemas = async () => {
-  await defineUserSchema();
-};
-
-// migrations: uncomment this line to enforce schemas
-// initSchemas();
-
 /* public */
-export const getUserMeta = async ({
+export const addToFavorites = async ({
   email = "",
-}: Pick<UserSchema, "email">) => {
+  cid = undefined,
+  type = "characters",
+}: {
+  email: UserSchema["email"];
+  cid: number;
+  type?: string;
+}) => {
   const collection = await getUserCollection();
-  const user = await collection.findOne({ email });
+  const query = `rickmorty.favorites.${type}`;
+  const user = await collection.updateOne(
+    { email },
+    { $addToSet: { [query]: cid } },
+  );
   return user;
 };

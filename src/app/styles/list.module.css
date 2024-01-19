@@ -57,6 +57,22 @@
   font-size: 12px;
 }
 
+.list__fav {
+  margin: 8px;
+  padding: 8px;
+  border-radius: 50%;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  --heart: lightgray;
+}
+
+.list__fav__is {
+  --heart: red;
+}
+
 @media (prefers-color-scheme: dark) {
   .page h2,
   .page h3,

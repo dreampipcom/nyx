@@ -1,7 +1,7 @@
 // rm-decorator.ts
 "use server";
 import type { IDCharacter, INCharacter, UserSchema } from "@types";
-import { getUserMeta } from "@model";
+import { getUserMeta } from "@controller";
 
 /* private */
 const decorateCharacter = (
@@ -12,7 +12,7 @@ const decorateCharacter = (
   decd.favorite = undefined;
   if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id))
     decd.favorite = true;
-  decd.favorite = false;
+  else decd.favorite = false;
   return decd;
 };
 

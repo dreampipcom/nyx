@@ -1,7 +1,8 @@
 {
-  "name": "haufe-assessment-00",
-  "version": "0.1.0",
+  "name": "assessment-00",
+  "version": "1.0.0",
   "private": true,
+  "author": "varsnothing",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
     "format:fix": "next lint --fix && prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "clsx": "^2.1.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"
