@@ -66,13 +66,12 @@
   align-items: center;
   justify-content: center;
 
-    --heart: lightgray;
+  --heart: lightgray;
 }
 
 .list__fav__is {
   --heart: red;
 }
-
 
 @media (prefers-color-scheme: dark) {
   .page h2,

@@ -10,8 +10,8 @@ const decorateCharacter = (
 ): IDCharacter => {
   const decd: IDCharacter = { ...character };
   decd.favorite = undefined;
-  console.log({ favs: uMeta?.rickmorty?.favorites?.characters, id: character.id, match: uMeta?.rickmorty?.favorites?.characters?.includes(character?.id)})
-  if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id)) decd.favorite = true;
+  if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id))
+    decd.favorite = true;
   else decd.favorite = false;
   return decd;
 };
@@ -25,7 +25,5 @@ export const decorateRMCharacters = async (
   const decd: IDCharacter[] = characters.map((char) =>
     decorateCharacter(char, uMeta),
   );
-
-  console.log({afterDecd: decd})
   return decd;
 };

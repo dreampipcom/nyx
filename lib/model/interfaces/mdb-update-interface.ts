@@ -65,13 +65,19 @@ const getUserCollection = async () => {
 
 /* public */
 export const addToFavorites = async ({
-  email = "varsnothing@gmail.com",
+  email = "",
   cid = undefined,
-  type = "characters"
-}: { email: UserSchema["email"], cid: number }) => {
+  type = "characters",
+}: {
+  email: UserSchema["email"];
+  cid: number;
+  type?: string;
+}) => {
   const collection = await getUserCollection();
-  const query = `rickmorty.favorites.${type}`
-  console.log({ query, email })
-  const user = await collection.updateOne({ email }, {$addToSet: { [query]: cid }});
+  const query = `rickmorty.favorites.${type}`;
+  const user = await collection.updateOne(
+    { email },
+    { $addToSet: { [query]: cid } },
+  );
   return user;
 };

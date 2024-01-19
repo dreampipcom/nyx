@@ -1,68 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
-import type { Context } from "react";
-import type { IAuthContext, IRMContext, INCharacter } from "@types";
+import type {
+  ISupportedContexts,
+  IActionBack,
+  IAction,
+  IStatus,
+  ICreateAction,
+  IDispatch,
+  IPayload,
+} from "@types";
+
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext, LogContext } from "@state";
 
 /* to-do: chained actions */
 // import { decorateRMCharacters } from "@model"
 
-type ActionT = "login" | "logout" | "hydrate" | "update_db";
-type ActionTypes = "auth" | "rickmorty";
-type ActionAuthNames =
-  | "load user"
-  | "unload user"
-  | "load characters"
-  | "unload characters"
-  | "decorate characters"
-  | "add char to favorites";
-
-type ISupportedContexts = IAuthContext | IRMContext;
-
-interface IActionBack {
-  action?: ActionT;
-  type?: ActionTypes;
-  verb?: ActionAuthNames;
-  context: Context<ISupportedContexts>;
-}
-
-interface IAction {
-  cb?: Array<() => void>;
-}
-
-interface IStatus {
-  str: string;
-  ok: boolean | undefined;
-  current: string;
-}
-
-interface IALoginPayload {
-  name?: string;
-  avatar?: string;
-  authd?: boolean;
-  setter?: () => void;
-}
-
-interface ICharacterPayload {
-  characters?: INCharacter[];
-  setter?: () => void;
-}
-
-type ICreateAction = (
-  options: IActionBack,
-) => (
-  _options: IAction,
-) => [boolean | undefined, (clientPayload?: IAPayload) => void];
-
-type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
-
 const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
   ({ cb }: IAction) => {
-    const noop = () => {}
-    console.log({ cb })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
@@ -74,13 +33,13 @@ const CreateAction: ICreateAction =
     const init = useRef(false);
     const s_current = useRef("loaded");
     const message = useRef("");
-    const to_call = useRef(noop);
+    const to_call = useRef<IDispatch>(noop);
     const status = useRef<IStatus>({
       current: s_current.current,
       str: createStatusStr(),
       ok: undefined,
     });
-    const payload = useRef<IAPayload>();
+    const payload = useRef<IPayload>();
     const [dispatchd, setDispatchd] = useState(false);
 
     const updateStatus = (
@@ -102,11 +61,11 @@ const CreateAction: ICreateAction =
       return;
     };
 
-    const dispatch = (clientPayload?: IAPayload, toCall) => {
+    const dispatch: IDispatch = (clientPayload, toCall) => {
       payload.current = { ...clientPayload };
       s_current.current = "init:active";
       message.current = "dispatched";
-      to_call.current = toCall;
+      to_call.current = toCall || noop;
       updateStatus();
       setDispatchd(!dispatchd);
     };
@@ -137,7 +96,7 @@ const CreateAction: ICreateAction =
         setter({
           ..._context,
           ...payload.current,
-          history: [..._context.history, status.current.str]
+          history: [..._context.history, status.current.str],
         });
       }
 
@@ -147,23 +106,18 @@ const CreateAction: ICreateAction =
       message.current = "calling functions";
       updateStatus({ ok: undefined });
 
-      console.log("check to call", { to_call })
-
-      if(typeof to_call?.current === 'function') to_call.current(payload.current)
+      if (typeof to_call?.current === "function")
+        to_call.current(payload.current);
 
       s_current.current = "completed";
       message.current = "success";
       updateStatus({ ok: true });
-      
 
-    console.log("check cb", { cb })
-    if (cb?.length > 0) {
-      console.log("going to run cbs")
-      cb.forEach((_cb) => {
-        console.log(" running cb ")
-        _cb()
-      });
-    }
+      if (cb && cb?.length > 0) {
+        cb.forEach((_cb) => {
+          _cb();
+        });
+      }
 
       reset();
 

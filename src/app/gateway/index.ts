@@ -3,6 +3,10 @@
 // client
 export { navigate } from "./client/actions";
 
-
 // server
-export { addToFavorites } from "./server/actions";
+export {
+  addToFavorites,
+  loadChars,
+  reloadChars,
+  getChars,
+} from "./server/actions";

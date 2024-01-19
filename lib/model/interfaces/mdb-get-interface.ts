@@ -73,7 +73,9 @@ const defineSchema =
       { $set: schema },
       { upsert: true },
     );
-    console.log("----- success! ------", { result: JSON.stringify(result) });
+    console.log("----- db op success! ------", {
+      result: JSON.stringify(result),
+    });
   };
 
 const defineUserSchema = defineSchema({
@@ -91,7 +93,7 @@ const initSchemas = async () => {
 
 /* public */
 export const getUserMeta = async ({
-  email = "varsnothing@gmail.com",
+  email = "",
 }: Pick<UserSchema, "email">) => {
   const collection = await getUserCollection();
   const user = await collection.findOne({ email });
