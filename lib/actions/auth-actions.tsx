@@ -1,19 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
 "use client";
-import type { IAuthContext, IRMContext } from "@state";
+import type { Context } from "react";
+import type { IAuthContext, IRMContext } from "@types";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext } from "@state";
 
-type ActionT = "login" | "logout";
-type ActionTypes = "auth";
-type ActionAuthNames = "load user" | "unload user";
+type ActionT = "login" | "logout" | "hydrate";
+type ActionTypes = "auth" | "rickmorty";
+type ActionAuthNames =
+  | "load user"
+  | "unload user"
+  | "load characters"
+  | "unload characters";
+type ISupportedContexts = IAuthContext | IRMContext;
 
-interface IAction {
+interface IActionBack {
   action?: ActionT;
   type?: ActionTypes;
   verb?: ActionAuthNames;
-  context?: IAuthContext | IRMContext;
+  context: Context<ISupportedContexts>;
+}
+
+interface IAction {
   cb?: () => void;
 }
 
@@ -26,26 +35,33 @@ interface IStatus {
 interface IALoginPayload {
   name?: string;
   avatar?: string;
+  authd?: boolean;
+  setter?: () => void;
+}
+
+interface ICharacterPayload {
+  characters?: Record<any, unknown>;
   setter?: () => void;
 }
 
 type ICreateAction = (
-  options: IAction,
+  options: IActionBack,
 ) => (
   _options: IAction,
 ) => [boolean | undefined, (clientPayload?: IAPayload) => void];
 
-type IAPayload = IALoginPayload | Record<any, unknown>;
+type IAPayload = IALoginPayload | ICharacterPayload | Record<any, unknown>;
 
 const CreateAction: ICreateAction =
-  ({ action, type, verb, context }: IAction) =>
+  ({ action, type, verb, context }: IActionBack) =>
   ({ cb }: IAction) => {
     const createStatusStr = () => {
       return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
     };
     // to-do: abstract from auth context (link to ticket)
-    const _context: any = useContext(context);
-    const { setter }: any = _context;
+    const _context: ISupportedContexts =
+      useContext<ISupportedContexts>(context);
+    const { setter }: ISupportedContexts = _context;
 
     const init = useRef(false);
     const s_current = useRef("loaded");
@@ -135,7 +151,7 @@ const CreateAction: ICreateAction =
     return [status?.current?.ok, dispatch];
   };
 
-const BuildAction = (Component: ICreateAction, options: IAction) => {
+const BuildAction = (Component: ICreateAction, options: IActionBack) => {
   return Component(options);
 };
 

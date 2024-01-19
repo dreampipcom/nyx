@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // providers.tsx
 "use client";
-import type { IAuthContext, IRMContext } from "./context-rm";
+import type { IAuthContext, IRMContext } from "@types";
 import { useContext, useState, useEffect, useRef } from "react";
 import { SessionProvider } from "next-auth/react";
 import { AuthContext, RMContext } from "@state";
@@ -12,7 +12,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const init = useRef(false);
 
   useEffect(() => {
-    if (!init.current && authContext && !authState?.setAuth) {
+    if (!init.current && authContext && !authState?.setter) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log("Flux: --- auth context loaded ---");
       init.current = true;
@@ -34,7 +34,7 @@ export function RickMortyProvider({ children }: { children: React.ReactNode }) {
   const init = useRef(false);
 
   useEffect(() => {
-    if (!init.current && rmContext && !rmState?.setChars) {
+    if (!init.current && rmContext && !rmState?.setter) {
       setRMState({ ...rmState, setter: setRMState, initd: true });
       console.log("Flux: --- rickmorty context loaded ---");
       init.current = true;

@@ -7,10 +7,10 @@ import { navigate } from "@decorators";
 
 // to-do: character type annotations
 interface VCharactersListProps {
-  characters: unknown;
+  characters: { results?: Record<any, unknown>[] };
 }
 
-type VListProps = VCharactersListProps | Record<any, unknown>;
+type VListProps = VCharactersListProps;
 
 export const VList = ({ characters }: VListProps) => {
   const rmContext = useContext(RMContext);
@@ -19,12 +19,12 @@ export const VList = ({ characters }: VListProps) => {
   const [, unloadChars] = AUnloadChars({});
   const initd = useRef(false);
 
-  const { characters: chars } = rmContext;
+  const { characters: chars }: { characters?: { name?: string }[] } = rmContext;
 
   useEffect(() => {
-    if (!isCharsLoaded && !initd.current) {
+    if (characters?.results && !isCharsLoaded && !initd.current) {
       loadChars({
-        characters: characters.results,
+        characters: characters.results as Record<any, unknown>[],
       });
       initd.current = true;
     }
@@ -33,7 +33,7 @@ export const VList = ({ characters }: VListProps) => {
   useEffect(() => {
     if (!isCharsLoaded) return;
     return unloadChars;
-  }, []);
+  }, [isCharsLoaded, unloadChars]);
 
   if (!authd || !characters) return;
 
@@ -42,9 +42,7 @@ export const VList = ({ characters }: VListProps) => {
   if (authd)
     return (
       <span>
-        {chars.map((char, i) => (
-          <div key={`${name}--${i}`}>{char.name}</div>
-        ))}
+        {chars?.map((char, i) => <div key={`${name}--${i}`}>{char?.name}</div>)}
       </span>
     );
 

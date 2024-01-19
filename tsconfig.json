@@ -23,6 +23,8 @@
       "@styles/*": ["./src/app/styles/*"],
       "@model": ["./lib/model"],
       "@model/*": ["./lib/model/*"],
+      "@types": ["./lib/types"],
+      "@types/*": ["./lib/types/*"],
       "@auth": ["./lib/auth"],
       "@auth/*": ["./lib/auth/*"],
       "@state/*": ["./lib/state/*"],

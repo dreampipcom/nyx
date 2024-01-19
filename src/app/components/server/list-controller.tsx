@@ -6,7 +6,8 @@ import { getRMCharacters } from "@model";
 import { RickMortyProvider } from "@state";
 
 export const CList = async () => {
-  const characters: unknown = await getRMCharacters();
+  const characters: { results?: Record<any, unknown>[] } =
+    await getRMCharacters();
   return (
     <RickMortyProvider>
       <VList characters={characters} />

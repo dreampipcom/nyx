@@ -1,5 +1,5 @@
 // rm-connector.ts
-
+// to-do: use prisma for graph type
 const CHARS = `
 query {
   characters() {
@@ -13,7 +13,7 @@ query {
 }
 `;
 
-async function fetchGraphQL(query) {
+async function fetchGraphQL(query: string) {
   return fetch(`https://rickandmortyapi.com/graphql`, {
     method: "POST",
     headers: {
@@ -27,7 +27,9 @@ async function fetchGraphQL(query) {
   }).then((response) => response.json());
 }
 
-export const getRMCharacters = async () => {
+export const getRMCharacters: () => Promise<
+  Record<any, unknown>
+> = async () => {
   const entries = await fetchGraphQL(CHARS);
   return entries.data.characters;
 };
