@@ -8,7 +8,7 @@ import { authOptions } from "@auth";
 // https://authjs.dev/reference/providers/oauth
 
 const finalAuth = {
-  adapter: MongoDBAdapter(MongoConnector),
+  adapter: MongoDBAdapter(MongoConnector, { databaseName: process.env.MONGODB_DATABASE || 'test'}),
   ...authOptions,
 };
 

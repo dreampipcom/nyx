@@ -4,7 +4,7 @@
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector } from "@model";
 
-type Tdbs = "test";
+type Tdbs = "test" | "auth";
 
 interface TModelSingleton {
   [x: string]: {

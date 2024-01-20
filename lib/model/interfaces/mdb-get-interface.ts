@@ -2,9 +2,9 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
-import { MongoConnector } from "@model";
+import { MongoConnector, DATABASE_STRING } from "@model";
 
-type Tdbs = "test";
+type Tdbs = "test" | "auth";
 
 interface TModelSingleton {
   [x: string]: {
@@ -40,10 +40,10 @@ const init =
     return _db;
   };
 
-init.test = init("test");
+init[DATABASE_STRING] = init(DATABASE_STRING);
 
 const getCollection =
-  async (_db = "test") =>
+  async (_db = DATABASE_STRING) =>
   async (_collection = "users") => {
     if (!init[_db].db) {
       const db = await init[_db]();
@@ -51,15 +51,15 @@ const getCollection =
     }
     const collection = await init[_db].db.collection(_collection);
     if (!init[_db].db) return new Error("db not reachable");
-    init["test"].collections = { ...init["test"].collections };
-    init["test"].collections[_collection] = collection;
+    init[DATABASE_STRING].collections = { ...init[DATABASE_STRING].collections };
+    init[DATABASE_STRING].collections[_collection] = collection;
     return collection;
   };
 
 const getUserCollection = async () => {
-  const col = await getCollection("test");
+  const col = await getCollection(DATABASE_STRING);
   const _col = await col("users");
-  init["test"].collections["users"] = _col;
+  init[DATABASE_STRING].collections["users"] = _col;
   return _col;
 };
 
@@ -79,7 +79,7 @@ const defineSchema =
   };
 
 const defineUserSchema = defineSchema({
-  db: "test",
+  db: DATABASE_STRING,
   collection: "users",
   schema: _UserSchema,
 });
