@@ -5,46 +5,64 @@ Authors: varsnothing aka Angelo Reale
 Why Libs:
 
 react
+
 ```
 react is an industry standard, that leverages a virtual dom to simulate user and server interactions, commiting those changes to the actual dom in the form of rendering abstractions, where nodes get hydrated with the latest state of an application
 ```
+
 react/context-api
+
 ```
 flux pattern is a great way to make sure any application running keeps a solid and reliable history of the actions taken by the user/server. i've tried to mimic this pattern, mostly used from tools like redux, using solely the context api, thus, breaking the state into different, isolated context/providers, and creating/enforcing a flux workflow to prevent state mismatches and unnecessary re-renders.
 ```
+
 nextjs
+
 ```
 it's a great and simple framework for creating csr/ssr/ssg/isr applications, with a syntax pragma that works really well with Vercel. a great tool i use for infrastructure at low/zero cost.
 ```
+
 nextauth
+
 ```
 it's the standard tool for simplifying auth flows in next.js
 ```
+
 typescript
+
 ```
 it helps with little bugs that may creep into a fast evolving app
 ```
+
 mongo
+
 ```
 flexible, easy to use with javascript, although with my implementation i've enforced a schema in a mongoose-esque way, to ensure there are less of the aforementioned TypeError bugs.
 ```
+
 nodemailer
+
 ```
 just a tool to send emails via node, useful for our passworldless login.
 ```
+
 clsx
+
 ```
 the tinies lib for adding business logic to css without any bootstrap, js-in-css or other jsx pragmas/css tools/preprocessors. i've used css modules for treeshaking and reducing bundle size.
 ```
+
 prettier
+
 ```
 nice to keep the code clean and consistent when it comes to syntax
 ```
+
 eslint
+
 ```
 good to catch multiple types of dark patterns.
 ```
-
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

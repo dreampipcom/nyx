@@ -2,7 +2,8 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
-import { MongoConnector, DATABASE_STRING } from "@model";
+import { MongoConnector } from "@model";
+import { DATABASE_STRING as databaseName } from "./constants";
 
 type Tdbs = "test" | "auth";
 
@@ -40,26 +41,30 @@ const init =
     return _db;
   };
 
-init[DATABASE_STRING] = init(DATABASE_STRING);
+// to-do: singleton + mutex
+const _init = {
+  [databaseName]: init(databaseName),
+};
+// _init[databaseName] = init(databaseName);
 
 const getCollection =
-  async (_db = DATABASE_STRING) =>
+  async (_db = databaseName) =>
   async (_collection = "users") => {
-    if (!init[_db].db) {
-      const db = await init[_db]();
-      init[_db].db = db;
+    if (!_init[_db].db) {
+      const db = await _init[_db]();
+      _init[_db].db = db;
     }
-    const collection = await init[_db].db.collection(_collection);
-    if (!init[_db].db) return new Error("db not reachable");
-    init[DATABASE_STRING].collections = { ...init[DATABASE_STRING].collections };
-    init[DATABASE_STRING].collections[_collection] = collection;
+    const collection = await _init[_db].db.collection(_collection);
+    if (!_init[_db].db) return new Error("db not reachable");
+    _init[databaseName].collections = { ..._init[databaseName].collections };
+    _init[databaseName].collections[_collection] = collection;
     return collection;
   };
 
 const getUserCollection = async () => {
-  const col = await getCollection(DATABASE_STRING);
+  const col = await getCollection(databaseName);
   const _col = await col("users");
-  init[DATABASE_STRING].collections["users"] = _col;
+  _init[databaseName].collections["users"] = _col;
   return _col;
 };
 
@@ -79,17 +84,17 @@ const defineSchema =
   };
 
 const defineUserSchema = defineSchema({
-  db: DATABASE_STRING,
+  db: databaseName,
   collection: "users",
   schema: _UserSchema,
 });
 
-const initSchemas = async () => {
+const _initSchemas = async () => {
   await defineUserSchema();
 };
 
 // migrations: uncomment this line to enforce schemas
-// initSchemas();
+// _initSchemas();
 
 /* public */
 export const getUserMeta = async ({

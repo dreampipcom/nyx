@@ -3,7 +3,7 @@
 /* mdb-ifaces */
 
 /* const */
-export { DATABASE_STRING } from "./constants"
+export { DATABASE_STRING } from "./constants";
 
 // read
 export { getUserMeta } from "./mdb-get-interface";

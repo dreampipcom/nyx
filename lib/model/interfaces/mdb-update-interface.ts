@@ -3,8 +3,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector } from "@model";
+import { DATABASE_STRING as databaseName } from "./constants";
 
-type Tdbs = "test" | "auth";
+type Tdbs = databaseName | "test";
 
 interface TModelSingleton {
   [x: string]: {
@@ -40,26 +41,29 @@ const init =
     return _db;
   };
 
-init.test = init("test");
+// to-do: singleton + mutex
+const _init = {
+  [databaseName]: init(databaseName),
+};
 
 const getCollection =
-  async (_db = "test") =>
+  async (_db = databaseName) =>
   async (_collection = "users") => {
-    if (!init[_db].db) {
-      const db = await init[_db]();
-      init[_db].db = db;
+    if (!_init[_db].db) {
+      const db = await _init[_db]();
+      _init[_db].db = db;
     }
-    const collection = await init[_db].db.collection(_collection);
-    if (!init[_db].db) return new Error("db not reachable");
-    init["test"].collections = { ...init["test"].collections };
-    init["test"].collections[_collection] = collection;
+    const collection = await _init[_db].db.collection(_collection);
+    if (!_init[_db].db) return new Error("db not reachable");
+    _init[databaseName].collections = { ..._init[databaseName].collections };
+    _init[databaseName].collections[_collection] = collection;
     return collection;
   };
 
 const getUserCollection = async () => {
-  const col = await getCollection("test");
+  const col = await getCollection(databaseName);
   const _col = await col("users");
-  init["test"].collections["users"] = _col;
+  _init[databaseName].collections["users"] = _col;
   return _col;
 };
 
