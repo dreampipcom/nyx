@@ -1,4 +1,5 @@
-License: CC-BY varsnothing
+License: © Purizu di Angelo Reale
+Authors: varsnothing aka Angelo Reale
 
 Why Libs:
 
