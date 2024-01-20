@@ -6,8 +6,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The Rick and Morty App",
-  description: "Your really nice app",
+  title: process.env.PATTERNS_TITLE,
+  description: process.env.PATTERNS_DESCRIPTION,
 };
 
 export default function RootLayout({

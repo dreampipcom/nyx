@@ -8,7 +8,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 const uri = process.env.MONGODB_URI;
-const options = {};
+const options = { databaseName: 'auth' };
 
 let client;
 let clientPromise: Promise<MongoClient>;
