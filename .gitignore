@@ -37,3 +37,6 @@ next-env.d.ts
 
 # modules
 .gitmodules
+
+# private
+.private
