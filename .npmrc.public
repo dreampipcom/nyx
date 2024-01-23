@@ -1,0 +1,8 @@
+# .npmrc.public
+
+; default: npm registry
+//registry.npmjs.org/
+
+; private-repos
+ORGANIZATION_NAME:nexus=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=
