@@ -72,7 +72,9 @@ const _initSchemas = async () => {
 };
 
 // migrations: uncomment this line to enforce schemas
-// _initSchemas();
+if (process.env.NEXUS_SCHEMA === 'true') {
+  _initSchemas();
+}
 
 const getCollection =
   async (_db = databaseName) =>
