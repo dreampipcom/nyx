@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "author": "varsnothing",
+  "license": "copyright",
   "scripts": {
+    "dev:schema": "NEXUS_SCHEMA=true next dev",
     "dev": "next dev",
     "build": "next build",
+    "start:schema": "NEXUS_SCHEMA=true next start",
     "start": "next start",
     "lint": "next lint",
     "format": "next lint && prettier --check --ignore-path .gitignore .",
