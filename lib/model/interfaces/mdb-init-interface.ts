@@ -4,7 +4,7 @@ import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector } from "@model";
 import { DATABASE_STRING as databaseName } from "./constants";
 
-type Tdbs = "test" | "auth";
+type Tdbs = "nexus" | "organizations" | "test";
 
 interface TModelSingleton {
   [x: string]: {
@@ -24,8 +24,16 @@ const _UserSchema: UserDecoration = {
   },
 };
 
+const _OrgSchema: UserDecoration = {
+  rickmorty: {
+    favorites: {
+      characters: [] as INCharacter["id"][],
+    },
+  },
+};
+
 /* private */
-const getDB = (name: Tdbs) => async () => {
+const getDB = (name: Tdbs | unknown) => async () => {
   const conn = await MongoConnector;
   const db = await conn.db(name);
   return db;
@@ -41,9 +49,15 @@ const init =
   };
 
 // to-do: singleton + mutex
-const _init = {
-  [databaseName]: init(databaseName),
+const __init = {
+  [userDatabaseName || databaseName]: init(userDatabaseName || databaseName),
 };
+
+const _init = !orgsDatabaseName ? __init : {
+  ...__init,
+  [orgsDatabaseName]: init(orgsDatabaseName),
+};
+
 // _init[databaseName] = init(databaseName);
 
 /** ORM **/
@@ -56,19 +70,27 @@ const defineSchema =
       { $set: schema },
       { upsert: true },
     );
-    console.log("----- db op success! ------", {
+    console.log("----- db init:schema success! ------", {
       result: JSON.stringify(result),
     });
   };
 
 const defineUserSchema = defineSchema({
-  db: databaseName,
+  db: userDatabaseName || databaseName,
   collection: "users",
   schema: _UserSchema,
 });
 
+const defineOrgSchema = defineSchema({
+  db: orgsDatabaseName || databaseName,
+  collection: "orgs",
+  schema: _OrgSchema,
+});
+
 const _initSchemas = async () => {
   await defineUserSchema();
+  // to-do: write org schema enforcement logic 
+  // await defineOrgSchema();
 };
 
 // migrations: uncomment this line to enforce schemas
