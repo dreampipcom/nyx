@@ -11,6 +11,7 @@ if (!process.env.MONGODB_URI) {
 const full_uri = process.env.MONGODB_URI
 const uri_arr = full_uri.split("?")
 const uri = uri_arr[0]
+const domain = uri.split("@")[1]
 const params = "?" + uri_arr[1]
 
 const options = {};
@@ -41,7 +42,7 @@ log({
   action: "init",
   verb: "connect",
   status: "connecting-to",
-  message: dest
+  message: domain
 })
 
 return clientPromise

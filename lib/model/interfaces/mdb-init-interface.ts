@@ -73,12 +73,13 @@ const _UserSchema: UserDecoration = {
 };
 
 const _OrgSchema: UserDecoration = {
-  rickmorty_org: {
+  name: "demo",
+  members: [],
+  rickmorty_meta: {
     favorites: {
       characters: [] as INCharacter["id"][],
     },
   },
-  members: []
 };
 
 /* private */
@@ -112,6 +113,7 @@ if (!process.env.NEXUS_MODE !== 'full') {
  _init[orgsDatabaseName] = init(orgsDatabaseName)
 }
 
+/* to-do: oplog + garbage collection */
 _init.history = []
 _init.collectGarbage = () => {
   _init.history = [..._init.history, ...messageQueue]
@@ -198,10 +200,42 @@ const defineOrgSchema = defineSchema({
   schema: _OrgSchema,
 }, getOrgCollection);
 
+const defineRelations = async () => {
+  const oCollection = await getOrgCollection();
+  const uCollection = await getUserCollection();
+
+
+  /* get demo org */
+  const demoOrg = await oCollection.findOne({ name: "demo" })
+
+  //const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
+  const _userQuerySchema = { organizations: demoOrg }
+
+  /* users -> org relations */
+
+
+  /* IMPORTANT: to-do: extract method to add to org */
+  const userQuerySchema = {
+  db: userDatabaseName || databaseName,
+  collection: "users",
+  schema: _userQuerySchema,
+  }
+
+  const result = uCollection.updateMany(
+      {},
+      { $push: _userQuerySchema },
+      { upsert: true },
+    )
+
+  messageQueue.update({ action: 'schema-enforcing', verb: 'relations', status: 'done', message: `${userDatabaseName}|"users"` });
+}
+
 const _initSchemas = async () => {
-  await defineUserSchema();
-  // to-do: write org schema enforcement logic 
+  // IMPORTANT: to-do; work on race conditions; the backwards upsert schema enforcing is the way
+  await defineUserSchema(); 
   await defineOrgSchema();
+
+  await defineRelations();
 };
 
 // migrations: add this env var and set it to 'true' to enforce schemas
