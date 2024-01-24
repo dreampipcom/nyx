@@ -5,6 +5,8 @@ on:
     branches:
       - dev
       - dev/*
+      - main
+      - main/*
 
 jobs:
   run-build:
