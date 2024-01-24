@@ -36,8 +36,6 @@ if (process.env.MONGODB_USERS_DATABASE) {
 DATABASE_USERS_STRING = usersDatabase || nexusDatabase;
 DATABASE_ORGS_STRING = orgsDatabase || nexusDatabase;
 
-console.log(" CONST IS ", DATABASE_USERS_STRING)
-
 export { 
   /* __default__ */
   nexusDatabase as DATABASE_STRING,

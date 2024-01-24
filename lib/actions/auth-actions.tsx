@@ -11,6 +11,8 @@ import type {
   IPayload,
 } from "@types";
 
+import { createLogMessage, fluxLog as log } from '@log'
+
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext, LogContext } from "@state";
 
@@ -22,9 +24,9 @@ const CreateAction: ICreateAction =
   ({ cb }: IAction) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
-    const createStatusStr = () => {
-      return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
-    };
+    // const createLogMessage = () => {
+    //   return `%c Flux: --- action / ${type} / ${action} / ${verb} / ${s_current.current}|${message.current} ---`;
+    // };
     // to-do: abstract from auth context (link to ticket)
     const _context: ISupportedContexts =
       useContext<ISupportedContexts>(context);
@@ -36,7 +38,7 @@ const CreateAction: ICreateAction =
     const to_call = useRef<IDispatch>(noop);
     const status = useRef<IStatus>({
       current: s_current.current,
-      str: createStatusStr(),
+      str: createLogMessage(),
       ok: undefined,
     });
     const payload = useRef<IPayload>();
@@ -45,15 +47,21 @@ const CreateAction: ICreateAction =
     const updateStatus = (
       { ok }: { ok: boolean | undefined } = { ok: undefined },
     ) => {
+      const _status = {
+        category: 'flux',
+        type, 
+        action,
+        verb,
+        message: message.current,
+        status: s_current?.current,
+      }
+      const str = createLogMessage(_status)
       status.current = {
-        str: createStatusStr(),
+        str,
         ok,
         current: s_current.current,
       };
-      console.log(
-        status?.current.str,
-        `background: #1f1f1f; color: ${s_current.current.includes("error") ? "error" : s_current.current.includes("idle") ? "yellow" : "green"};`,
-      );
+      log(_status);
     };
 
     const cancel = () => {

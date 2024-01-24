@@ -8,7 +8,9 @@ import {
   DATABASE_ORGS_STRING as orgsDatabaseName,
 } from "./constants";
 
-console.log("---- USER DATABASE IS : ", userDatabaseName)
+import { dbLog } from '@log'
+
+//console.log(dbLog)
 
 type Tdbs = "nexus" | "organizations" | "test";
 
@@ -20,6 +22,45 @@ interface TModelSingleton {
 }
 
 /* to-do: database connection logs and error handling */
+const messageQueue = []
+const messageState = {}
+
+messageQueue.addToQueue = ({ action, verb, status, message }) => {
+
+  const log = { 
+  type: 'db',
+  action: action || messageState.action,
+  verb: verb || messageState.verb,
+  status: status || messageState.statusM,
+  message: message || messageState.message,
+}
+
+  const entry = dbLog(log)
+  messageQueue.push(log)
+}
+
+messageQueue.update = (payload) => {
+  const { action, verb, status, message } = payload
+  messageState.action = action || messageState.action
+  messageState.verb = verb || messageState.verb
+  messageState.stausM = status || messageState.status
+  messageState.message = message || messageState.message
+
+  messageQueue.addToQueue({ action, verb, status, message })
+}
+
+messageQueue.throw = (e) => {
+  messageQueue.update({ status: "error", message: e })
+}
+
+messageQueue.safeAction = (func) => {
+  try {
+    return func()
+  } catch (e) {
+    messageQueue.throw(e)
+  }
+}
+
 
 /* schemas */
 const _UserSchema: UserDecoration = {
@@ -40,22 +81,24 @@ const _OrgSchema: UserDecoration = {
 
 /* private */
 const getDB = (name: Tdbs | unknown) => async () => {
-  console.log("---- USER DATABASE IS : ", userDatabaseName)
-  console.log(`---- db init:connecting-to:${name} ----`, setDb)
+  return await messageQueue.safeAction(async () => {
+  messageQueue.update({ action: 'init', verb: 'database', status: 'connecting', message: name })
   const conn = await MongoConnector;
   const db_conn = await setDb(name);
   const db = await db_conn.db(name)
   return db;
+  })
 };
 
 const init =
   (db: Tdbs): (() => Promise<Db>) =>
   async (): TModelSingleton => {
-    console.log("init to ", db)
-    const _getDB = getDB(db);
-    const _db = await _getDB();
-    console.log(`---- db init:create/load:${db}  success ----`, { _db })
-    return _db;
+    return await messageQueue.safeAction(async () => {
+      const _getDB = getDB(db);
+      const _db = await _getDB();
+      messageQueue.update({ status: 'loading', message: db })
+      return _db;
+    })
   };
 
 // to-do: singleton + mutex
@@ -67,18 +110,24 @@ if (!process.env.NEXUS_MODE !== 'full') {
  _init[orgsDatabaseName] = init(orgsDatabaseName)
 }
 
+_init.history = []
+_init.collectGarbage = () => {
+  _init.history = [..._init.history, ...messageQueue]
+}
+
 // _init[databaseName] = init(databaseName);
 
 const getCollection =
   async (_db = databaseName) =>
   async (_collection = "users") => {
-    console.log("DB NAME IS SET TO: ", databaseName)
+    return messageQueue.safeAction(async () => {
+    messageQueue.update({ action: 'init', verb: 'collection', status: 'loading', message: `${_db}|${_collection}` })
     if (!_init[_db].db) {
       const db = await _init[_db]();
       _init[_db].db = db;
     }
     const collection = await _init[_db].db.collection(_collection);
-    if (!_init[_db].db) return new Error("db not reachable");
+    if (!_init[_db].db) return messageQueue.throw("error connecting to db");
 
     /* init-collections */
     _init[_db].collections = { ..._init[_db].collections };
@@ -86,38 +135,46 @@ const getCollection =
 
 
     return collection;
+    })
   };
 
 /* public methods */
 
 const getUserCollection = async () => {
+  return messageQueue.safeAction(async () => {
   const col = await getCollection(userDatabaseName);
   const _col = await col("users");
   _init[userDatabaseName].collections["users"] = _col;
+  
+  messageQueue.update({ verb: 'collection', status: 'ready', message: `${userDatabaseName}|"users"` })
+
   return _col;
+  })
 };
 
 const getOrgCollection = async () => {
-  console.log(" ORGS DB IS :", orgsDatabaseName)
+    return messageQueue.safeAction(async () => {
   const col = await getCollection(orgsDatabaseName);
   const _col = await col("organizations");
   _init[orgsDatabaseName].collections["organizations"] = _col;
+
+  messageQueue.update({ verb: 'collection', status: 'ready', message: `${orgsDatabaseName}|"organizations"` })
   return _col;
+})
 };
 
 /** ORM **/
 const defineSchema =
-  ({ schema }, getOneCollection) =>
+  ({ schema, db, collection: collectionName }, getOneCollection) =>
   async () => {
+    /* add safe actions */
     const collection = await getOneCollection();
     const result = collection.updateMany(
       {},
       { $set: schema },
       { upsert: true },
     );
-    console.log("----- db init:schema success! ------", {
-      result: JSON.stringify(result),
-    });
+    messageQueue.update({ action: 'schema-enforcing', verb: 'collection', status: 'done', message: `${db}|"${collectionName}"` });
   };
 
 const defineUserSchema = defineSchema({
