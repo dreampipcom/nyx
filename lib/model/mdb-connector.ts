@@ -47,11 +47,11 @@ const genPromise = (name = "") => {
   return clientPromise;
 };
 
-genPromise();
+clientPromise = genPromise();
 
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
-export const _setDb = async (db) => {
+export const _setDb = async (db: string) => {
   return genPromise(db);
 };
 export default clientPromise;

@@ -1,4 +1,5 @@
 // helpers.ts
+import type { ILogContext } from "@types";
 
 export const createStatusStr = ({
   category,
@@ -8,7 +9,7 @@ export const createStatusStr = ({
   status,
   message,
   context,
-} = {}) => {
+}: ILogContext = {}) => {
   const str = `((${category})): --- action / ${type} / ${action} / ${verb} / ${status}|${message} ---`;
   switch (context) {
     case "client": {
@@ -23,10 +24,13 @@ export const createStatusStr = ({
       const str_col = "\x1b[1;31m" + color + str + "\x1b[0m";
       return str_col;
     }
+    default: {
+      return "%c " + str;
+    }
   }
 };
 
-export const dbLog = ({ type, action, verb, status, message }) => {
+export const dbLog = ({ type, action, verb, status, message }: ILogContext) => {
   const category = "database";
   console.log(
     createStatusStr({
@@ -41,7 +45,13 @@ export const dbLog = ({ type, action, verb, status, message }) => {
   );
 };
 
-export const fluxLog = ({ type, action, verb, status, message }) => {
+export const fluxLog = ({
+  type,
+  action,
+  verb,
+  status,
+  message,
+}: ILogContext) => {
   const category = "react-flux";
   const str = createStatusStr({
     category,
@@ -58,7 +68,7 @@ export const fluxLog = ({ type, action, verb, status, message }) => {
   );
 };
 
-export const log = (str) =>
+export const log = (str: string) =>
   console.log(
     str,
     `background: ${str.includes("db") ? "cyan" : "#1f1f1f"}; color: ${str.includes("error") ? "error" : str.includes("idle") ? "yellow" : "green"};`,

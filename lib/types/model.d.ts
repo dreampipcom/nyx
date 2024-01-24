@@ -10,11 +10,25 @@ export { User };
 
 /* nexus db */
 export interface UserDecoration {
-  _id: ObjectID /* uid */;
-  username: string;
-  bio: string;
+  _id?: ObjectID /* uid */;
+  /* temp optional */
+  username?: string;
+  bio?: string;
   organizations: DUserOrgAmbiRelation[];
   rickmorty: {
+    favorites: {
+      characters: INCharacter["id"][];
+    };
+  };
+}
+
+export interface OrgDecoration {
+  _id?: ObjectID /* uid */;
+  /* temp optional */
+  name?: string;
+  bio?: string;
+  members: DUserOrgAmbiRelation[];
+  rickmorty_meta: {
     favorites: {
       characters: INCharacter["id"][];
     };

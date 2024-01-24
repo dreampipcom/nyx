@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // mdb-init-interface.ts
-import type { UserSchema, INCharacter, UserDecoration } from "@types";
+import type {
+  UserSchema,
+  INCharacter,
+  UserDecoration,
+  OrgDecoration,
+  ILogger,
+  ILogContext,
+} from "@types";
 import { MongoConnector, setDb } from "@model";
 import {
   DATABASE_STRING as databaseName,
@@ -12,25 +19,31 @@ import { dbLog } from "@log";
 
 // console.log(dbLog)
 
-type Tdbs = "nexus" | "organizations" | "test";
+// we can get more specific later
+type Tdbs = "nexus" | "organizations" | "test" | string;
 
-interface TModelSingleton {
+interface IDBGeneric {
   [x: string]: {
     db: unknown;
     collection: unknown;
   };
 }
 
-/* to-do: database connection logs and error handling */
-const messageQueue = [];
-const messageState = {};
+type TDBModel = IDBGeneric & {
+  history: ILogContext[];
+  collectGarbage: () => void;
+};
 
-messageQueue.addToQueue = ({ action, verb, status, message }) => {
-  const log = {
+/* to-do: database connection logs and error handling */
+const messageQueue: ILogger = [] as unknown as ILogger;
+const messageState: ILogContext = {};
+
+messageQueue.addToQueue = ({ action, verb, status, message }: ILogContext) => {
+  const log: ILogContext = {
     type: "db",
     action: action || messageState.action,
     verb: verb || messageState.verb,
-    status: status || messageState.statusM,
+    status: status || messageState.status,
     message: message || messageState.message,
   };
 
@@ -38,25 +51,30 @@ messageQueue.addToQueue = ({ action, verb, status, message }) => {
   messageQueue.push(log);
 };
 
-messageQueue.update = (payload) => {
+messageQueue.update = (payload: ILogContext) => {
   const { action, verb, status, message } = payload;
   messageState.action = action || messageState.action;
   messageState.verb = verb || messageState.verb;
-  messageState.stausM = status || messageState.status;
+  messageState.status = status || messageState.status;
   messageState.message = message || messageState.message;
 
   messageQueue.addToQueue({ action, verb, status, message });
 };
 
-messageQueue.throw = (e) => {
-  messageQueue.update({ status: "error", message: e });
+messageQueue.throw = (e: string) => {
+  const ms = (e as string) || "";
+  messageQueue.update({ status: "error", message: ms });
 };
 
-messageQueue.safeAction = (func) => {
+messageQueue.safeAction = (func: any) => {
   try {
     return func();
   } catch (e) {
-    messageQueue.throw(e);
+    if (typeof e === "string") {
+      messageQueue.throw(e);
+    } else {
+      messageQueue.throw(JSON.stringify(e));
+    }
   }
 };
 
@@ -70,7 +88,7 @@ const _UserSchema: UserDecoration = {
   organizations: [],
 };
 
-const _OrgSchema: UserDecoration = {
+const _OrgSchema: OrgDecoration = {
   name: "demo",
   members: [],
   rickmorty_meta: {
@@ -81,13 +99,13 @@ const _OrgSchema: UserDecoration = {
 };
 
 /* private */
-const getDB = (name: Tdbs | unknown) => async () => {
+const getDB = (name: Tdbs) => async () => {
   return await messageQueue.safeAction(async () => {
     messageQueue.update({
       action: "init",
       verb: "database",
       status: "connecting",
-      message: name,
+      message: name || "",
     });
     const conn = await MongoConnector;
     const db_conn = await setDb(name);
@@ -97,27 +115,28 @@ const getDB = (name: Tdbs | unknown) => async () => {
 };
 
 const init =
-  (db: Tdbs): (() => Promise<Db>) =>
-  async (): TModelSingleton => {
-    return await messageQueue.safeAction(async () => {
+  (db: Tdbs): (() => any) =>
+  async (): Promise<any> => {
+    return (await messageQueue.safeAction(async () => {
       const _getDB = getDB(db);
       const _db = await _getDB();
       messageQueue.update({ status: "loading", message: db });
       return _db;
-    });
+    })) as IDBGeneric;
   };
 
 // to-do: singleton + mutex
-const _init = {
+// to tired to figure this any now
+const _init: any = {
   [userDatabaseName || databaseName]: init(userDatabaseName || databaseName),
 };
 
-if (!process.env.NEXUS_MODE !== "full") {
+if (process.env.NEXUS_MODE === "full") {
   _init[orgsDatabaseName] = init(orgsDatabaseName);
 }
 
 /* to-do: oplog + garbage collection */
-_init.history = [];
+_init.history = [] as unknown as ILogContext[];
 _init.collectGarbage = () => {
   _init.history = [..._init.history, ...messageQueue];
 };
@@ -190,7 +209,18 @@ const createSchemaQuery = () => {
 };
 
 const defineSchema =
-  ({ schema, db, collection: collectionName }, getOneCollection) =>
+  (
+    {
+      schema,
+      db,
+      collection: collectionName,
+    }: {
+      schema: UserDecoration | OrgDecoration;
+      db: string;
+      collection: string;
+    },
+    getOneCollection: () => any,
+  ) =>
   async () => {
     /* add safe actions */
     const collection = await getOneCollection();
