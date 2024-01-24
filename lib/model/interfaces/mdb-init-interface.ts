@@ -206,7 +206,7 @@ const _initSchemas = async () => {
 
 // migrations: add this env var and set it to 'true' to enforce schemas
 // or run yarn dev:schema (local), start:schema (CI)
-if (true || process.env.NEXUS_SCHEMA === 'true') {
+if (process.env.NEXUS_SCHEMA === 'true') {
   _initSchemas();
 }
 
