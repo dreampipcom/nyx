@@ -1,9 +1,15 @@
 // index.ts TS-Doc?
 
 /* mdb */
-import clientPromise from "./mdb-connector";
+import clientPromise, { _setDb } from "./mdb-connector";
 export const MongoConnector = clientPromise;
-export { DATABASE_STRING } from "./interfaces";
+export const setDb = _setDb;
+
+export { 
+DATABASE_STRING,
+DATABASE_USERS_STRING,
+DATABASE_ORGS_STRING 
+} from "./interfaces";
 
 /* rm-decorators */
 export { decorateRMCharacters } from "./decorators";
