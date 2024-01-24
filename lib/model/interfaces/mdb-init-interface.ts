@@ -164,6 +164,13 @@ const getOrgCollection = async () => {
 };
 
 /** ORM **/
+
+// to-do: to enforce on existing docs (not on insert only)
+const createSchemaQuery = () => {
+ // use $exists: false
+}
+
+
 const defineSchema =
   ({ schema, db, collection: collectionName }, getOneCollection) =>
   async () => {
@@ -171,7 +178,7 @@ const defineSchema =
     const collection = await getOneCollection();
     const result = collection.updateMany(
       {},
-      { $set: schema },
+      { $setOnInsert: schema },
       { upsert: true },
     );
     messageQueue.update({ action: 'schema-enforcing', verb: 'collection', status: 'done', message: `${db}|"${collectionName}"` });
