@@ -11,7 +11,7 @@ import type {
   IPayload,
 } from "@types";
 
-import { createLogMessage, fluxLog as log } from '@log'
+import { createLogMessage, fluxLog as log } from "@log";
 
 import { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext, RMContext, LogContext } from "@state";
@@ -48,14 +48,14 @@ const CreateAction: ICreateAction =
       { ok }: { ok: boolean | undefined } = { ok: undefined },
     ) => {
       const _status = {
-        category: 'flux',
-        type, 
+        category: "flux",
+        type,
         action,
         verb,
         message: message.current,
         status: s_current?.current,
-      }
-      const str = createLogMessage(_status)
+      };
+      const str = createLogMessage(_status);
       status.current = {
         str,
         ok,
