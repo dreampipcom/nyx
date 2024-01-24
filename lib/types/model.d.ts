@@ -33,6 +33,8 @@ export enum EUserOrgRoles {
 export interface DUserOrgAmbiRelation {
   role: EUserOrgRoles[];
   _id: ObjectID /* uid */;
+  org: string;
+  name: string;
 }
 
 export type IAddress = PostalAddress;

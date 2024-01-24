@@ -69,6 +69,7 @@ const _UserSchema: UserDecoration = {
       characters: [] as INCharacter["id"][],
     },
   },
+  organizations: []
 };
 
 const _OrgSchema: UserDecoration = {
@@ -77,6 +78,7 @@ const _OrgSchema: UserDecoration = {
       characters: [] as INCharacter["id"][],
     },
   },
+  members: []
 };
 
 /* private */
@@ -165,7 +167,7 @@ const getOrgCollection = async () => {
 
 /** ORM **/
 
-// to-do: to enforce on existing docs (not on insert only)
+// IMPORTANT: to-do: to enforce on existing docs (not on insert only)
 const createSchemaQuery = () => {
  // use $exists: false
 }
@@ -178,7 +180,7 @@ const defineSchema =
     const collection = await getOneCollection();
     const result = collection.updateMany(
       {},
-      { $setOnInsert: schema },
+      { $set: schema },
       { upsert: true },
     );
     messageQueue.update({ action: 'schema-enforcing', verb: 'collection', status: 'done', message: `${db}|"${collectionName}"` });
