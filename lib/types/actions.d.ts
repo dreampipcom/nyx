@@ -1,7 +1,13 @@
 // actions.d.ts
 import type { Context } from "react";
-export type ActionT = "login" | "logout" | "hydrate" | "update_db";
-export type ActionTypes = "auth" | "rickmorty";
+export type ActionT =
+  | "init"
+  | "login"
+  | "logout"
+  | "hydrate"
+  | "update_db"
+  | "schema-enforcing";
+export type ActionTypes = "init" | "auth" | "rickmorty" | string;
 export type ActionAuthNames =
   | "load user"
   | "unload user"
@@ -10,12 +16,29 @@ export type ActionAuthNames =
   | "decorate characters"
   | "add char to favorites";
 
+export type ActionDBNames = "database" | "collection" | "relations" | "connect";
+
 export type ISupportedContexts = IAuthContext | IRMContext | ILogContext;
 
-export interface IActionBack {
+export interface ILogContext {
   action?: ActionT;
   type?: ActionTypes;
-  verb?: ActionAuthNames;
+  verb?: ActionAuthNames | ActionDBNames;
+  status?: string;
+  message?: string;
+  category?: string;
+  context?: string;
+}
+
+export interface ILogger extends Array<ILogContext> {
+  /* should specify later */
+  addToQueue: (args: ILogContext) => void;
+  update: (args: ILogContext) => void;
+  safeAction: (func: any) => any;
+  throw: (err: string) => void;
+}
+
+export interface IActionBack extends ILogContext {
   context: Context<ISupportedContexts>;
 }
 

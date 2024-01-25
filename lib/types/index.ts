@@ -10,7 +10,7 @@ export type {
 } from "./contexts";
 
 // model
-export type { UserSchema, User, UserDecoration } from "./model";
+export type { UserSchema, User, UserDecoration, OrgDecoration } from "./model";
 
 // actions
 export type {
@@ -30,4 +30,6 @@ export type {
   IPayload,
   IDispatch,
   IDispatchPayload,
+  ILogContext,
+  ILogger,
 } from "./actions";

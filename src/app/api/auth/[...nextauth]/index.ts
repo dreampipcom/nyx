@@ -1,7 +1,7 @@
 // index.ts
 
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import { MongoConnector, DATABASE_STRING } from "@model";
+import { MongoConnector, DATABASE_USERS_STRING } from "@model";
 import { authOptions } from "@auth";
 
 // For more information on each option (and a full list of options) go to
@@ -9,7 +9,7 @@ import { authOptions } from "@auth";
 
 const finalAuth = {
   adapter: MongoDBAdapter(MongoConnector, {
-    databaseName: DATABASE_STRING,
+    databaseName: DATABASE_USERS_STRING,
   }),
   ...authOptions,
 };
