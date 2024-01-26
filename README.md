@@ -2,7 +2,18 @@ License: © Purizu di Angelo Reale
 
 Authors: varsnothing aka Angelo Reale
 
-Why Libs:
+This repo is just an exercise on some engineering design patterns. I've used Next.js new pragma (App Router) to apply them, so that I could also learn that new way of using Next.js.
+
+I didn't use Co-Pilot, nor ChatGPT. I use Sublime and Tmux. What is auto-suggestion and intelli-sense?
+
+After a few weeks without coding, I have to say I should have been less eager to try so many new things/technologies/patterns in such a short timeframe, as that has definitely impacted my velocity and workflow. Also, TypeScript can slow things down when I'm out of stretch.
+
+Nonetheless, I think I had a good opportunity to use a few of the things I like the most (DRY, YAGNI, KISS, SOLID, MVC, Singleton, Decorator, Curry, Flux, Interface, Gateway and other patterns). At the end I even thought of using Mutex for optimization on the context, but maybe next time.
+
+I'm looking for a new job, and you can check my CV / book some time with me here: https://angeloreale.com
+
+
+Why Libs?
 
 react
 
