@@ -10,10 +10,14 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-    EmailProvider({
-      server: process.env.EMAIL_SERVER as string,
-      from: process.env.EMAIL_FROM as string,
-      // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
+    // EmailProvider({
+    //   server: process.env.EMAIL_SERVER as string,
+    //   from: process.env.EMAIL_FROM as string,
+    //   // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
+    // }),
+    InstagramProvider({
+    clientId: process.env.INSTAGRAM_CLIENT_ID,
+    clientSecret: process.env.INSTAGRAM_CLIENT_SECRET
     }),
     // ...add more providers here
   ],
