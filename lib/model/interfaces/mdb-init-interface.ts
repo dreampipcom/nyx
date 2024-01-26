@@ -35,45 +35,45 @@ type TDBModel = IDBGeneric & {
 };
 
 /* to-do: database connection logs and error handling */
-const messageQueue: ILogger = [] as unknown as ILogger;
+export const oplog: ILogger = [] as unknown as ILogger;
 const messageState: ILogContext = {};
 
-messageQueue.addToQueue = ({ action, verb, status, message }: ILogContext) => {
+oplog.addToQueue = ({ action, verb, status, message }: ILogContext) => {
   const log: ILogContext = {
-    type: "db",
-    action: action || messageState.action,
+    type: "mongodb",
+    action: "database",
     verb: verb || messageState.verb,
     status: status || messageState.status,
     message: message || messageState.message,
   };
 
   const entry = dbLog(log);
-  messageQueue.push(log);
+  oplog.push(log);
 };
 
-messageQueue.update = (payload: ILogContext) => {
+oplog.update = (payload: ILogContext) => {
   const { action, verb, status, message } = payload;
   messageState.action = action || messageState.action;
   messageState.verb = verb || messageState.verb;
   messageState.status = status || messageState.status;
   messageState.message = message || messageState.message;
 
-  messageQueue.addToQueue({ action, verb, status, message });
+  oplog.addToQueue({ action, verb, status, message });
 };
 
-messageQueue.throw = (e: string) => {
+oplog.throw = (e: string) => {
   const ms = (e as string) || "";
-  messageQueue.update({ status: "error", message: ms });
+  oplog.update({ status: "error", message: ms });
 };
 
-messageQueue.safeAction = (func: any) => {
+oplog.safeAction = (func: any) => {
   try {
     return func();
   } catch (e) {
     if (typeof e === "string") {
-      messageQueue.throw(e);
+      oplog.throw(e);
     } else {
-      messageQueue.throw(JSON.stringify(e));
+      oplog.throw(JSON.stringify(e));
     }
   }
 };
@@ -100,16 +100,20 @@ const _OrgSchema: OrgDecoration = {
 
 /* private */
 const getDB = (name: Tdbs) => async () => {
-  return await messageQueue.safeAction(async () => {
-    messageQueue.update({
-      action: "init",
-      verb: "database",
-      status: "connecting",
+  return await oplog.safeAction(async () => {
+    oplog.update({
+      verb: "connecting to database",
+      status: "init:active",
       message: name || "",
     });
     const conn = await MongoConnector;
     const db_conn = await setDb(name);
     const db = await db_conn.db(name);
+    oplog.update({
+      verb: "connected to database",
+      status: "init:ready",
+      message: name || "",
+    });
     return db;
   });
 };
@@ -117,10 +121,9 @@ const getDB = (name: Tdbs) => async () => {
 const init =
   (db: Tdbs): (() => any) =>
   async (): Promise<any> => {
-    return (await messageQueue.safeAction(async () => {
+    return (await oplog.safeAction(async () => {
       const _getDB = getDB(db);
       const _db = await _getDB();
-      messageQueue.update({ status: "loading", message: db });
       return _db;
     })) as IDBGeneric;
   };
@@ -138,7 +141,7 @@ if (process.env.NEXUS_MODE === "full") {
 /* to-do: oplog + garbage collection */
 _init.history = [] as unknown as ILogContext[];
 _init.collectGarbage = () => {
-  _init.history = [..._init.history, ...messageQueue];
+  _init.history = [..._init.history, ...oplog];
 };
 
 // _init[databaseName] = init(databaseName);
@@ -146,11 +149,10 @@ _init.collectGarbage = () => {
 const getCollection =
   async (_db = databaseName) =>
   async (_collection = "users") => {
-    return messageQueue.safeAction(async () => {
-      messageQueue.update({
-        action: "init",
-        verb: "collection",
-        status: "loading",
+    return oplog.safeAction(async () => {
+      oplog.update({
+        verb: "loading collection",
+        status: "init:active",
         message: `${_db}|${_collection}`,
       });
       if (!_init[_db].db) {
@@ -158,7 +160,13 @@ const getCollection =
         _init[_db].db = db;
       }
       const collection = await _init[_db].db.collection(_collection);
-      if (!_init[_db].db) return messageQueue.throw("error connecting to db");
+      if (!_init[_db].db) return oplog.throw("error connecting to db");
+
+      oplog.update({
+        verb: "loading collection",
+        status: "init:ready",
+        message: `${_db}|${_collection}`,
+      });
 
       /* init-collections */
       _init[_db].collections = { ..._init[_db].collections };
@@ -171,35 +179,46 @@ const getCollection =
 /* public methods */
 
 const getUserCollection = async () => {
-  return messageQueue.safeAction(async () => {
+  return await oplog.safeAction(async () => {
     const col = await getCollection(userDatabaseName);
     const _col = await col("users");
     _init[userDatabaseName].collections["users"] = _col;
 
-    messageQueue.update({
-      verb: "collection",
-      status: "ready",
-      message: `${userDatabaseName}|"users"`,
+    oplog.update({
+        verb: "loaded collection",
+        status: "init:idle",
+        message: `${userDatabaseName}|${"users"}`,
     });
+
+    oplog.status = {
+    ...oplog.status,
+    users: 'ready'
+    }
 
     return _col;
   });
+
 };
 
 const getOrgCollection = async () => {
-  return messageQueue.safeAction(async () => {
+  return await oplog.safeAction(async () => {
     const col = await getCollection(orgsDatabaseName);
     const _col = await col("organizations");
     _init[orgsDatabaseName].collections["organizations"] = _col;
 
-    messageQueue.update({
-      verb: "collection",
-      status: "ready",
-      message: `${orgsDatabaseName}|"organizations"`,
+    oplog.update({
+        verb: "loaded collection",
+        status: "init:idle",
+        message: `${orgsDatabaseName}|${"organisations"}`,
     });
+    oplog.status = {
+    ...oplog.status,
+    organizations: 'ready'
+    }
     return _col;
   });
 };
+
 
 /** ORM **/
 
@@ -223,17 +242,21 @@ const defineSchema =
   ) =>
   async () => {
     /* add safe actions */
+    oplog.update({
+        verb: "enforcing users schema",
+        status: "init:active",
+        message: `${db}|${collection}`,
+    });
     const collection = await getOneCollection();
     const result = collection.updateMany(
       {},
       { $set: schema },
       { upsert: true },
     );
-    messageQueue.update({
-      action: "schema-enforcing",
-      verb: "collection",
-      status: "done",
-      message: `${db}|"${collectionName}"`,
+    oplog.update({
+        verb: "enforcing orgs schema",
+        status: "init:ready",
+        message: `${db}|${collection}`,
     });
   };
 
@@ -256,6 +279,11 @@ const defineOrgSchema = defineSchema(
 );
 
 const defineRelations = async () => {
+  oplog.update({
+      verb: "enforcing schema relations",
+      status: "init:active",
+      message: ``,
+  });
   const oCollection = await getOrgCollection();
   const uCollection = await getUserCollection();
 
@@ -280,26 +308,47 @@ const defineRelations = async () => {
     { upsert: true },
   );
 
-  messageQueue.update({
-    action: "schema-enforcing",
-    verb: "relations",
-    status: "done",
-    message: `${userDatabaseName}|"users"`,
-  });
+   oplog.update({
+      verb: "enforcing schema relations",
+      status: "init:ready",
+      message: ``,
+   });
 };
 
 const _initSchemas = async () => {
+  oplog.update({
+      verb: "enforcing schemas",
+      status: "init:active",
+      message: ``,
+   });
   // IMPORTANT: to-do; work on race conditions; the backwards upsert schema enforcing is the way
   await defineUserSchema();
   await defineOrgSchema();
 
   await defineRelations();
+
+  oplog.update({
+      verb: "enforcing schemas",
+      status: "init:ready",
+      message: ``,
+   });
 };
 
 // migrations: add this env var and set it to 'true' to enforce schemas
 // or run yarn dev:schema (local), start:schema (CI)
 if (process.env.NEXUS_SCHEMA === "true") {
   _initSchemas();
+  oplog.update({
+      verb: "starting data layer (with schema)",
+      status: "init:done",
+      message: ``,
+   });
+} else {
+  oplog.update({
+      verb: "starting data layer",
+      status: "init:done",
+      message: ``,
+   });
 }
 
 /* to-do: services, projects, billing, krn cols interfaces. 

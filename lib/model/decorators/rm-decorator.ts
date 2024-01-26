@@ -1,4 +1,4 @@
-// rm-decorator.ts
+// rm-decorator.ts input: rm meta; output: decorated rm meta;
 "use server";
 import type { IDCharacter, INCharacter, UserSchema } from "@types";
 import { getUserMeta } from "@controller";

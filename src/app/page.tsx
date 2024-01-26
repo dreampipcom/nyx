@@ -1,13 +1,13 @@
 import Image from "next/image";
 import styles from "@styles/page.module.css";
-import { SignIn, List } from "@components";
+import { NavBar, List } from "@components";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          <SignIn />
+          <NavBar />
         </p>
         <div>
           <a

@@ -15,15 +15,11 @@ interface VSignInProps {
   providers: IAuthProvider[];
 }
 
-// async function doSignIn({ id }: IAuthProvider) {
-//   await signIn(id);
-// }
-
 async function doSignOut() {
   await signOut();
 }
 
-export const VSignIn = ({ providers }: VSignInProps) => {
+export const VSignIn = ({ providers, user }: VSignInProps) => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
   const [isUserLoaded, loadUser] = ALogIn({});
@@ -31,6 +27,10 @@ export const VSignIn = ({ providers }: VSignInProps) => {
   const initd = useRef(false);
 
   const { authd, name } = authContext;
+
+
+  /* server/client isomorphism */
+  const coercedName = name || user?.name
 
   useEffect(() => {
     if (!isUserLoaded && session?.user && !initd.current) {
@@ -51,26 +51,12 @@ export const VSignIn = ({ providers }: VSignInProps) => {
 
   if (!providers) return;
 
-  if (typeof session === "undefined") return <span>Loading...</span>;
-
-  if (authd)
+  if (user || authd)
     return (
       <span>
-        Welcome, {name} <button onClick={handleSignOut}>Sign out</button>
+        Welcome, {coercedName} <button onClick={handleSignOut}>Sign out</button>
       </span>
     );
 
-  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
-
-  // return (
-  //   <>
-  //     {Object.values(providers).map((provider: IAuthProvider) => (
-  //       <span key={provider.name}>
-  //         <button onClick={() => navigate('/api/auth/signin')}>
-  //           Sign in
-  //         </button>
-  //       </span>
-  //     ))}
-  //   </>
-  // );
-};
+  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>
+}

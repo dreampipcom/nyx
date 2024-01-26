@@ -10,7 +10,7 @@ export const RMContext = createContext<IRMContext>({
   history: [],
 });
 
-export const LogContext = createContext<History>({
-  history: [],
-  setter: undefined,
-});
+// export const LogContext = createContext<History>({
+//   history: [],
+//   setter: undefined,
+// });

@@ -20,6 +20,13 @@ let client;
 let clientPromise: Promise<MongoClient>;
 
 const genPromise = (name = "") => {
+  log({
+      type: "mongodb",
+      action: "database",
+      verb: "starting data layer",
+      status: "init:active",
+      message: ``,
+   });
   const dest = uri + name + params;
 
   if (process.env.NODE_ENV === "development") {
@@ -37,10 +44,10 @@ const genPromise = (name = "") => {
   }
 
   log({
-    type: "connector",
-    action: "init",
-    verb: "connect",
-    status: "connecting-to",
+    type: "mongodb",
+    action: "database",
+    verb: "connected to replica-set",
+    status: "init:idle",
     message: domain,
   });
 

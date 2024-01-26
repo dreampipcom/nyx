@@ -21,7 +21,7 @@ export const createStatusStr = ({
         : !(str.includes("ready") || str.includes("done"))
           ? "\x1b[1;43m"
           : "\x1b[1;42m";
-      const str_col = "\x1b[1;31m" + color + str + "\x1b[0m";
+      const str_col = "\x1b[1;" + color + str + "\x1b[0m";
       return str_col;
     }
     default: {

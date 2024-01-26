@@ -1,9 +1,12 @@
 // signin-controller.tsx
 "use server";
+import type { UserSchema } from "@types"
 import { getProviders } from "next-auth/react";
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "@auth";
 import { VSignIn } from "@components/client";
+
+interface ISignInProps {
+  user?: UserSchema;
+}
 
 interface ISignInData {
   providers?: IAuthProviders[];
@@ -18,20 +21,12 @@ interface IAuthProviders {
 }
 
 async function getProvidersData(): Promise<ISignInData> {
-  // to-do: default logged in ssr behavior (link to ticket)
-  // const session = await getServerSession(authOptions);
-  // if (session) {
-  //   return { redirect: { destination: "/" } };
-  // }
-
   const providers = (await getProviders()) as unknown as IAuthProviders[];
-
   return { providers: providers ?? [] };
 }
 
-export const CSignIn = async () => {
+export const CSignIn = async ({ user }) => {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  return <VSignIn providers={providers} />;
-  // return <div>LOREM</div>
+  return <VSignIn user={user} providers={providers} />;
 };

@@ -6,6 +6,11 @@ export const MongoConnector = clientPromise;
 export const setDb = _setDb;
 
 export {
+  /* public state (singletons) */
+  oplog,
+  /* public methods */
+  getUserMeta,
+  /* constants */
   DATABASE_STRING,
   DATABASE_USERS_STRING,
   DATABASE_ORGS_STRING,

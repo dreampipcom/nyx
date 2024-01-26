@@ -10,7 +10,7 @@ export type {
 } from "./contexts";
 
 // model
-export type { UserSchema, User, UserDecoration, OrgDecoration } from "./model";
+export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from "./model";
 
 // actions
 export type {

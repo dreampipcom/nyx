@@ -10,7 +10,7 @@ export {
 } from "./constants";
 
 // default methods
-export { getUserCollection } from "./mdb-init-interface";
+export { getUserCollection, oplog } from "./mdb-init-interface";
 
 // read
 export { getUserMeta } from "./mdb-get-interface";
