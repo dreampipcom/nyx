@@ -56,11 +56,11 @@ export const VSignIn = ({ providers }: VSignInProps) => {
   if (authd)
     return (
       <span>
-        Welcome, {name} <button onClick={handleSignOut}>Sign out</button>
+        Welcome, {name}. Your smoke signals will appear here! <button onClick={handleSignOut}>Sign out</button>
       </span>
     );
 
-  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
+  return <button onClick={() => navigate("/api/auth/signin")}>Receive a smoke signal from Angelo Reale!</button>;
 
   // return (
   //   <>
