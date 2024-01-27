@@ -3,6 +3,7 @@ import styles from "@styles/page.module.css";
 import { NavBar, List } from "@components";
 
 export default function Home() {
+  console.log("--- building home ----")
   return (
     <main className={styles.main}>
       <div className={styles.description}>

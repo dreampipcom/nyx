@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
-import { MongoConnector } from "@model";
+import { MongoConnector, NexusDB } from "@model";
 import { getUserCollection } from "@controller";
 import { DATABASE_STRING as databaseName } from "./constants";
 
@@ -16,11 +16,12 @@ export const addToFavorites = async ({
   cid: number;
   type?: string;
 }) => {
-  // const collection = await getUserCollection();
-  // const query = `rickmorty.favorites.${type}`;
-  // const user = await collection.updateOne(
-  //   { email },
-  //   { $addToSet: { [query]: cid } },
-  // );
+  console.log("---- update iface ----")
+  const collection = await NexusDB.users();
+  const query = `rickmorty.favorites.${type}`;
+  const user = await collection.updateOne(
+    { email },
+    { $addToSet: { [query]: cid } },
+  );
   return user;
 };

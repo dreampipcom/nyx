@@ -7,46 +7,47 @@ import { getUserCollection } from "@controller";
 import { DATABASE_STRING as databaseName } from "./constants";
 import { patience } from "./helpers";
 
+
+console.log("===== get iface ======")
+
 /* public */
 export const getUserMeta = async ({
   email = "",
+  options
 }: Pick<UserSchema, "email">) => {
+  const getUser = (email?: string) => {
 
-  NexusDB.log({
-      type: "mongodb",
-      action: "database",
-      verb: "getting user",
-      status: "read:started",
-      message: `loading user from database`,
-   })
-  
-  const collection = await NexusDB.getUsers()
-
-  await patience()
-
-
-  const user = await collection.findOne({ email });
-
-
-  console.log({ user })
-
-  if(!user) {
+}
+  NexusDB.dispatch(async () => {
     NexusDB.log({
-      type: "mongodb",
-      action: "database",
-      verb: "getting user",
-      status: "read:error",
-      message: `user was not found`,
-   })
+        type: "mongodb",
+        action: "database",
+        verb: "getting user",
+        status: "read:started",
+        message: `loading user from database`,
+     })
+    
+    return await NexusDB.dispatch(async () => {
+        const users = await NexusDB.users();
+        const user = await users.findOne({ email });
 
-
-  }
-  NexusDB.log({
-      type: "mongodb",
-      action: "database",
-      verb: "getting user",
-      status: "read:done",
-      message: `user:${user?._id} was loaded successfully`,
-   })
-  return user;
+        if(!user) {
+          NexusDB.log({
+            type: "mongodb",
+            action: "database",
+            verb: "getting user",
+            status: "read:error",
+            message: `user was not found`,
+          })
+        }
+        NexusDB.log({
+            type: "mongodb",
+            action: "database",
+            verb: "getting user",
+            status: "read:done",
+            message: `user:${user?._id} was loaded successfully`,
+        })
+        return user;
+    }, options)
+  }, options)
 };

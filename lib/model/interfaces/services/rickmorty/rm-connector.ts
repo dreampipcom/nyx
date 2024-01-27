@@ -37,7 +37,7 @@ async function fetchGraphQL(query: string) {
   }).then((response) => response.json());
 }
 
-export const getRMCharacters: () => Promise<{
+export const getCharacters: () => Promise<{
   results: INCharacter[];
   info: any;
 }> = async () => {

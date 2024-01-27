@@ -30,12 +30,15 @@ export interface ILogContext {
   context?: string;
 }
 
-export interface ILogger extends Array<ILogContext> {
-  /* should specify later */
+export interface IOplogOps {
   addToQueue: (args: ILogContext) => void;
   update: (args: ILogContext) => void;
   safeAction: (func: any) => any;
   throw: (err: string) => void;
+}
+
+export interface ILogger extends Array<ILogContext> {
+  _: IOplogOps
 }
 
 export interface IActionBack extends ILogContext {

@@ -2,6 +2,7 @@
 
 // This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
 import { MongoClient } from "mongodb";
+// import { NexusDB } from "@controller"
 import { dbLog as log } from "@log";
 
 if (!process.env.MONGODB_URI) {
@@ -43,22 +44,26 @@ const genPromise = (name = "") => {
     clientPromise = client.connect();
   }
 
+  // console.log({ clientPromise })
+  // console.log(" after: ", { clientPromise, NexusDB })
+
   log({
     type: "mongodb",
     action: "database",
     verb: "connected to replica-set",
-    status: "init:idle",
+    status: "init:done",
     message: domain,
   });
-
+  clientPromise.pipeWith = name
   return clientPromise;
 };
-
-clientPromise = genPromise();
 
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
 export const _setDb = async (db: string) => {
   return genPromise(db);
 };
+
+clientPromise = genPromise();
+
 export default clientPromise;
