@@ -30,7 +30,7 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
 
 
   /* server/client isomorphism */
-  const coercedName = name || user?.name
+  const coercedName = name || user?.name || user?.email
 
   useEffect(() => {
     if (!isUserLoaded && session?.user && !initd.current) {
