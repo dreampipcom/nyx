@@ -10,6 +10,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const authContext = useContext<IAuthContext>(AuthContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
   const init = useRef(false);
+  const base = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || ""
 
   useEffect(() => {
     if (!init.current && authContext && !authState?.setter) {
@@ -22,7 +23,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   if (!authState?.initd) return;
 
   return (
-    <SessionProvider>
+    <SessionProvider basePath={ base ? `${base}/api/auth` : "/api/auth"}>
       <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
     </SessionProvider>
   );
