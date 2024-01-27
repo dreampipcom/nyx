@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { AuthContext } from "@state";
 import { ALogIn, ALogOut } from "@actions";
 import { navigate } from "@gateway";
+import { ButtonView as NButton } from "@atoms/button";
 
 interface IAuthProvider {
   id?: string;
@@ -28,9 +29,10 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
 
   const { authd, name } = authContext;
 
+  //console.log({ NButton })
 
   /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email
+  const coercedName = name || user?.name || user?.email;
 
   useEffect(() => {
     if (!isUserLoaded && session?.user && !initd.current) {
@@ -49,7 +51,7 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
     await doSignOut();
   };
 
-  if (!providers) return;
+  //if (!providers) return;
 
   if (user || authd)
     return (
@@ -58,5 +60,6 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
       </span>
     );
 
+  // return <NButton/>;
   return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>
-}
+};

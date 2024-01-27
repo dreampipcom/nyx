@@ -19,5 +19,4 @@ export const CNavBar = async () => {
   const props: ISignInData = await getEnabledFeatures();
   const features: IAuthProviders[] = props?.features || [];
   return <VNavBar features={features} />;
-  // return <div>LOREM</div>
 };

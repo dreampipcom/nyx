@@ -6,6 +6,13 @@ import { AuthContext } from "@state";
 import { } from "@actions";
 import { navigate } from "@gateway";
 
+import { Dropdown } from '@mui/base/Dropdown';
+import { MenuButton } from '@mui/base/MenuButton';
+import { Menu } from '@mui/base/Menu';
+import { MenuItem } from '@mui/base/MenuItem';
+
+import navbarStyles from "@styles/components/navbar.module.css";
+
 
 interface VNavBar {
   providers: IAuthProvider[];
@@ -29,16 +36,23 @@ export const VNavBar = ({ providers }: VSignInProps) => {
     await doSignOut();
   };
 
-  if (!providers) return;
+  //if (!providers) return;
 
-  if (typeof session === "undefined") return <span>Loading...</span>;
+  //if (typeof session === "undefined") return <span>Loading...</span>;
 
   if (authd)
     return (
-      <div>
-        Nav items auth.d
-      </div>
+      <Dropdown>
+        <MenuButton>My account</MenuButton>
+        <Menu slotProps={{ listbox: { className: navbarStyles.navbar__menu__list }}}>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>
+            Language settings
+          </MenuItem>
+          <MenuItem>Log out</MenuItem>
+        </Menu>
+      </Dropdown>
     );
 
-  return <button onClick={() => navigate("/api/auth/signin")}>Nav items !auth.d</button>;
+  return <button>Nav items !auth.d</button>;
 };

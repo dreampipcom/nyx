@@ -15,10 +15,12 @@
     "format:fix": "next lint --fix && prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@mui/base": "^5.0.0-beta.33",
+    /* to move clsx to devDep after pragma */
     "clsx": "^2.1.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
@@ -32,10 +34,12 @@
     "eslint": "^8",
     "eslint-config-alloy": "^5.1.2",
     "eslint-config-next": "14.0.4",
+    "lodash": "^4.17.21",
     "mongodb": "^5.0.0",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.8",
     "prettier": "^3.2.4",
+    "server-only": "^0.0.1",
     "typescript": "^5"
   }
 }

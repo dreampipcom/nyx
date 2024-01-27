@@ -172,13 +172,13 @@
     padding: 1rem;
   }
 
-  .description p,
+ /* .description p,
   .description div {
     display: flex;
     justify-content: center;
     position: fixed;
     width: 100%;
-  }
+  }*/
 
   .description p {
     align-items: center;
