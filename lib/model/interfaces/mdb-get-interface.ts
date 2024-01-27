@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UserSchema, INCharacter, UserDecoration } from "@types";
-import { MongoConnector, oplog } from "@model";
+import { MongoConnector, NexusDB } from "@model";
 import { getUserCollection } from "@controller";
 import { DATABASE_STRING as databaseName } from "./constants";
 
@@ -10,9 +10,11 @@ import { DATABASE_STRING as databaseName } from "./constants";
 export const getUserMeta = async ({
   email = "",
 }: Pick<UserSchema, "email">) => {
+  
   const patience = async () => {
-      if (oplog?.status?.users !== 'ready') {
-        oplog.update({
+      console.log({ NexusDB })
+      if (NexusDB.oplog?.status?.users !== 'ready') {
+        NexusDB.oplog.update({
           type: "mongodb",
           action: "database",
           verb: "wating a bit",
@@ -23,29 +25,36 @@ export const getUserMeta = async ({
       return setTimeout(()=>patience(), 1000)
   }
 
-  await patience()
-
-  oplog.update({
+  NexusDB.oplog.update({
       type: "mongodb",
       action: "database",
       verb: "getting user",
       status: "read:started",
       message: `loading user from database`,
    })
-  const collection = await getUserCollection();
+  
+  const collection = await NexusDB.getUsers()
+
+  await patience()
+
+
   const user = await collection.findOne({ email });
-  // console.log({collection, user})
+
+
+  console.log({ user })
 
   if(!user) {
-    oplog.update({
+    NexusDB.oplog.update({
       type: "mongodb",
       action: "database",
       verb: "getting user",
       status: "read:error",
       message: `user was not found`,
    })
+
+
   }
-  oplog.update({
+  NexusDB.oplog.update({
       type: "mongodb",
       action: "database",
       verb: "getting user",

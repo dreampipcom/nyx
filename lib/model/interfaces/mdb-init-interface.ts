@@ -45,6 +45,7 @@ oplog.addToQueue = ({ action, verb, status, message }: ILogContext) => {
     verb: verb || messageState.verb,
     status: status || messageState.status,
     message: message || messageState.message,
+    time: new Date().toISOString()
   };
 
   const entry = dbLog(log);
@@ -67,6 +68,7 @@ oplog.throw = (e: string) => {
 };
 
 oplog.safeAction = (func: any) => {
+  if(!message.state.includes("idle"))
   try {
     return func();
   } catch (e) {
@@ -76,6 +78,13 @@ oplog.safeAction = (func: any) => {
       oplog.throw(JSON.stringify(e));
     }
   }
+};
+
+/* to-do: oplog + garbage collection */
+oplog.history = [] as unknown as ILogContext[];
+oplog.collectGarbage = () => {
+  oplog.history = [..._init.history, ...oplog];
+  oplog = []
 };
 
 /* schemas */
@@ -128,6 +137,7 @@ const init =
     })) as IDBGeneric;
   };
 
+
 // to-do: singleton + mutex
 // to tired to figure this any now
 const _init: any = {
@@ -137,12 +147,6 @@ const _init: any = {
 if (process.env.NEXUS_MODE === "full") {
   _init[orgsDatabaseName] = init(orgsDatabaseName);
 }
-
-/* to-do: oplog + garbage collection */
-_init.history = [] as unknown as ILogContext[];
-_init.collectGarbage = () => {
-  _init.history = [..._init.history, ...oplog];
-};
 
 // _init[databaseName] = init(databaseName);
 
@@ -176,13 +180,15 @@ const getCollection =
     });
   };
 
-/* public methods */
+/* private methods */
 
 const getUserCollection = async () => {
   return await oplog.safeAction(async () => {
     const col = await getCollection(userDatabaseName);
-    const _col = await col("users");
-    _init[userDatabaseName].collections["users"] = _col;
+
+    console.log({ Nexus: _init[userDatabaseName] })
+    const _col = await col("users")
+    //const _col = _init[userDatabaseName].collections || await col("users");
 
     oplog.update({
         verb: "loaded collection",
@@ -190,9 +196,14 @@ const getUserCollection = async () => {
         message: `${userDatabaseName}|${"users"}`,
     });
 
+    /* coming soon: Nachus: The Cache Layer */
     oplog.status = {
     ...oplog.status,
-    users: 'ready'
+    users: {
+        status: "ready",
+        firstLoaded: "EOT",
+        lastUpdate: new Date().toISOString()
+      }
     }
 
     return _col;
@@ -351,7 +362,12 @@ if (process.env.NEXUS_SCHEMA === "true") {
    });
 }
 
+_init.oplog = oplog
+
+_init.getUsers = getUserCollection
 /* to-do: services, projects, billing, krn cols interfaces. 
 (check respective dbs, maybe split init for each db) */
 
-export { _init, getUserCollection };
+export { 
+  _init as NexusDB 
+};

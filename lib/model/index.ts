@@ -7,7 +7,7 @@ export const setDb = _setDb;
 
 export {
   /* public state (singletons) */
-  oplog,
+  NexusDB,
   /* public methods */
   getUserMeta,
   /* constants */

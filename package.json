@@ -16,11 +16,10 @@
   },
   "dependencies": {
     "@mui/base": "^5.0.0-beta.33",
-    /* to move clsx to devDep after pragma */
     "clsx": "^2.1.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
