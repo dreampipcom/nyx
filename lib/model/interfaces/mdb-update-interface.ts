@@ -16,11 +16,11 @@ export const addToFavorites = async ({
   cid: number;
   type?: string;
 }) => {
-  const collection = await getUserCollection();
-  const query = `rickmorty.favorites.${type}`;
-  const user = await collection.updateOne(
-    { email },
-    { $addToSet: { [query]: cid } },
-  );
+  // const collection = await getUserCollection();
+  // const query = `rickmorty.favorites.${type}`;
+  // const user = await collection.updateOne(
+  //   { email },
+  //   { $addToSet: { [query]: cid } },
+  // );
   return user;
 };

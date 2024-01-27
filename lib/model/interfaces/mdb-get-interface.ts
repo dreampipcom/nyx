@@ -5,27 +5,14 @@ import type { UserSchema, INCharacter, UserDecoration } from "@types";
 import { MongoConnector, NexusDB } from "@model";
 import { getUserCollection } from "@controller";
 import { DATABASE_STRING as databaseName } from "./constants";
+import { patience } from "./helpers";
 
 /* public */
 export const getUserMeta = async ({
   email = "",
 }: Pick<UserSchema, "email">) => {
-  
-  const patience = async () => {
-      console.log({ NexusDB })
-      if (NexusDB.oplog?.status?.users !== 'ready') {
-        NexusDB.oplog.update({
-          type: "mongodb",
-          action: "database",
-          verb: "wating a bit",
-          status: "read:halt",
-          message: `collection not ready`,
-        })
-      }
-      return setTimeout(()=>patience(), 1000)
-  }
 
-  NexusDB.oplog.update({
+  NexusDB.log({
       type: "mongodb",
       action: "database",
       verb: "getting user",
@@ -44,7 +31,7 @@ export const getUserMeta = async ({
   console.log({ user })
 
   if(!user) {
-    NexusDB.oplog.update({
+    NexusDB.log({
       type: "mongodb",
       action: "database",
       verb: "getting user",
@@ -54,7 +41,7 @@ export const getUserMeta = async ({
 
 
   }
-  NexusDB.oplog.update({
+  NexusDB.log({
       type: "mongodb",
       action: "database",
       verb: "getting user",

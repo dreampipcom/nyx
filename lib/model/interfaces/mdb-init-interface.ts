@@ -14,6 +14,9 @@ import {
   DATABASE_USERS_STRING as userDatabaseName,
   DATABASE_ORGS_STRING as orgsDatabaseName,
 } from "./constants";
+import {
+  patience
+} from "./helpers"
 
 import { dbLog } from "@log";
 
@@ -38,7 +41,8 @@ type TDBModel = IDBGeneric & {
 export const oplog: ILogger = [] as unknown as ILogger;
 const messageState: ILogContext = {};
 
-oplog.addToQueue = ({ action, verb, status, message }: ILogContext) => {
+oplog._ = {}
+oplog._.addToQueue = ({ action, verb, status, message }: ILogContext) => {
   const log: ILogContext = {
     type: "mongodb",
     action: "database",
@@ -52,39 +56,47 @@ oplog.addToQueue = ({ action, verb, status, message }: ILogContext) => {
   oplog.push(log);
 };
 
-oplog.update = (payload: ILogContext) => {
+oplog._.update = (payload: ILogContext) => {
   const { action, verb, status, message } = payload;
   messageState.action = action || messageState.action;
   messageState.verb = verb || messageState.verb;
   messageState.status = status || messageState.status;
   messageState.message = message || messageState.message;
 
-  oplog.addToQueue({ action, verb, status, message });
+  oplog._.addToQueue({ action, verb, status, message });
 };
 
-oplog.throw = (e: string) => {
+oplog._.throw = (e: string) => {
   const ms = (e as string) || "";
-  oplog.update({ status: "error", message: ms });
+  oplog._.update({ status: "error", message: ms });
 };
 
-oplog.safeAction = (func: any) => {
-  if(!message.state.includes("idle"))
-  try {
-    return func();
-  } catch (e) {
-    if (typeof e === "string") {
-      oplog.throw(e);
-    } else {
-      oplog.throw(JSON.stringify(e));
+oplog._.safeAction = (func: any) => {
+  const pleaseQueueIt = async () => {
+    if(!messageState.status.includes("idle")) {
+      await patience()
     }
   }
+  
+  pleaseQueueIt()
+
+
+  try {
+      return func();
+    } catch (e) {
+      if (typeof e === "string") {
+        oplog._.throw(e);
+      } else {
+        oplog._.throw(JSON.stringify(e));
+      }
+    }
 };
 
 /* to-do: oplog + garbage collection */
-oplog.history = [] as unknown as ILogContext[];
-oplog.collectGarbage = () => {
-  oplog.history = [..._init.history, ...oplog];
-  oplog = []
+oplog._.history = [] as unknown as ILogContext[];
+oplog._.collectGarbage = () => {
+  oplog._.history = [..._init.history, ...oplog];
+  oplog._.length = 0
 };
 
 /* schemas */
@@ -109,8 +121,8 @@ const _OrgSchema: OrgDecoration = {
 
 /* private */
 const getDB = (name: Tdbs) => async () => {
-  return await oplog.safeAction(async () => {
-    oplog.update({
+  return await oplog._.safeAction(async () => {
+    oplog._.update({
       verb: "connecting to database",
       status: "init:active",
       message: name || "",
@@ -118,7 +130,7 @@ const getDB = (name: Tdbs) => async () => {
     const conn = await MongoConnector;
     const db_conn = await setDb(name);
     const db = await db_conn.db(name);
-    oplog.update({
+    oplog._.update({
       verb: "connected to database",
       status: "init:ready",
       message: name || "",
@@ -130,9 +142,10 @@ const getDB = (name: Tdbs) => async () => {
 const init =
   (db: Tdbs): (() => any) =>
   async (): Promise<any> => {
-    return (await oplog.safeAction(async () => {
+    return (await oplog._.safeAction(async () => {
       const _getDB = getDB(db);
       const _db = await _getDB();
+      console.log({ _db })
       return _db;
     })) as IDBGeneric;
   };
@@ -153,8 +166,8 @@ if (process.env.NEXUS_MODE === "full") {
 const getCollection =
   async (_db = databaseName) =>
   async (_collection = "users") => {
-    return oplog.safeAction(async () => {
-      oplog.update({
+    return oplog._.safeAction(async () => {
+      oplog._.update({
         verb: "loading collection",
         status: "init:active",
         message: `${_db}|${_collection}`,
@@ -163,10 +176,11 @@ const getCollection =
         const db = await _init[_db]();
         _init[_db].db = db;
       }
+      console.log({ testing: _init[_db] })
       const collection = await _init[_db].db.collection(_collection);
-      if (!_init[_db].db) return oplog.throw("error connecting to db");
+      if (!_init[_db].db) return oplog._.throw("error connecting to db");
 
-      oplog.update({
+      oplog._.update({
         verb: "loading collection",
         status: "init:ready",
         message: `${_db}|${_collection}`,
@@ -183,22 +197,22 @@ const getCollection =
 /* private methods */
 
 const getUserCollection = async () => {
-  return await oplog.safeAction(async () => {
+  return await oplog._.safeAction(async () => {
     const col = await getCollection(userDatabaseName);
 
     console.log({ Nexus: _init[userDatabaseName] })
     const _col = await col("users")
     //const _col = _init[userDatabaseName].collections || await col("users");
 
-    oplog.update({
+    oplog._.update({
         verb: "loaded collection",
         status: "init:idle",
         message: `${userDatabaseName}|${"users"}`,
     });
 
     /* coming soon: Nachus: The Cache Layer */
-    oplog.status = {
-    ...oplog.status,
+    oplog._.status = {
+    ...oplog._.status,
     users: {
         status: "ready",
         firstLoaded: "EOT",
@@ -212,18 +226,18 @@ const getUserCollection = async () => {
 };
 
 const getOrgCollection = async () => {
-  return await oplog.safeAction(async () => {
+  return await oplog._.safeAction(async () => {
     const col = await getCollection(orgsDatabaseName);
     const _col = await col("organizations");
     _init[orgsDatabaseName].collections["organizations"] = _col;
 
-    oplog.update({
+    oplog._.update({
         verb: "loaded collection",
         status: "init:idle",
         message: `${orgsDatabaseName}|${"organisations"}`,
     });
-    oplog.status = {
-    ...oplog.status,
+    oplog._.status = {
+    ...oplog._.status,
     organizations: 'ready'
     }
     return _col;
@@ -253,7 +267,7 @@ const defineSchema =
   ) =>
   async () => {
     /* add safe actions */
-    oplog.update({
+    oplog._.update({
         verb: "enforcing users schema",
         status: "init:active",
         message: `${db}|${collection}`,
@@ -264,7 +278,7 @@ const defineSchema =
       { $set: schema },
       { upsert: true },
     );
-    oplog.update({
+    oplog._.update({
         verb: "enforcing orgs schema",
         status: "init:ready",
         message: `${db}|${collection}`,
@@ -290,7 +304,7 @@ const defineOrgSchema = defineSchema(
 );
 
 const defineRelations = async () => {
-  oplog.update({
+  oplog._.update({
       verb: "enforcing schema relations",
       status: "init:active",
       message: ``,
@@ -319,7 +333,7 @@ const defineRelations = async () => {
     { upsert: true },
   );
 
-   oplog.update({
+   oplog._.update({
       verb: "enforcing schema relations",
       status: "init:ready",
       message: ``,
@@ -327,7 +341,7 @@ const defineRelations = async () => {
 };
 
 const _initSchemas = async () => {
-  oplog.update({
+  oplog._.update({
       verb: "enforcing schemas",
       status: "init:active",
       message: ``,
@@ -338,7 +352,7 @@ const _initSchemas = async () => {
 
   await defineRelations();
 
-  oplog.update({
+  oplog._.update({
       verb: "enforcing schemas",
       status: "init:ready",
       message: ``,
@@ -349,13 +363,13 @@ const _initSchemas = async () => {
 // or run yarn dev:schema (local), start:schema (CI)
 if (process.env.NEXUS_SCHEMA === "true") {
   _initSchemas();
-  oplog.update({
+  oplog._.update({
       verb: "starting data layer (with schema)",
       status: "init:done",
       message: ``,
    });
 } else {
-  oplog.update({
+  oplog._.update({
       verb: "starting data layer",
       status: "init:done",
       message: ``,
@@ -363,6 +377,7 @@ if (process.env.NEXUS_SCHEMA === "true") {
 }
 
 _init.oplog = oplog
+_init.log = oplog._.update
 
 _init.getUsers = getUserCollection
 /* to-do: services, projects, billing, krn cols interfaces. 

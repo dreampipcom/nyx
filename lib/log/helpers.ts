@@ -18,7 +18,7 @@ export const createStatusStr = ({
     case "server": {
       const color = str.includes("error")
         ? "\x1b[1;41m "
-        : !(str.includes("ready") || str.includes("done"))
+        : !(!str.includes("idle"))
           ? "\x1b[1;43m"
           : "\x1b[1;42m";
       const str_col = "\x1b[1;" + color + str + "\x1b[0m";
