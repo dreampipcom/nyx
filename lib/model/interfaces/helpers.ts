@@ -3,8 +3,8 @@
 import { NexusDB } from "@model"
 
 export const patience = async (sleep = 1000) => {
-      console.log({ NexusDB })
-      if (!NexusDB.oplog?.length) {
+			//if (NexusDB && !NexusDB.oplog?.length) {
+      if (NexusDB) {
         NexusDB.log({
           type: "mongodb",
           action: "database",

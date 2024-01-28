@@ -21,4 +21,4 @@ export { addToFavorites } from "./mdb-update-interface";
 /* rm */
 
 // read
-export { getRMCharacters } from "./services/rickmorty/rm-connector";
+export { getCharacters as getRMCharacters } from "./services/rickmorty/rm-connector";

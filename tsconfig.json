@@ -27,6 +27,8 @@
       "@model/*": ["./lib/model/*"],
       "@view": ["./lib/view"],
       "@view/*": ["./lib/view/*"],
+      "@pragmas": ["./lib/view/adapters/"],
+      "@pragmas/*": ["./lib/view/*"],
       "@log": ["./lib/log"],
       "@log/*": ["./lib/log/*"],
       "@types": ["./lib/types"],

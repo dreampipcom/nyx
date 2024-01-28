@@ -31,6 +31,7 @@ export const createStatusStr = ({
 };
 
 export const dbLog = ({ type, action, verb, status, message }: ILogContext) => {
+  console.log("@@@ db log @@@@")
   const category = "database";
   console.log(
     createStatusStr({

@@ -18,6 +18,7 @@ export const getUserMeta = async ({
   const getUser = (email?: string) => {
 
 }
+  console.log("@@@@ get iface @@@@", {NexusDB})
   NexusDB.dispatch(async () => {
     NexusDB.log({
         type: "mongodb",
