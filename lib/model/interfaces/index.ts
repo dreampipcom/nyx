@@ -10,7 +10,7 @@ export {
 } from "./constants";
 
 // default methods
-export { NexusDB } from "./mdb-init-interface";
+export { nexus_db as Nexus } from "./ndb";
 
 // read
 export { getUserMeta } from "./mdb-get-interface";

@@ -10,7 +10,7 @@ export const createStatusStr = ({
   message,
   context,
 }: ILogContext = {}) => {
-  const str = `((${category})): --- action / ${type} / ${action} / ${verb} / ${status}|${message} ---`;
+  const str = `((${category})): --- ${type} / ${action} / ${verb} / ${message}:${status} ---`;
   switch (context) {
     case "client": {
       return "%c " + str;

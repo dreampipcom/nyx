@@ -142,9 +142,10 @@ interface ILogSafeActionArgs {
 type ILogSafeAction = (fn: ILogSafeActionArgs<"func">, res: ILogSafeActionArgs<"expectedResult">, config: ILogSafeActionOptions) => ILogSafeActionArgs<"expectedResult">
 
 oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeActionOptions) => {
+  const verb = payload?.verb || messageState?.verb
   messageState.status = "preparing"
-  messageState.message = `running checks before: [${payload?.verb || messageState?.verb}]`
-  console.log("--------- safe running --------", payload.verb)
+  messageState.message = `running checks before: ${verb}}]`
+  console.log("--------- safe running --------", verb)
   oplog.contextTime = Date.now()
   oplog._.inform({...payload, status: 'active', message: "starting action"});
   const now = Date.now()
@@ -164,7 +165,7 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
   }
 
   const whatToDo = async () => {
-    console.log(payload.verb, { expired, options })
+    console.log(verb, { expired, options })
 
     /* coming soon: Nutex: lock what/when needed */
     // if (expired) {
@@ -176,24 +177,24 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
     if (expired || !last) {
       try {
           messageState.status = "active"
-          messageState.message = `[${payload.verb}]:execution-context:starting`
+          messageState.message = `[${verb}]:execution-context:starting`
           oplog._.inform();
-          const result = await func();
-          console.log("@@@@ opresult @@@@", payload.verb, { result })
+          //const result = await func();
+          console.log("@@@@ opresult @@@@", verb, { func })
           
 
           messageState.status = "done"
-          messageState.message = `[${payload.verb}]:success`
+          messageState.message = `[${verb}]:success`
           oplog._.inform();
 
           messageState.status = "active"
-          messageState.message = `[${payload.verb}]:deeper-execution-context:starting`
+          messageState.message = `[${verb}]:deeper-execution-context:starting`
           oplog._.inform();
 
-          if(typeof result === 'Promise') {
-            return await result()
-          } else if (typeof result === 'function') {
-            return result()
+          
+          console.log({ func, type: typeof func })
+          if(typeof func === 'funcion') {
+            return await func()
           }
           
           messageState.status = "done"
@@ -203,6 +204,9 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
           // oplog._.update();
           // oplog._.update({...payload, satus: 'idle'});
         } catch (e) {
+          if(process.LOG_DEPTH == '1'){
+            console.error(e)
+          }
           if (options?.shouldRetry) {
             patience(whatToDo, interval)
           }
@@ -210,10 +214,6 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
             oplog._.throw(e);
           } else {
             oplog._.throw(JSON.stringify(e));
-          }
-
-          if(process.LOG_DEPTH == '1'){
-            console.error(e)
           }
         }
     }
@@ -286,8 +286,7 @@ const getDB = async (name: Tdbs) => {
 };
 
 
-const prepare =
-  async (db: Tdbs): (() => any) => {
+const prepare = async (db: Tdbs): (() => any) => {
     messageState.verb = "prepare:define"
     return await oplog._.safeAction(
     {
@@ -305,12 +304,12 @@ const prepare =
 
 // to-do: singleton + mutex
 // to tired to figure this any now
-const _init: any = {}
+// const _init: any = {}
 
 /* private methods */
 /* 0. init */
-const init = async () => {
-  messageState.action = "init:nexus"
+const _init = async ({ name }) => {
+  messageState.action = `init:${name}:nexus`
   messageState.verb = "define"
   console.log(" @@@ booting up @@@@ ", { _init })
   return await oplog._.safeAction(
@@ -425,6 +424,14 @@ const init = async () => {
         ...servicesInterfaces,
       }
 
+
+      _init.public = {
+        ..._init.public,
+        log: oplog._.inform,
+        dispatch: oplog._.safeAction,
+        users: await getUserCollection(),
+        user: undefined,
+      }
       
 
       _init.marker.status = "idle"
@@ -755,20 +762,16 @@ if (process.env.NEXUS_SCHEMA === "true") {
 
 
 
-const instance = init()
+// const instance = init()
 
 /* decorate public interface */
-_init.public = {
-  ..._init.public,
-  log: oplog._.inform,
-  dispatch: oplog._.safeAction,
-  users: await getUserCollection(),
-  user: undefined,
+
+
+const done = async ({name}) => {
+  return await _init({name})
 }
 
-const done = _init.public
-
-console.log({ instance })
+// console.log({ instance })
 
 
 /* to-do: services, projects, billing, krn cols interfaces. 
