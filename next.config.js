@@ -62,10 +62,6 @@ const config = {
             },
             {
                 source: '/api/nexus/audio/1',
-                destination: 'https://radio.media.infra.remometro.com/0',
-            },
-            {
-                source: '/api/nexus/audio/1',
                 destination: 'https://radio.media.infra.remometro.com/1',
             },
             {
@@ -86,47 +82,47 @@ const config = {
             },
             {
                 source: '/api/nexus/audio/7',
-                destination: 'https://radio.media.infra.remometro.com/5',
-            },
-            {
-                source: '/api/nexus/audio/8',
                 destination: 'https://radio.media.infra.remometro.com/6',
             },
             {
-                source: '/api/nexus/audio/9',
+                source: '/api/nexus/audio/8',
                 destination: 'https://radio.media.infra.remometro.com/7',
             },
             {
-                source: '/api/nexus/audio/10',
+                source: '/api/nexus/audio/9',
                 destination: 'https://radio.media.infra.remometro.com/8',
             },
             {
-                source: '/api/nexus/audio/11',
+                source: '/api/nexus/audio/10',
                 destination: 'https://radio.media.infra.remometro.com/9',
             },
             {
-                source: '/api/nexus/audio/12',
+                source: '/api/nexus/audio/11',
                 destination: 'https://radio.media.infra.remometro.com/10',
             },
             {
-                source: '/api/nexus/audio/13',
-                destination: 'https://radio.media.infra.remometro.com/11',
-            },
-            {
-                source: '/api/nexus/audio/14',
+                source: '/api/nexus/audio/12',
                 destination: 'https://radio.media.infra.remometro.com/12',
             },
             {
-                source: '/api/nexus/audio/15',
+                source: '/api/nexus/audio/13',
+                destination: 'https://radio.media.infra.remometro.com/12',
+            },
+            {
+                source: '/api/nexus/audio/14',
                 destination: 'https://radio.media.infra.remometro.com/13',
             },
             {
-                source: '/api/nexus/audio/16',
+                source: '/api/nexus/audio/15',
                 destination: 'https://radio.media.infra.remometro.com/14',
             },
             {
-                source: '/api/nexus/audio/17',
+                source: '/api/nexus/audio/16',
                 destination: 'https://radio.media.infra.remometro.com/15',
+            },
+            {
+                source: '/api/nexus/audio/17',
+                destination: 'https://radio.media.infra.remometro.com/16',
             },
             {
                 source: '/api/nexus/audio/3',
