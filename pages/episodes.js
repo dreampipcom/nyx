@@ -38,12 +38,12 @@ export default function Episodes({ episodes }) {
   const locale = orig === "default" ? "en" : orig;
   const localization = EpisodeLocale[locale] || EpisodeLocale["default"];
 
-  const url = `https://www.remometro.com/${orig !== 'default' ? `${locale}/` : ''}shows`
-  const title = `Remometro — ${localization.episodes}`;
-  const ogTitle = `${localization.episodes} — Remometro`;
+  const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}shows`
+  const title = `DreamPip — ${localization.episodes}`;
+  const ogTitle = `${localization.episodes} — DreamPip`;
   const ogDescription = localization.episodesDescription;
-  const ogImageUrl = 'https://www.remometro.com/og-image.png'; // Replace with your actual image URL
-  const defaultUrl = 'https://www.remometro.com/episodes';
+  const ogImageUrl = 'https://www.dreampip.com/og-image.png'; // Replace with your actual image URL
+  const defaultUrl = 'https://www.dreampip.com/episodes';
   const canonicalUrl = url;
 
   const [genres, setGenres] = useState(new Set())
@@ -183,7 +183,7 @@ export default function Episodes({ episodes }) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={ogTitle} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:description" content={ogDescription} />
         <meta name="description" content={ogDescription} />
@@ -200,7 +200,7 @@ export default function Episodes({ episodes }) {
             key={locale}
             rel="alternate"
             hrefLang={locale}
-            href={`https://www.remometro.com/${locale}/events`}
+            href={`https://www.dreampip.com/${locale}/events`}
           />
         ))}
       </Head>

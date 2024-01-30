@@ -10,25 +10,25 @@ export default function Posts(props) {
   return (
     <>
       <Head>
-        <title>Remometro — Blog</title>
-        <meta property="og:title" content="Remometro — Blog" />
-        <meta property="og:site_name" content="Remometro" />
-        <meta property="og:url" content="https://www.remometro.com/blog" />
+        <title>DreamPip — Blog</title>
+        <meta property="og:title" content="DreamPip — Blog" />
+        <meta property="og:site_name" content="DreamPip" />
+        <meta property="og:url" content="https://www.dreampip.com/blog" />
         <meta property="og:description" content="Some words promised, word." />
         <meta name="description" content="Some words promised, word." />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="https://www.remometro.com/og-image.png"
+          content="https://www.dreampip.com/og-image.png"
         />
         <meta
           property="og:image:secure_url"
-          content="https://www.remometro.com/og-image.png"
+          content="https://www.dreampip.com/og-image.png"
         />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <link rel="canonical" href="https://www.remometro.com/blog" />
+        <link rel="canonical" href="https://www.dreampip.com/blog" />
       </Head>
       <article className="content-page">
         <section className='wrap'>

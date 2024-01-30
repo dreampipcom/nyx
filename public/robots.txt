@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.remometro.com
+Host: https://www.dreampip.com
 
 # Sitemaps
-Sitemap: https://www.remometro.com/sitemap.xml
+Sitemap: https://www.dreampip.com/sitemap.xml

@@ -143,9 +143,9 @@ export default function Event(props) {
   const { locale: orig, pathname } = useRouter()
   const locale = orig === "default" ? "en" : orig
 
-  const title = `${event?.title} — Remometro`
+  const title = `${event?.title} — DreamPip`
 
-  const url = `https://www.remometro.com/${orig !== 'default' ? `${locale}/` : ''}event/${event?.url}`
+  const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}event/${event?.url}`
 
   const localization = EventLocale[locale] || EventLocale["default"]
   const localTime = event?.localTimezone || timezone[event?.country] || "Europe/Rome"
@@ -329,28 +329,28 @@ export default function Event(props) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
         <meta property="og:description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Purity, light, groove."} />
         <meta name="description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Purity, light, groove."} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content={(event?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=512"}
+          content={(event?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}
         />
         <meta
           property="twitter:image"
-          content={(event?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=512"}
+          content={(event?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}
         />
         <meta
           property="og:image:secure_url"
-          content={(event?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=512"}
+          content={(event?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}
         />
         <meta property="og:image:type" content="image/jpeg" />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`https://www.remometro.com/event/${event?.url}`} />
+        <link rel="alternate" hrefLang="x-default" href={`https://www.dreampip.com/event/${event?.url}`} />
         {Object.keys(localeMap).map((locale) => {
-          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.remometro.com/${locale}/event/${event?.url}`} />
+          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.dreampip.com/${locale}/event/${event?.url}`} />
         })}
         <script type="application/ld+json">
           {event?.structuredData}

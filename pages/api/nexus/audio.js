@@ -1,7 +1,7 @@
 // // // nexing things up
 // import httpProxy from 'http-proxy'
 
-// const API_URL = process.env.AUDIO_URL || 'https://stream.0.radio.media.infra.remometro.com/main' // The actual URL of your API
+// const API_URL = process.env.AUDIO_URL || 'https://stream.0.radio.media.infra.dreampip.com/main' // The actual URL of your API
 
 // const proxy = httpProxy.createProxyServer()
 
@@ -9,7 +9,7 @@
 //   	return new Promise((resolve, reject) => {
 
 //   const options = {
-// 	host: 'https://stream.0.radio.media.infra.remometro.com', // Replace with your target host
+// 	host: 'https://stream.0.radio.media.infra.dreampip.com', // Replace with your target host
 // 	path: '/main',
 //     method: 'GET',
 // 	headers: req.headers,
@@ -44,7 +44,7 @@
 // export default (req, res) => {
 // httpProxyMiddleware(req, res, {
 //         changeOrigin: true,
-//         target: 'https://stream.0.radio.media.infra.remometro.com',
+//         target: 'https://stream.0.radio.media.infra.dreampip.com',
 //         pathRewrite: [
 //             {
 //                 patternStr: '/api/nexus/audio', // this url is the one we are using on client side
@@ -82,7 +82,7 @@
 // const https = require('https')
 
 // const options = {
-//  host: 'stream.0.radio.media.infra.remometro.com', // Replace with your target host
+//  host: 'stream.0.radio.media.infra.dreampip.com', // Replace with your target host
 //  path: '/main',
 //  port: 443,
 //  method: 'GET',
@@ -153,9 +153,9 @@ export const generateApiCall = (path) => {
     if (process.env.NEXT_PUBLIC_LOCAL) {
       return `http://localhost:8080` + path
     }
-    return `https://beta.remometro.com` + path
+    return `https://beta.dreampip.com` + path
   }
-  return 'https://www.remometro.com' + path
+  return 'https://www.dreampip.com' + path
 }
 
 // // nexing things up

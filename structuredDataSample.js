@@ -22,8 +22,8 @@
   },
   "organizer": {
     "@type": "Organization",
-      "name": "Remometro",
-        "url": "https://www.remometro.com"
+      "name": "DreamPip",
+        "url": "https://www.dreampip.com"
   },
   "performer": [
     ${ event?.artistsCollection?.items?.map((artist) => {

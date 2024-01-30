@@ -1,5 +1,5 @@
 {
-  "name": "purizu.com",
+  "name": "dreampip.com",
   "version": "1.0.0",
   "private": true,
   "description": "just chilling",
@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/angeloreale/purizu.com"
+    "url": "git+https://github.com/angeloreale/dreampip.com"
   },
   "keywords": [],
   "author": "Angelo Reale",
   "license": "Copyright",
   "bugs": {
-    "url": "https://github.com/angeloreale/purizu.com/tree/main/issues"
+    "url": "https://github.com/angeloreale/dreampip.com/tree/main/issues"
   },
-  "homepage": "https://www.purizu.com",
+  "homepage": "https://www.dreampip.com",
   "dependencies": {
     "@babel/runtime": "^7.16.7",
     "@bugsnag/js": "^7.18.0",

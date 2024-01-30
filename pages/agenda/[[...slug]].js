@@ -122,7 +122,7 @@ export default function Page({ page, agenda, generatedIn, cal }) {
 
   const handleClick = () => {
     pzTrack("INTENT: ADD TO CALENDAR")
-    window.open('https://www.remometro.com/chat')
+    window.open('https://www.dreampip.com/chat')
   }
   const handleClose = () => {
     setCtaOpen(false)
@@ -237,11 +237,11 @@ export default function Page({ page, agenda, generatedIn, cal }) {
 
 
   const image = metaImage?.url
-  const title = `Remometro — ${metaTitle}`
+  const title = `DreamPip — ${metaTitle}`
 
   const actualSlug = query?.slug ? slug : 'agenda'
 
-  const url = `https://www.remometro.com${orig !== 'default' ? `/${locale}` : ''}/${actualSlug}`
+  const url = `https://www.dreampip.com${orig !== 'default' ? `/${locale}` : ''}/${actualSlug}`
 
   const localization = EventLocale[locale] || EventLocale["default"]
 
@@ -285,30 +285,30 @@ export default function Page({ page, agenda, generatedIn, cal }) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
         <meta property="og:description" content={description || snippet} />
         <meta name="description" content={description || snippet} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content={image || "https://www.remometro.com/og-image.png" + "?fm=jpg&w=512"}
+          content={image || "https://www.dreampip.com/og-image.png" + "?fm=jpg&w=512"}
         />
         <meta
           property="og:image:secure_url"
-          content={image || "https://www.remometro.com/og-image.png" + "?fm=jpg&w=512"}
+          content={image || "https://www.dreampip.com/og-image.png" + "?fm=jpg&w=512"}
         />
         <meta
           property="twitter:image"
-          content={image || "https://www.remometro.com/og-image.png" + "?fm=jpg&w=512"}
+          content={image || "https://www.dreampip.com/og-image.png" + "?fm=jpg&w=512"}
         />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`https://www.remometro.com/${actualSlug}`} />
+        <link rel="alternate" hrefLang="x-default" href={`https://www.dreampip.com/${actualSlug}`} />
         {Object.keys(localeMap).map((locale) => {
-          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.remometro.com/${locale}/${actualSlug}`} />
+          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.dreampip.com/${locale}/${actualSlug}`} />
         })}
       </Head>
       <article className="content-page">

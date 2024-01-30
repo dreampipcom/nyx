@@ -78,7 +78,7 @@ export function Template({ children }) {
         <GlobalStyle />
         <CssBaseline />
         <AppContext.Provider value={rootContext}>
-          {!rootContext.mobileApp && (<Header title="Remometro" description="Purity, light, groove." />)}
+          {!rootContext.mobileApp && (<Header title="DreamPip" description="Purity, light, groove." />)}
           <main className={"thebigbody"} sx={{ minHeight: !!rootContext.mobileApp ? pathname === '/chat' ? 'calc(100vh - 64px)' : '100vh' : 'initial' }}>
             {children}
           </main>

@@ -31,7 +31,7 @@ export default async function (req, res) {
 
     const headers = {
       'content-type': 'application/json',
-      //'Access-Control-Allow-Origin': 'https://www.remometro.com',
+      //'Access-Control-Allow-Origin': 'https://www.dreampip.com',
       //'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300'
     }
     return NextResponse.json({ token, ok: res.ok }, { status: 200, headers })

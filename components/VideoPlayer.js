@@ -23,7 +23,7 @@ const VideoPlayer = ({ customStyles, placeholder, url, slug, onError = () => {},
 
   const isAudio = slug?.includes('audio')
 
-  const finalUrl = url || (isAudio ? `https://media.infra.remometro.com/${slug}` : `https://media.infra.remometro.com/videos/${slug}/main.m3u8`)
+  const finalUrl = url || (isAudio ? `https://media.infra.dreampip.com/${slug}` : `https://media.infra.dreampip.com/videos/${slug}/main.m3u8`)
 
   const consented = consent
 

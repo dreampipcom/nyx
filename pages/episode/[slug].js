@@ -139,12 +139,12 @@ export default function Episode({ episode, preview }) {
   const [live, setLive] = useState(false)
   const [countdownString, setCountdownString] = useState("")
   const [overdue, setOverdue] = useState(false)
-  const title = `${episode?.title} — Remometro`
+  const title = `${episode?.title} — DreamPip`
 
   const { locale: orig, pathname } = useRouter()
   const locale = orig === "default" ? "en" : orig
 
-  const url = `https://www.remometro.com/${orig !== 'default' ? `${locale}/` : ''}episode/${episode?.url}`
+  const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}episode/${episode?.url}`
 
   const localization = EpisodeLocale[locale] || EpisodeLocale["default"]
 
@@ -238,27 +238,27 @@ export default function Episode({ episode, preview }) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
         <meta property="og:description" content={`${localization['listen']} ${artists}.`} />
         <meta name="description" content={`${localization['listen']} ${artists}.`} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content={`${(episode?.placeholder?.url || episode?.image?.url || "https:`//www.remometro.com/og-image.png") + "?fm=jpg&w=512"}`}
+          content={`${(episode?.placeholder?.url || episode?.image?.url || "https:`//www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}`}
         />
-        <meta property="twitter:image" content={`${(episode?.placeholder?.url || episode?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=512"}`} />
+        <meta property="twitter:image" content={`${(episode?.placeholder?.url || episode?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}`} />
         <meta
           property="og:image:secure_url"
-          content={`${(episode?.placeholder?.url || episode?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=512"}`}
+          content={`${(episode?.placeholder?.url || episode?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=512"}`}
         />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="512" />
         <meta property="og:image:height" content="512" />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`https://www.remometro.com/episode/${episode?.url}`} />
+        <link rel="alternate" hrefLang="x-default" href={`https://www.dreampip.com/episode/${episode?.url}`} />
         {Object.keys(localeMap).map((locale) => {
-          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.remometro.com/${locale}/episode/${episode?.url}`} />
+          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.dreampip.com/${locale}/episode/${episode?.url}`} />
         })}
       </Head>
       <div className="content content-single">
@@ -272,7 +272,7 @@ export default function Episode({ episode, preview }) {
                 backgroundColor: "#1a1a1a"
               }}>
               <ReactPlayer
-                url="https://live.infra.purizu.com/main.m3u8"
+                url="https://live.infra.dreampip.com/main.m3u8"
                 controls={true}
                 width="100%"
                 height="auto"

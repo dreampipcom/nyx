@@ -14,64 +14,64 @@ import { addPlaceholders } from '../lib/server-helpers';
 import Bugsnag from '@bugsnag/js';
 
 const DEFAULT = {
-  title: 'Remometro — Purity, light, groove.',
-  description: `Remometro is a community-oriented vibe modulation platform based now in Barcelona, and established on Sep. 2012.`
+  title: 'DreamPip — Purity, light, groove.',
+  description: `DreamPip is a community-oriented vibe modulation platform based now in Barcelona, and established on Sep. 2012.`
 }
 
 // Translation
 const IT = {
-  title: 'Remometro — Purezza, luce, groove.',
-  description: `Remometro è una piattaforma di modulazione delle vibrazioni orientata alla comunità, ora con sede a Barcellona e fondata nel settembre 2012.`
+  title: 'DreamPip — Purezza, luce, groove.',
+  description: `DreamPip è una piattaforma di modulazione delle vibrazioni orientata alla comunità, ora con sede a Barcellona e fondata nel settembre 2012.`
 }
 
 const PT = {
-  title: 'Remometro — Pureza, luz, groove.',
-  description: `Remometro é uma plataforma de modulação de vibração orientada para a comunidade, agora sediada em Barcelona, e estabelecida em setembro de 2012.`
+  title: 'DreamPip — Pureza, luz, groove.',
+  description: `DreamPip é uma plataforma de modulação de vibração orientada para a comunidade, agora sediada em Barcelona, e estabelecida em setembro de 2012.`
 }
 
 const ES = {
-  title: 'Remometro — Pureza, luz, groove.',
-  description: `Remometro es una plataforma de modulación de vibraciones orientada a la comunidad, ahora con sede en Barcelona, y establecida en septiembre de 2012.`
+  title: 'DreamPip — Pureza, luz, groove.',
+  description: `DreamPip es una plataforma de modulación de vibraciones orientada a la comunidad, ahora con sede en Barcelona, y establecida en septiembre de 2012.`
 }
 
 const DE = {
-  title: 'Remometro — Reinheit, Licht, Groove.',
-  description: `Remometro ist eine gemeinschaftsorientierte Vibe-Modulationsplattform, die jetzt in Barcelona ansässig ist und im Sep. 2012 gegründet wurde.`
+  title: 'DreamPip — Reinheit, Licht, Groove.',
+  description: `DreamPip ist eine gemeinschaftsorientierte Vibe-Modulationsplattform, die jetzt in Barcelona ansässig ist und im Sep. 2012 gegründet wurde.`
 }
 
 const FR = {
-  title: 'Remometro — Pureté, lumière, groove.',
-  description: `Remometro est une plateforme de modulation de vibe orientée communauté, désormais basée à Barcelone, et fondée en septembre 2012.`
+  title: 'DreamPip — Pureté, lumière, groove.',
+  description: `DreamPip est une plateforme de modulation de vibe orientée communauté, désormais basée à Barcelone, et fondée en septembre 2012.`
 }
 
 const RO = {
-  title: 'Remometro — Puritate, lumină, ritm.',
-  description: `Remometro este o platformă de modulare a vibrațiilor orientată către comunitate, acum cu sediul în Barcelona și înființată în septembrie 2012.`
+  title: 'DreamPip — Puritate, lumină, ritm.',
+  description: `DreamPip este o platformă de modulare a vibrațiilor orientată către comunitate, acum cu sediul în Barcelona și înființată în septembrie 2012.`
 }
 
 const PL = {
-  title: 'Remometro — Czystość, światło, groove.',
-  description: `Remometro to platforma modulacji wibracji zorientowana na społeczność, obecnie z siedzibą w Barcelonie i założona we wrześniu 2012 roku.`
+  title: 'DreamPip — Czystość, światło, groove.',
+  description: `DreamPip to platforma modulacji wibracji zorientowana na społeczność, obecnie z siedzibą w Barcelonie i założona we wrześniu 2012 roku.`
 }
 
 const CZ = {
-  title: 'Remometro — Čistota, světlo, groove.',
-  description: `Remometro je komunitně orientovaná platforma modulace vibe, nyní s působištěm v Barceloně a založená v září 2012.`
+  title: 'DreamPip — Čistota, světlo, groove.',
+  description: `DreamPip je komunitně orientovaná platforma modulace vibe, nyní s působištěm v Barceloně a založená v září 2012.`
 }
 
 const SE = {
-  title: 'Remometro — Renhet, ljus, groove.',
-  description: `Remometro är en samhällsorienterad vibe-moduleringsplattform som nu är baserad i Barcelona och etablerades i sep. 2012.`
+  title: 'DreamPip — Renhet, ljus, groove.',
+  description: `DreamPip är en samhällsorienterad vibe-moduleringsplattform som nu är baserad i Barcelona och etablerades i sep. 2012.`
 }
 
 const EE = {
-  title: 'Remometro — Puhtus, valgus, groove.',
-  description: `Remometro on kogukonnakeskne vibe modulatsiooni platvorm, mis nüüd asub Barcelonas ja asutati septembris 2012.`
+  title: 'DreamPip — Puhtus, valgus, groove.',
+  description: `DreamPip on kogukonnakeskne vibe modulatsiooni platvorm, mis nüüd asub Barcelonas ja asutati septembris 2012.`
 }
 
 const JP = {
-  title: 'Remometro — 純粋、光、グルーヴ。',
-  description: `Remometroは、現在バルセロナを拠点としたコミュニティ志向のバイブモジュレーションプラットフォームで、2012年9月に設立されました。`
+  title: 'DreamPip — 純粋、光、グルーヴ。',
+  description: `DreamPipは、現在バルセロナを拠点としたコミュニティ志向のバイブモジュレーションプラットフォームで、2012年9月に設立されました。`
 }
 
 
@@ -86,7 +86,7 @@ export default function Home(props) {
   const checkLive = async () => {
     if (!consent) return
     try {
-      const auth = `https://www.remometro.com/api/checklive`;
+      const auth = `https://www.dreampip.com/api/checklive`;
       const token = await fetch(auth)
       const json = await token.json()
       const status = json.data?.status
@@ -125,7 +125,7 @@ export default function Home(props) {
   const meta = localeMap[locale] || localeMap['en']
   const localization = HomeLocale[locale] || HomeLocale['default']
 
-  const url = `https://www.remometro.com${orig !== 'default' ? `/${locale}` : '/'}`
+  const url = `https://www.dreampip.com${orig !== 'default' ? `/${locale}` : '/'}`
 
   useEffect(() => {
     const parsed = episodes?.length && [...episodes].map((episode) => {
@@ -178,26 +178,26 @@ export default function Home(props) {
       <Head>
         <title>{meta.title}</title>
         <meta property="og:title" content={meta.title} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
         <meta property="og:description" content={meta.description} />
         <meta name="description" content={meta.description} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="https://www.remometro.com/og-image.png"
+          content="https://www.dreampip.com/og-image.png"
         />
         <meta
           property="og:image:secure_url"
-          content="https://www.remometro.com/og-image.png"
+          content="https://www.dreampip.com/og-image.png"
         />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`https://www.remometro.com/`} />
+        <link rel="alternate" hrefLang="x-default" href={`https://www.dreampip.com/`} />
         {Object.keys(localeMap).map((locale) => {
-          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.remometro.com/${locale}`} />
+          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.dreampip.com/${locale}`} />
         })}
       </Head>
       <article className="content content-page">
@@ -222,7 +222,7 @@ export default function Home(props) {
                 backgroundColor: "#1a1a1a"
               }}>
               <ReactPlayer
-                url="https://live.infra.purizu.com/main.m3u8"
+                url="https://live.infra.dreampip.com/main.m3u8"
                 controls={true}
                 width="100%"
                 height="auto"

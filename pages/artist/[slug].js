@@ -125,13 +125,13 @@ export default function Artist(props) {
   const [selectedPhoto, setSelectedPhoto] = useState("")
   const locale = orig === "default" ? "en" : orig
 
-  const url = `https://www.remometro.com/${orig !== 'default' ? `${locale}/` : ''}artist/${artist?.url}`
+  const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}artist/${artist?.url}`
 
   const localization = ArtistLocale[locale] || ArtistLocale["default"]
 
   const episodes = artist?.linkedFrom?.episodesCollection?.items
 
-  const title = `${artist?.name} — Remometro`
+  const title = `${artist?.name} — DreamPip`
 
   const context = useContext(AppContext)
 
@@ -233,32 +233,32 @@ export default function Artist(props) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
         <meta property="og:description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Purity, light, groove."} />
         <meta name="description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Purity, light, groove."} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content={(artist?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
+          content={(artist?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
         />
         <meta
           property="twitter:image"
-          content={(artist?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
-        //content={(artist?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=filljpg&w=512"}
+          content={(artist?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
+        //content={(artist?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=filljpg&w=512"}
         />
         <meta
           property="og:image:secure_url"
-          content={(artist?.image?.url || "https://www.remometro.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
-        //content={(artist?.image?.url || "https://www.remometro.com/og-image.png")}
+          content={(artist?.image?.url || "https://www.dreampip.com/og-image.png") + "?fm=jpg&w=800&h=418&fit=fill"}
+        //content={(artist?.image?.url || "https://www.dreampip.com/og-image.png")}
         />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="800" />
         <meta property="og:image:height" content="418" />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`https://www.remometro.com/artist/${artist?.url}`} />
+        <link rel="alternate" hrefLang="x-default" href={`https://www.dreampip.com/artist/${artist?.url}`} />
         {Object.keys(localeMap).map((locale) => {
-          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.remometro.com/${locale}/artist/${artist?.url}`} />
+          return <link key={locale} rel="alternate" hrefLang={locale} href={`https://www.dreampip.com/${locale}/artist/${artist?.url}`} />
         })}
       </Head>
       <article className="content content-single">
@@ -367,8 +367,8 @@ const CountdownComponent = ({ mobileApp, countStart, localization, event, locale
     const eventData = {
       start: startEvent,
       end: endEvent,
-      title: event?.title + ' at Remometro',
-      url: url || 'https://www.remometro.com',
+      title: event?.title + ' at DreamPip',
+      url: url || 'https://www.dreampip.com',
       location: undefined,
       locale,
       recurrence: event?.rotationWeeks ? `FREQ=WEEKLY;INTERVAL=${event?.rotationWeeks}` : undefined,

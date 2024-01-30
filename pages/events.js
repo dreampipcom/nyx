@@ -94,13 +94,13 @@ export default function Events({ events }) {
   const locale = orig === "default" ? "en" : orig;
   const localization = EventLocale[locale] || EventLocale["default"];
 
-  const url = `https://www.remometro.com/${orig !== 'default' ? `${locale}/` : ''}events`
+  const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}events`
 
-  const title = `Remometro — ${localization.events}`;
-  const ogTitle = `${localization.events} — Remometro`;
+  const title = `DreamPip — ${localization.events}`;
+  const ogTitle = `${localization.events} — DreamPip`;
   const ogDescription = localization.eventsDescription;
-  const ogImageUrl = 'https://www.remometro.com/og-image.png'; // Replace with your actual image URL
-  const defaultUrl = 'https://www.remometro.com/events';
+  const ogImageUrl = 'https://www.dreampip.com/og-image.png'; // Replace with your actual image URL
+  const defaultUrl = 'https://www.dreampip.com/events';
   const canonicalUrl = url;
 
 
@@ -151,7 +151,7 @@ export default function Events({ events }) {
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={ogTitle} />
-        <meta property="og:site_name" content="Remometro" />
+        <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:description" content={ogDescription} />
         <meta name="description" content={ogDescription} />
@@ -168,7 +168,7 @@ export default function Events({ events }) {
             key={locale}
             rel="alternate"
             hrefLang={locale}
-            href={`https://www.remometro.com/${locale}/events`}
+            href={`https://www.dreampip.com/${locale}/events`}
           />
         ))}
       </Head>

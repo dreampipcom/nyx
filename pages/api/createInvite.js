@@ -46,7 +46,7 @@ export default async function (req, res) {
         headers: {
           'Content-Type': 'text/calendar; charset=utf-8',
           'Content-Disposition': `inline; filename="${filename}"`,
-          'Access-Control-Allow-Origin': 'https://www.remometro.com',
+          'Access-Control-Allow-Origin': 'https://www.dreampip.com',
           'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300'
         },
       },

@@ -177,7 +177,7 @@ function Header({ title = 'Headless by WP Engine', description }) {
             )}
             <Link href={`/`}>
               <span style={{ display: "flex", height: 120, width: 100 }}>
-                <Image eager fill src={`/${process.env.NEXT_PUBLIC_SUBPATH_PREFIX ? process.env.NEXT_PUBLIC_SUBPATH_PREFIX + '/' : ''}images/remometro-000.svg`} alt="Remometro" />
+                <Image eager fill src={`/${process.env.NEXT_PUBLIC_SUBPATH_PREFIX ? process.env.NEXT_PUBLIC_SUBPATH_PREFIX + '/' : ''}images/remometro-000.svg`} alt="DreamPip" />
               </span>
             </Link>
 
