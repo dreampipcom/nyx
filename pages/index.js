@@ -14,63 +14,63 @@ import { addPlaceholders } from '../lib/server-helpers';
 import Bugsnag from '@bugsnag/js';
 
 const DEFAULT = {
-  title: 'DreamPip — Purity, light, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip is a community-oriented vibe modulation platform based now in Barcelona, and established on Sep. 2012.`
 }
 
 // Translation
 const IT = {
-  title: 'DreamPip — Purezza, luce, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip è una piattaforma di modulazione delle vibrazioni orientata alla comunità, ora con sede a Barcellona e fondata nel settembre 2012.`
 }
 
 const PT = {
-  title: 'DreamPip — Pureza, luz, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip é uma plataforma de modulação de vibração orientada para a comunidade, agora sediada em Barcelona, e estabelecida em setembro de 2012.`
 }
 
 const ES = {
-  title: 'DreamPip — Pureza, luz, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip es una plataforma de modulación de vibraciones orientada a la comunidad, ahora con sede en Barcelona, y establecida en septiembre de 2012.`
 }
 
 const DE = {
-  title: 'DreamPip — Reinheit, Licht, Groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip ist eine gemeinschaftsorientierte Vibe-Modulationsplattform, die jetzt in Barcelona ansässig ist und im Sep. 2012 gegründet wurde.`
 }
 
 const FR = {
-  title: 'DreamPip — Pureté, lumière, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip est une plateforme de modulation de vibe orientée communauté, désormais basée à Barcelone, et fondée en septembre 2012.`
 }
 
 const RO = {
-  title: 'DreamPip — Puritate, lumină, ritm.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip este o platformă de modulare a vibrațiilor orientată către comunitate, acum cu sediul în Barcelona și înființată în septembrie 2012.`
 }
 
 const PL = {
-  title: 'DreamPip — Czystość, światło, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip to platforma modulacji wibracji zorientowana na społeczność, obecnie z siedzibą w Barcelonie i założona we wrześniu 2012 roku.`
 }
 
 const CZ = {
-  title: 'DreamPip — Čistota, světlo, groove.',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPip je komunitně orientovaná platforma modulace vibe, nyní s působištěm v Barceloně a založená v září 2012.`
 }
 
 const SE = {
-  title: 'DreamPip — Renhet, ljus, groove.',
+  title: 'DreamPip — — Upwards streaming. 📡',
   description: `DreamPip är en samhällsorienterad vibe-moduleringsplattform som nu är baserad i Barcelona och etablerades i sep. 2012.`
 }
 
 const EE = {
-  title: 'DreamPip — Puhtus, valgus, groove.',
+  title: 'DreamPip — — Upwards streaming. 📡',
   description: `DreamPip on kogukonnakeskne vibe modulatsiooni platvorm, mis nüüd asub Barcelonas ja asutati septembris 2012.`
 }
 
 const JP = {
-  title: 'DreamPip — 純粋、光、グルーヴ。',
+  title: 'DreamPip — Upwards streaming. 📡',
   description: `DreamPipは、現在バルセロナを拠点としたコミュニティ志向のバイブモジュレーションプラットフォームで、2012年9月に設立されました。`
 }
 

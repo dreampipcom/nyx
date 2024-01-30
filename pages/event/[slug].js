@@ -331,8 +331,8 @@ export default function Event(props) {
         <meta property="og:title" content={title} />
         <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
-        <meta property="og:description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Purity, light, groove."} />
-        <meta name="description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Purity, light, groove."} />
+        <meta property="og:description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Upwards streaming. 📡"} />
+        <meta name="description" content={`${localization['when']}: ${localWhen}, ${localization['country']}: ${country}, ${localization['city']}: ${event?.city}, ${localization['artists']}: ${artists}` || "Upwards streaming. 📡"} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"

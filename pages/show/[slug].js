@@ -200,8 +200,8 @@ export default function Show(props) {
         <meta property="og:title" content={title} />
         <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
-        <meta property="og:description" content={`${localization['country']}: ${country}, ${localization['artist']}: ${artists}` || "Purity, light, groove."} />
-        <meta name="description" content={`${localization['country']}: ${country}, ${localization['artist']}: ${artists}` || "Purity, light, groove."} />
+        <meta property="og:description" content={`${localization['country']}: ${country}, ${localization['artist']}: ${artists}` || "Upwards streaming. 📡"} />
+        <meta name="description" content={`${localization['country']}: ${country}, ${localization['artist']}: ${artists}` || "Upwards streaming. 📡"} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
