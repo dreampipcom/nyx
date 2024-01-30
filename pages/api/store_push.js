@@ -14,7 +14,7 @@ export default async function (req, res) {
     const project = searchParams.get('project') || "test"
     const locale = searchParams.get('locale') || "en_US"
     
-    const endpoint = `https://eu-west-1.aws.data.mongodb-api.com/app/application-0-pdnug/endpoint/add_push?secret=q%254t2qsT%23%24IQ&project=${project}&data=${encodeURIComponent(token)}&locale=${locale}`;
+    const endpoint = `https://eu-west-1.aws.data.mongodb-api.com/app/application-0-pdnug/endpoint/add_push?authplusadvancedextra=${process.env.CLOUD_SECRET}&project=${project}&data=${encodeURIComponent(token)}&locale=${locale}`;
     
     if (!token.includes("ExponentPushToken")) {
      throw new Error("Missing token")
