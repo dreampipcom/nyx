@@ -1,0 +1,20 @@
+{
+  "spaceId": "",
+  "environmentId": "migration",
+  "managementToken": "",
+  "deliveryToken": "",
+  "exportDir": "./migrations/data",
+  "saveFile": true,
+  "contentFile": "export.json",
+  "contentOnly": true,
+  "queryEntries": [
+    "content_type=episodes",
+    "fields.body[exists]=true"
+  ],
+  "queryAssets": [
+  ],
+  "downloadAssets": false,
+  "host": "api.contentful.com",
+  "maxAllowedLimit": 1000,
+  "errorLogFile": "./migrations/data/error.log"
+}

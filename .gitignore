@@ -1,0 +1,17 @@
+node_modules
+
+.next
+.env
+.env.*
+!.env*.sample
+
+out/
+
+wpe.json
+
+.DS_Store
+
+contentful-export*
+
+migrations/data/*
+logs/*

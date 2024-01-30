@@ -1,0 +1,6 @@
+export { EventLocale } from './event'
+export { HeaderLocale } from './header'
+export { EpisodeLocale } from './episode'
+export { ShowLocale } from './show'
+export { ArtistLocale } from './artist'
+export { BlogLocale } from './blog'

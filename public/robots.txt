@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.remometro.com
+
+# Sitemaps
+Sitemap: https://www.remometro.com/sitemap.xml
