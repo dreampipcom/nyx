@@ -81,7 +81,7 @@ function Footer({ copyrightHolder = 'Company Name' }) {
       {(hasPlayer || !!context.mobileApp) && (
         <section key={`${context?.episode?.mixcloud}+${!!context.mobileApp}`} style={{ bottom: 0, position: "sticky", bottom: 0, zIndex: 3, backgroundColor: '#1a1a1a' }}>
           {hasPlayer && (
-            <iframe key={context?.episode?.mixcloud} width="100%" style={{ marginBottom: "-9px" }} height="60" src={`https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&hide_artwork=1&feed=%2Fremometro%2F${encodeURIComponent(context.episode?.mixcloud?.split('/purizu/')[1])}`} frameBorder="0" ></iframe>
+            <iframe key={context?.episode?.mixcloud} width="100%" style={{ marginBottom: "-9px" }} height="60" src={`https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&hide_artwork=1&feed=%2Fdreampip%2F${encodeURIComponent(context.episode?.mixcloud?.split('/purizu/')[1])}`} frameBorder="0" ></iframe>
           )}
           <div style={{ display: !!context?.mobileApp ? 'flex' : 'none', justifyContent: 'center', padding: '8px' }}>
             <FormControl sx={{ w: 200 }} variant="standard">
@@ -160,19 +160,19 @@ function Footer({ copyrightHolder = 'Company Name' }) {
                 </a>
               </Apps>
               <Social>
-                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://facebook.com/remometrocom" target="_blank">
+                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://facebook.com/dreampipcom" target="_blank">
                   <Image q={100} width={36} height={36} customStyles={{ width: '100%', height: 'auto' }} alt="Facebook" src='https://images.ctfassets.net/jbs68hjf5qms/2v6UoLN0NM5ARkzN3fK1Sb/ca89ac953674e53062dcdc5b4ba4295f/facebook-icon-white.png?fm=webp' />
                 </a>
-                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://instagram.com/remometrocom" target="_blank">
+                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://instagram.com/dreampipcom" target="_blank">
                   <Image q={100} width={36} height={36} customStyles={{ width: '100%', height: 'auto' }} alt="Instagram" src='https://images.contentful.com/jbs68hjf5qms/2LfvsXivHHfsWPCH88WoAk/5a5720411fffff7932d142fd3e409b62/instagram.png?fm=webp' />
                 </a>
-                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://x.com/remometrocom" target="_blank">
+                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://x.com/dreampipcom" target="_blank">
                   <Image q={100} width={36} height={36} customStyles={{ width: '100%', height: 'auto' }} alt="Twitter" src='https://images.contentful.com/jbs68hjf5qms/41iVrTWnxF2hrgcSaq99Yg/6a03c41537424d03b7d672b6a1299243/twitter.png?fm=webp' />
                 </a>
-                {/* <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://soundcloud.com/remometrocom" target="_blank">
+                {/* <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://soundcloud.com/dreampipcom" target="_blank">
                   <Image width={36} height={36} customStyles={{ width: '100%', height: 'auto' }}  alt="Soundcloud" src='https://images.contentful.com/jbs68hjf5qms/3WqADRPPpNDFZhbWmkoW5c/d783b91b13e64f0018e8edc23c166e42/soundcloud.png?fm=webp' />
                 </a> */}
-                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://mixcloud.com/remometro" target="_blank">
+                <a style={{ position: 'relative', display: 'flex', height: 36, width: 36, alignItems: 'center' }} href="https://mixcloud.com/dreampip" target="_blank">
                   <Image q={100} width={36} height={36} customStyles={{ width: '100%', height: 'auto' }} alt="Mixcloud" src='https://images.contentful.com/jbs68hjf5qms/22Nni1aXvpHsFijjjudV8W/a52ae7d6120286357bb8df113388d2ca/mixcloud.png?fm=webp' />
                 </a>
               </Social>
