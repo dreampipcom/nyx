@@ -54,6 +54,8 @@ const config = {
     },
     async rewrites() {
         return [
+            {"source": "/app", "destination": "https://alpha.dreampip.com/"},
+            {"source": "/app/:match*", "destination": "https://alpha.dreampip.com/:match*"},
             {
                 source: '/api/nexus/audio/0',
                 destination: 'http://66.135.5.207:8002/main',
