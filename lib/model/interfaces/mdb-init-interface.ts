@@ -9,7 +9,7 @@ import type {
   ILogger,
   ILogContext,
 } from "@types";
-import { MongoConnector, _setDb as setDb } from "../mdb-connector";
+import { default as MongoConnector, _setDb as setDb } from "../mdb-connector";
 import {
   DATABASE_STRING as databaseName,
   DATABASE_USERS_STRING as userDatabaseName,
