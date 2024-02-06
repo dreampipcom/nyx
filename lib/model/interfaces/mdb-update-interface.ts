@@ -27,7 +27,6 @@ export const initUser = async ({
 }: {
   email: UserSchema["email"];
 }) => {
-  console.log("---- init user iface ----")
   const Nexus = await NexusInterface
   const user = await Nexus.initUser({ email })
   return user

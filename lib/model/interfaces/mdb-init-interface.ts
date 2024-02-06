@@ -218,11 +218,9 @@ const _OrgSchema: OrgDecoration = {
 /* private */
 
 const prepare = async (name: Tdbs): (() => any) => {
-    console.log("@@@@ prepare @@@@")
     const conn = await MongoConnector;
     const db_conn = await setDb(name);
     const db = await db_conn.db(name);
-    console.log("@@@@ prepare again @@@@", { conn, db_conn, db })
     return db;
 };
 
@@ -272,7 +270,6 @@ const Instance: any = {}
 /* 0. init */
 const init = async ({ name }) => {
     const usersDb = userDatabaseName || databaseName
-    console.log("----- @@@ Starting a brand new instance of NexusDB @@@ -----", { Instance })
 
     const _users = {
       status: "loading",
@@ -345,7 +342,6 @@ const init = async ({ name }) => {
       docQuery: { email }
     },
     Instance.private.users)
-    console.log("@@@@ IS FIRST USER", {isFirstUser})
     if(isFirstUser) {
       await Instance.private.defineOrgSchema()
       await Instance.private.defineRelations()
@@ -409,7 +405,6 @@ const init = async ({ name }) => {
       if (!process.env.NEXUS_SCHEMA === "true") {
         return
       }
-      console.log("@@@@ SCHEMA @@@@")
       await Instance.private.defineUserSchema()
       await Instance.private.reloadUsers()
       await Instance.private.defineOrgSchema()
