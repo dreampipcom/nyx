@@ -1,22 +1,16 @@
 // actions.d.ts
-import type { Context } from "react";
-export type ActionT =
-  | "init"
-  | "login"
-  | "logout"
-  | "hydrate"
-  | "update_db"
-  | "schema-enforcing";
-export type ActionTypes = "init" | "auth" | "rickmorty" | string;
+import type { Context } from 'react';
+export type ActionT = 'init' | 'login' | 'logout' | 'hydrate' | 'update_db' | 'schema-enforcing';
+export type ActionTypes = 'init' | 'auth' | 'rickmorty' | string;
 export type ActionAuthNames =
-  | "load user"
-  | "unload user"
-  | "load characters"
-  | "unload characters"
-  | "decorate characters"
-  | "add char to favorites";
+  | 'load user'
+  | 'unload user'
+  | 'load characters'
+  | 'unload characters'
+  | 'decorate characters'
+  | 'add char to favorites';
 
-export type ActionDBNames = "database" | "collection" | "relations" | "connect";
+export type ActionDBNames = 'database' | 'collection' | 'relations' | 'connect';
 
 export type ISupportedContexts = IAuthContext | IRMContext | ILogContext;
 
@@ -38,7 +32,7 @@ export interface IOplogOps {
 }
 
 export interface ILogger extends Array<ILogContext> {
-  _: IOplogOps
+  _: IOplogOps;
 }
 
 export interface IActionBack extends ILogContext {
@@ -74,9 +68,7 @@ export interface IACharacterPayload {
   cid?: number;
 }
 
-export type ICreateAction = (
-  options: IActionBack,
-) => (_options: IAction) => [boolean | undefined, IDispatch];
+export type ICreateAction = (options: IActionBack) => (_options: IAction) => [boolean | undefined, IDispatch];
 
 export type IAPayload = IALoginPayload | IACharacterPayload;
 export type IDPayload = IDAddToFavPayload;

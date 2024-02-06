@@ -1,2 +1,2 @@
 // index.ts
-export { getCharacters } from "./rm-connector"
+export { getCharacters } from './rm-connector';

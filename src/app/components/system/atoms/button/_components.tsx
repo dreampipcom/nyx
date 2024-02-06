@@ -1,8 +1,8 @@
 // @atoms/button.tsx
-"use server"
-import ServerComponent from "./server";
+'use server';
+import ServerComponent from './server';
 
 export const Component = async () => {
-	//return <>Lorem</>
-  return <ServerComponent />
+  // return <>Lorem</>
+  return <ServerComponent />;
 };

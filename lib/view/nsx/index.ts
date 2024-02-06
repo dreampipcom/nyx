@@ -1,2 +1,2 @@
 // index.ts
-export { jsx as nxs } from "./adapters"
+export { jsx as nxs } from './adapters';

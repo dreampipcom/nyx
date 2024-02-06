@@ -1,38 +1,26 @@
 // helpers.ts
-import type { ILogContext } from "@types";
+import type { ILogContext } from '@types';
 
-export const createStatusStr = ({
-  category,
-  type,
-  action,
-  verb,
-  status,
-  message,
-  context,
-}: ILogContext = {}) => {
+export const createStatusStr = ({ category, type, action, verb, status, message, context }: ILogContext = {}) => {
   const str = `((${category})): --- ${type} / ${action} / ${verb} / ${message}:${status} ---`;
   switch (context) {
-    case "client": {
-      return "%c " + str;
+    case 'client': {
+      return '%c ' + str;
     }
-    case "server": {
-      const color = str.includes("error")
-        ? "\x1b[1;41m "
-        : !(!str.includes("idle"))
-          ? "\x1b[1;43m"
-          : "\x1b[1;42m";
-      const str_col = "\x1b[1;" + color + str + "\x1b[0m";
+    case 'server': {
+      const color = str.includes('error') ? '\x1b[1;41m ' : str.includes('idle') ? '\x1b[1;43m' : '\x1b[1;42m';
+      const str_col = '\x1b[1;' + color + str + '\x1b[0m';
       return str_col;
     }
     default: {
-      return "%c " + str;
+      return '%c ' + str;
     }
   }
 };
 
 export const dbLog = ({ type, action, verb, status, message }: ILogContext) => {
   // console.log("@@@ db log @@@@")
-  const category = "database";
+  const category = 'database';
   console.log(
     createStatusStr({
       category,
@@ -41,19 +29,13 @@ export const dbLog = ({ type, action, verb, status, message }: ILogContext) => {
       verb,
       status,
       message,
-      context: "server",
+      context: 'server',
     }),
   );
 };
 
-export const fluxLog = ({
-  type,
-  action,
-  verb,
-  status,
-  message,
-}: ILogContext) => {
-  const category = "react-flux";
+export const fluxLog = ({ type, action, verb, status, message }: ILogContext) => {
+  const category = 'react-flux';
   const str = createStatusStr({
     category,
     type,
@@ -61,16 +43,16 @@ export const fluxLog = ({
     verb,
     status,
     message,
-    context: "client",
+    context: 'client',
   });
   return console.log(
     str,
-    `background: ${str.includes("db") ? "#000055" : "#1f1f1f"}; color: ${str.includes("error") ? "error" : str.includes("idle") ? "yellow" : "green"};`,
+    `background: ${str.includes('db') ? '#000055' : '#1f1f1f'}; color: ${str.includes('error') ? 'error' : str.includes('idle') ? 'yellow' : 'green'};`,
   );
 };
 
 export const log = (str: string) =>
   console.log(
     str,
-    `background: ${str.includes("db") ? "cyan" : "#1f1f1f"}; color: ${str.includes("error") ? "error" : str.includes("idle") ? "yellow" : "green"};`,
+    `background: ${str.includes('db') ? 'cyan' : '#1f1f1f'}; color: ${str.includes('error') ? 'error' : str.includes('idle') ? 'yellow' : 'green'};`,
   );

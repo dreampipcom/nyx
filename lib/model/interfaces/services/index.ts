@@ -1,8 +1,8 @@
 // index.ts
-import * as rickmorty from "./rickmorty"
+import * as rickmorty from './rickmorty';
 
 const services = {
-	rickmorty
-}
+  rickmorty,
+};
 
-export default services
+export default services;

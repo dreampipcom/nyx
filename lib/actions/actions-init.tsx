@@ -1,19 +1,10 @@
 // actions-init.tsx
-"use client";
-import type {
-  ISupportedContexts,
-  IActionBack,
-  IAction,
-  IStatus,
-  ICreateAction,
-  IDispatch,
-  IPayload,
-} from "@types";
+/* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
+'use client';
+import type { ISupportedContexts, IActionBack, IAction, IStatus, ICreateAction, IDispatch, IPayload } from '@types';
 
-import { createLogMessage, fluxLog as log } from "@log";
-
-import { useState, useEffect, useContext, useRef } from "react";
-import { AuthContext, RMContext, LogContext } from "@state";
+import { createLogMessage, fluxLog as log } from '@log';
+import { useState, useEffect, useContext, useRef } from 'react';
 
 export const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
@@ -22,13 +13,12 @@ export const CreateAction: ICreateAction =
     const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
 
     // to-do: abstract from auth context (link to ticket)
-    const _context: ISupportedContexts =
-      useContext<ISupportedContexts>(context);
+    const _context: ISupportedContexts = useContext<ISupportedContexts>(context);
     const { setter }: ISupportedContexts = _context;
 
     const init = useRef(false);
-    const s_current = useRef("loaded");
-    const message = useRef("");
+    const s_current = useRef('loaded');
+    const message = useRef('');
     const to_call = useRef<IDispatch>(noop);
     const status = useRef<IStatus>({
       current: s_current.current,
@@ -38,11 +28,9 @@ export const CreateAction: ICreateAction =
     const payload = useRef<IPayload>();
     const [dispatchd, setDispatchd] = useState(false);
 
-    const updateStatus = (
-      { ok }: { ok: boolean | undefined } = { ok: undefined },
-    ) => {
+    const updateStatus = ({ ok }: { ok: boolean | undefined } = { ok: undefined }) => {
       const _status = {
-        category: "flux",
+        category: 'flux',
         type,
         action,
         verb,
@@ -65,8 +53,8 @@ export const CreateAction: ICreateAction =
 
     const dispatch: IDispatch = (clientPayload, toCall) => {
       payload.current = { ...clientPayload };
-      s_current.current = "init:active";
-      message.current = "dispatched";
+      s_current.current = 'init:active';
+      message.current = 'dispatched';
       to_call.current = toCall || noop;
       updateStatus();
       setDispatchd(!dispatchd);
@@ -79,19 +67,19 @@ export const CreateAction: ICreateAction =
 
     useEffect(() => {
       if (!dispatchd) {
-        s_current.current = "init:idle";
-        message.current = "not dispatched yet";
+        s_current.current = 'init:idle';
+        message.current = 'not dispatched yet';
         return cancel();
       }
 
       if (!payload?.current) {
-        s_current.current = "cancelled";
-        message.current = "no payload data";
+        s_current.current = 'cancelled';
+        message.current = 'no payload data';
         return cancel();
       }
 
-      s_current.current = "started";
-      message.current = "loading payload data";
+      s_current.current = 'started';
+      message.current = 'loading payload data';
       updateStatus();
 
       if (setter) {
@@ -104,15 +92,14 @@ export const CreateAction: ICreateAction =
 
       init.current = true;
 
-      s_current.current = "in progress";
-      message.current = "calling functions";
+      s_current.current = 'in progress';
+      message.current = 'calling functions';
       updateStatus({ ok: undefined });
 
-      if (typeof to_call?.current === "function")
-        to_call.current(payload.current);
+      if (typeof to_call?.current === 'function') to_call.current(payload.current);
 
-      s_current.current = "completed";
-      message.current = "success";
+      s_current.current = 'completed';
+      message.current = 'success';
       updateStatus({ ok: true });
 
       if (cb && cb?.length > 0) {
@@ -124,8 +111,8 @@ export const CreateAction: ICreateAction =
       reset();
 
       return () => {
-        s_current.current = "ended";
-        message.current = "exit 0";
+        s_current.current = 'ended';
+        message.current = 'exit 0';
         updateStatus();
         reset();
       };

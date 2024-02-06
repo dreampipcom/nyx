@@ -1,6 +1,6 @@
 // contexts.d.ts
-import { UserSchema } from "@types";
-import type { Dispatch, SetStateAction } from "react";
+import type { UserSchema } from '@types';
+import type { Dispatch, SetStateAction } from 'react';
 
 export interface History {
   history: string[];

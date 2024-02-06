@@ -1,2 +1,2 @@
 // @atoms/button/client/index.ts
-export { NVButton } from "./button-view"
+export { NVButton } from './button-view';

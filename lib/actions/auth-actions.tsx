@@ -1,14 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 // auth-actions.ts
-"use client";
-import {
-  BuildAction,
-  CreateAction
-} from "@actions";
+'use client';
+import { BuildAction, CreateAction } from '@actions';
 
-import { 
-  AuthContext, 
-} from "@state";
+import { AuthContext } from '@state';
 
 /* to-do: chained actions */
 
@@ -17,16 +12,16 @@ import {
 /* public */
 
 export const ALogin = BuildAction(CreateAction, {
-  action: "login",
-  type: "auth",
-  verb: "load user",
+  action: 'login',
+  type: 'auth',
+  verb: 'load user',
   context: AuthContext,
 });
 
 export const ALogout = BuildAction(CreateAction, {
-  action: "logout",
-  type: "auth",
-  verb: "unload user",
+  action: 'logout',
+  type: 'auth',
+  verb: 'unload user',
   context: AuthContext,
 });
 

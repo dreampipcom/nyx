@@ -1,16 +1,10 @@
 // index.ts
 
 // contexts
-export type {
-  IAuthContext,
-  IRMContext,
-  INCharacter,
-  IDCharacter,
-  History,
-} from "./contexts";
+export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
 
 // model
-export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from "./model";
+export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from './model';
 
 // actions
 export type {
@@ -32,4 +26,4 @@ export type {
   IDispatchPayload,
   ILogContext,
   ILogger,
-} from "./actions";
+} from './actions';

@@ -1,6 +1,6 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
-import type { INCharacter } from "@types";
+import type { INCharacter } from '@types';
 const CHARS = `
 query {
   characters() {
@@ -25,9 +25,9 @@ query {
 
 async function fetchGraphQL(query: string) {
   return fetch(`https://rickandmortyapi.com/graphql`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       // Authorization: `Bearer ${preview
       //   ? process.env.token
       //   : process.env.token2

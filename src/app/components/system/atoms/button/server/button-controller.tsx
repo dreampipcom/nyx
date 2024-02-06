@@ -1,17 +1,16 @@
 // @atoms/button-controller.ts
-"use server"
-//import "server-only"
+'use server';
+// import "server-only"
 
 // import type { UserSchema } from "@types"
-//import { NVButton } from "./button-view";
+// import { NVButton } from "./button-view";
 
-interface NCButtonProps {
-}
+interface NCButtonProps {}
 
 export const NCButton = async ({}: NCButtonProps) => {
-	console.log("--- button controller")
+  console.log('--- button controller');
   // const props: ISignInData = await getProvidersData();
   // const providers: IAuthProviders[] = props?.providers || [];
   return <div>LOREM SERVER</div>;
-  //return <NVButton />;
+  // return <NVButton />;
 };

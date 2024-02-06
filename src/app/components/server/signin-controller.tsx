@@ -1,8 +1,8 @@
 // signin-controller.tsx
-"use server";
-import type { UserSchema } from "@types"
-import { getProviders } from "next-auth/react";
-import { VSignIn } from "@components/client";
+'use server';
+import type { UserSchema } from '@types';
+import { getProviders } from 'next-auth/react';
+import { VSignIn } from '@components/client';
 
 interface ISignInProps {
   user?: UserSchema;

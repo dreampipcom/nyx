@@ -1,14 +1,14 @@
 // constants.ts
-let nexusDatabase = "test";
-let orgsDatabase = "";
-let usersDatabase = "";
-let defaultOrg = ""
-let DATABASE_USERS_STRING = "";
-let DATABASE_ORGS_STRING = "";
-let DEFAULT_ORG = "demo"
+let nexusDatabase = 'test';
+let orgsDatabase = '';
+let usersDatabase = '';
+let defaultOrg = '';
+let DATABASE_USERS_STRING = '';
+let DATABASE_ORGS_STRING = '';
+let DEFAULT_ORG = 'demo';
 
 /* lean */
-if (process.env.NEXUS_MODE != "full") {
+if (process.env.NEXUS_MODE !== 'full') {
   nexusDatabase = process.env.MONGODB_DATABASE || nexusDatabase;
 } else {
   /* full-model */
@@ -37,7 +37,7 @@ if (process.env.NEXUS_MODE != "full") {
 /* __backwards-compatible: should fallback to nexus */
 DATABASE_USERS_STRING = usersDatabase || nexusDatabase;
 DATABASE_ORGS_STRING = orgsDatabase || nexusDatabase;
-DEFAULT_ORG = defaultOrg || "demo";
+DEFAULT_ORG = defaultOrg || 'demo';
 
 export {
   /* __default__ */

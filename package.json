@@ -11,8 +11,8 @@
     "start:schema": "NEXUS_SCHEMA=true next start",
     "start": "next start",
     "lint": "next lint",
-    "format": "next lint && prettier --check --ignore-path .gitignore .",
-    "format:fix": "next lint --fix && prettier --write --ignore-path .gitignore ."
+    "format": "next lint && prettier --check --ignore-path .gitignore --ignore-path .prettierignore .",
+    "format:fix": "next lint --fix && prettier --write --ignore-path .gitignore --ignore-path .prettierignore ."
   },
   "dependencies": {
     "@mui/base": "^5.0.0-beta.33",
