@@ -123,8 +123,8 @@ export default function Post(props) {
         <meta property="og:title" content={`${metaTitle} — DreamPip`} />
         <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
-        <meta property="og:description" content={snippet || "Upwards streaming. 📡"} />
-        <meta name="description" content={snippet || "Upwards streaming. 📡"} />
+        <meta property="og:description" content={snippet || "Upstreaming. 📡"} />
+        <meta name="description" content={snippet || "Upstreaming. 📡"} />
         <meta property="og:type" content="article" />
         <meta property="article:author" content={authors} />
         <meta property="article:published_time" content={post?.publishedOn} />

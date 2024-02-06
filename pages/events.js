@@ -96,8 +96,8 @@ export default function Events({ events }) {
 
   const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}events`
 
-  const title = `DreamPip — ${localization.events}`;
-  const ogTitle = `${localization.events} — DreamPip`;
+  const title = `Dream, Vibe, ...Pip! — ${localization.events}`;
+  const ogTitle = `${localization.events} — Dream, Vibe, ...Pip!`;
   const ogDescription = localization.eventsDescription;
   const ogImageUrl = 'https://www.dreampip.com/og-image.png'; // Replace with your actual image URL
   const defaultUrl = 'https://www.dreampip.com/events';

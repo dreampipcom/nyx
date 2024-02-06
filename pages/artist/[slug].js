@@ -235,8 +235,8 @@ export default function Artist(props) {
         <meta property="og:title" content={title} />
         <meta property="og:site_name" content="DreamPip" />
         <meta property="og:url" content={url} />
-        <meta property="og:description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Upwards streaming. 📡"} />
-        <meta name="description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Upwards streaming. 📡"} />
+        <meta property="og:description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Upstreaming. 📡"} />
+        <meta name="description" content={`${localization['country']}: ${countries}, ${localization['aliases']}: ${aliases}` || "Upstreaming. 📡"} />
         <meta property="og:type" content="website" />
         <meta
           property="og:image"

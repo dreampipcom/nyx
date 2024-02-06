@@ -108,7 +108,7 @@ export default function Page({ url: slug, title: metaTitle, description, metaIma
   const locale = orig === "default" ? "en" : orig
 
   const image = metaImage?.url
-  const title = `DreamPip — ${metaTitle}`
+  const title = `Dream, Vibe, ...Pip! — ${metaTitle}`
 
   const url = `https://www.dreampip.com${orig !== 'default' ? `/${locale}` : ''}/${slug}`
 

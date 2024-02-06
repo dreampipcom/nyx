@@ -72,6 +72,6 @@ export let middleware = (request) => {
 
 export const config = {
     matcher: [
-        '/((?!app|.well-known|api|favicon.ico|fonts|images|scripts|og-image.png|sitemap|robots|_next|en|it-it|pt-br|es-es|de-de|fr-fr|ro|pl-pl|cs-cz|sv-se|et-ee|ja-jp).*)/',
+        '/((?!subs|members|app|.well-known|api|favicon.ico|fonts|images|scripts|og-image.png|sitemap|robots|_next|en|it-it|pt-br|es-es|de-de|fr-fr|ro|pl-pl|cs-cz|sv-se|et-ee|ja-jp).*)/',
     ],
 }

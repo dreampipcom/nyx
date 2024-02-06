@@ -125,7 +125,7 @@ function Player({
       setContext({ ...context, reconsent: !reconsent })
     }
     if (!isPlaying) {
-      player.src = play + `?bust=${new Date().toISOString()}`
+      player.src = play + ``
       player.load()
       player.play()
       setisPlaying(true)

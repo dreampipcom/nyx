@@ -39,8 +39,8 @@ export default function Episodes({ episodes }) {
   const localization = EpisodeLocale[locale] || EpisodeLocale["default"];
 
   const url = `https://www.dreampip.com/${orig !== 'default' ? `${locale}/` : ''}shows`
-  const title = `DreamPip — ${localization.episodes}`;
-  const ogTitle = `${localization.episodes} — DreamPip`;
+  const title = `Dream, Vibe, ...Pip! — ${localization.episodes}`;
+  const ogTitle = `${localization.episodes} — Dream, Vibe, ...Pip!`;
   const ogDescription = localization.episodesDescription;
   const ogImageUrl = 'https://www.dreampip.com/og-image.png'; // Replace with your actual image URL
   const defaultUrl = 'https://www.dreampip.com/episodes';

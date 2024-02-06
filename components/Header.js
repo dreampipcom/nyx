@@ -115,12 +115,12 @@ function Header({ title = 'Headless by WP Engine', description }) {
       }
     },
     { title: localization['episodes'], href: localizeUrl(`/episodes`, locale) },
-    { title: localization['shows'], href: localizeUrl(`/shows`, locale) },
+    // { title: localization['shows'], href: localizeUrl(`/shows`, locale) },
     { title: localization['agenda'], href: localizeUrl(`/agenda`, locale) },
-    { title: localization['events'], href: localizeUrl(`/events`, locale) },
-    { title: localization['blog'], href: localizeUrl(`/blog`, locale) },
-    { title: localization['label'], href: localizeUrl(`/label`, locale) },
-    { title: localization['support-us'], href: localizeUrl('/support', locale) },
+    // { title: localization['events'], href: localizeUrl(`/events`, locale) },
+    // { title: localization['blog'], href: localizeUrl(`/blog`, locale) },
+    // { title: localization['label'], href: localizeUrl(`/label`, locale) },
+    // { title: localization['support-us'], href: localizeUrl('/support', locale) },
     { title: localization['about'], href: localizeUrl(`/who`, locale) },
     { title: localization['privacy'], href: localizeUrl(`/privacy`, locale) },
   ];

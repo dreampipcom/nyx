@@ -11,7 +11,7 @@ export const HeaderLocale = {
         "privacy": "Privacy Policy",
         "locale": "Locale",
         "blog": "Blog",
-        "agenda": "Cultural Agenda"
+        "agenda": "Agenda"
     },
     "it-it": {
         "home": "Inizio",
@@ -25,7 +25,7 @@ export const HeaderLocale = {
         "privacy": "Privacy",
         "locale": "Lengua",
         "blog": "Blog",
-        "agenda": "Agenda Culturale"
+        "agenda": "Agenda"
     },
     "pt-br": {
         "home": "Início",
@@ -39,7 +39,7 @@ export const HeaderLocale = {
         "privacy": "Privacidade",
         "locale": "Idioma",
         "blog": "Blog",
-        "agenda": "Agenda Cultural"
+        "agenda": "Agenda"
     },
     "es-es": {
         "home": "Inicio",
@@ -53,7 +53,7 @@ export const HeaderLocale = {
         "privacy": "Privacidad",
         "locale": "Idioma",
         "blog": "Blog",
-        "agenda": "Agenda Cultural"
+        "agenda": "Agenda"
     },
     "de-de": {
         "home": "Start",
@@ -67,7 +67,7 @@ export const HeaderLocale = {
         "privacy": "Datenschutz",
         "locale": "Sprache",
         "blog": "Blog",
-        "agenda": "Kulturelle Agenda"
+        "agenda": "Agenda"
     },
     "fr-fr": {
         "home": "Accueil",
@@ -81,7 +81,7 @@ export const HeaderLocale = {
         "privacy": "Confidentialité",
         "locale": "Langue",
         "blog": "Blog",
-        "agenda": "Agenda Culturel"
+        "agenda": "Agenda"
     },
     "ro": {
         "home": "Acasă",
@@ -95,7 +95,7 @@ export const HeaderLocale = {
         "privacy": "Politica de confidențialitate",
         "locale": "Limbă",
         "blog": "Blog",
-        "agenda": "Agendă Culturală"
+        "agenda": "Agendă"
     },
     "pl-pl": {
         "home": "Strona główna",
@@ -109,7 +109,7 @@ export const HeaderLocale = {
         "privacy": "Polityka prywatności",
         "locale": "Język",
         "blog": "Blog",
-        "agenda": "Agenda kulturalna"
+        "agenda": "Agenda"
     },
     "cs-cz": {
         "home": "Domů",
@@ -123,7 +123,7 @@ export const HeaderLocale = {
         "privacy": "Ochrana osobních údajů",
         "locale": "Jazyk",
         "blog": "Blog",
-        "agenda": "Kulturní agenda"
+        "agenda": "Agenda"
     },
     "sv-se": {
         "home": "Hem",
@@ -137,7 +137,7 @@ export const HeaderLocale = {
         "privacy": "Integritetspolicy",
         "locale": "Språk",
         "blog": "Blogg",
-        "agenda": "Kulturell agenda"
+        "agenda": "Agenda"
     },
     "et-ee": {
         "home": "Avaleht",
@@ -151,7 +151,7 @@ export const HeaderLocale = {
         "privacy": "Privaatsuspoliitika",
         "locale": "Keel",
         "blog": "Blogi",
-        "agenda": "Kultuuriagenda"
+        "agenda": "Agenda"
     },
     "ja-jp": {
         "home": "ホーム",
@@ -165,6 +165,6 @@ export const HeaderLocale = {
         "privacy": "プライバシーポリシー",
         "locale": "言語",
         "blog": "ブログ",
-        "agenda": "カルチャーアジェンダ"
+        "agenda": "議題"
     }
 }

@@ -40,8 +40,8 @@ export default function Shows(props) {
 
   const localization = ShowLocale[locale] || ShowLocale["default"]
 
-  const title = `DreamPip — ${localization.shows}`;
-  const ogTitle = `${localization.shows} — DreamPip`;
+  const title = `Dream, Vibe, ...Pip! — ${localization.shows}`;
+  const ogTitle = `${localization.shows} — Dream, Vibe, ...Pip!`;
   const ogDescription = localization.showsDescription;
   const ogImageUrl = 'https://www.dreampip.com/og-image.png'; // Replace with your actual image URL
   const defaultUrl = 'https://www.dreampip.com/shows';
