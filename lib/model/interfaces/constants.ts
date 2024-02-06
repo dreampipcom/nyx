@@ -2,8 +2,10 @@
 let nexusDatabase = "test";
 let orgsDatabase = "";
 let usersDatabase = "";
+let defaultOrg = ""
 let DATABASE_USERS_STRING = "";
 let DATABASE_ORGS_STRING = "";
+let DEFAULT_ORG = "demo"
 
 /* lean */
 if (process.env.NEXUS_MODE != "full") {
@@ -20,6 +22,10 @@ if (process.env.NEXUS_MODE != "full") {
     usersDatabase = process.env.MONGODB_USERS_DATABASE;
   }
 
+  if (process.env.MONGODB_DEFAULT_ORG) {
+    defaultOrg = process.env.MONGODB_DEFAULT_ORG;
+  }
+
   // if (process.env.MONGODB_BILLING_DATABASE) {
   //   billingDatabase = process.env.MONGODB_BILLING_DATABASE;
   // }
@@ -32,6 +38,7 @@ if (process.env.NEXUS_MODE != "full") {
 /* __backwards-compatible: should fallback to nexus */
 DATABASE_USERS_STRING = usersDatabase || nexusDatabase;
 DATABASE_ORGS_STRING = orgsDatabase || nexusDatabase;
+DEFAULT_ORG = defaultOrg || "demo";
 
 export {
   /* __default__ */
@@ -39,4 +46,5 @@ export {
   /* __backwards-compatible */
   DATABASE_USERS_STRING,
   DATABASE_ORGS_STRING,
+  DEFAULT_ORG,
 };

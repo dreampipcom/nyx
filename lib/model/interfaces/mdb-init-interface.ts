@@ -14,11 +14,11 @@ import {
   DATABASE_STRING as databaseName,
   DATABASE_USERS_STRING as userDatabaseName,
   DATABASE_ORGS_STRING as orgsDatabaseName,
+  DEFAULT_ORG as defaultOrg,
 } from "./constants";
 import {
   patience
 } from "./helpers"
-import * as servicesInterfaces from "./services"
 
 import { dbLog } from "@log";
 
@@ -204,7 +204,7 @@ const _UserSchema: UserDecoration = {
 };
 
 const _OrgSchema: OrgDecoration = {
-  name: "demo",
+  name: defaultOrg,
   members: [],
   rickmorty_meta: {
     favorites: {
@@ -237,19 +237,30 @@ const defineSchema =
       schema,
       db,
       collection: collectionName,
+      doc,
     }: {
       schema: UserDecoration | OrgDecoration;
       db: string;
       collection: string;
+      docQuery: unknown;
     },
     col
   ) =>
   async () => {
-    const result = col.updateMany(
-      {},
-      { $set: schema },
-      { upsert: true },
-    );
+    if (doc) {
+      const result = col.updateOne(
+        docQuery,
+        { $set: schema },
+        { upsert: true },
+      );
+    } else {
+        const result = col.updateMany(
+        {},
+        { $set: schema },
+        { upsert: true },
+      );
+    }
+
   };
 
 
@@ -302,7 +313,11 @@ const init = async ({ name }) => {
         Instance.private.orgs = orgs
         return orgs 
       }
+      Instance.private.loadDefaultOrg = async () => {
+        return Instance.private.orgs.findOne({ name: defaultOrg })
+      }
       Instance.private.orgs = await Instance.private.loadOrgs()
+      Instance.private.defaultOrg = await Instance.private.loadDefaultOrg()
     }
 
 
@@ -311,9 +326,32 @@ const init = async ({ name }) => {
       db: userDatabaseName || databaseName,
       collection: "users",
       schema: _UserSchema,
+      docQuery: undefined
     },
     Instance.private.users
   );
+
+  Instance.private.initUser = async (email: string) => {
+    if (!email) return
+    const defaultOrg = Instance.private.defaultOrg
+    const isFirstUser = defaultOrg.members.length <= 1
+
+    console.log({ defaultOrg, isFirstUser })
+    const initiator = await defineSchema(
+    {
+      db: userDatabaseName || databaseName,
+      collection: "users",
+      schema: _UserSchema,
+      docQuery: { email }
+    },
+    Instance.private.users)
+    console.log("@@@@ IS FIRST USER", {isFirstUser})
+    if(isFirstUser) {
+      await Instance.private.defineOrgSchema()
+      await Instance.private.defineRelations()
+    }
+    return initiator
+  };
 
   Instance.private.defineOrgSchema = await defineSchema(
     {
@@ -325,17 +363,19 @@ const init = async ({ name }) => {
   );
 
 
-  Instance.private.defineRelations = async () =>
+  Instance.private.defineRelations = async (options) =>
   {
+      const user = options?.user
       const oCollection = Instance.private.orgs;
       const uCollection = Instance.private.users;
 
-      const allUsers = await uCollection.find().toArray();
+      const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
       const facadeUsers = allUsers.map((user) => user.email)
       console.log({ allUsers })
 
       /* get demo org */
-      const { name: demoOrg } = await oCollection.findOne({ name: "demo" });
+      const org = await oCollection.findOne({ name: defaultOrg });
+      const demoOrg = org?.name
 
       // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
       const _userQuerySchema = { organizations: demoOrg };
@@ -357,7 +397,7 @@ const init = async ({ name }) => {
       );
 
       const orgResult = await oCollection.updateOne(
-        { name: "demo" },
+        { name: defaultOrg },
         { $set: _orgAllMembers },
         { upsert: true },
       );
@@ -391,6 +431,9 @@ const init = async ({ name }) => {
           { email },
           { $addToSet: { [query]: value } },
         );
+    }
+    Instance.public.initUser = async ({ email }) => {
+      return await Instance.private.initUser({ email })
     }
 
     await Instance.private.defineSchema()

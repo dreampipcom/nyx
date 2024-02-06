@@ -20,3 +20,15 @@ export const addToFavorites = async ({
   const user = await Nexus.updateUser({ email, query: `rickmorty.favorites.${type}`, value: cid})
   return user
 };
+
+
+export const initUser = async ({
+  email = "",
+}: {
+  email: UserSchema["email"];
+}) => {
+  console.log("---- init user iface ----")
+  const Nexus = await NexusInterface
+  const user = await Nexus.initUser({ email })
+  return user
+};
