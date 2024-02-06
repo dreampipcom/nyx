@@ -6,8 +6,6 @@ export const MongoConnector = clientPromise;
 export const setDb = _setDb;
 
 export {
-  /* public state (singletons) */
-  NexusDB,
   /* public methods */
   getUserMeta,
   /* constants */

@@ -304,11 +304,11 @@ const prepare = async (db: Tdbs): (() => any) => {
 
 // to-do: singleton + mutex
 // to tired to figure this any now
-// const _init: any = {}
+const _init: any = {}
 
 /* private methods */
 /* 0. init */
-const _init = async ({ name }) => {
+const init = async ({ name }) => {
   messageState.action = `init:${name}:nexus`
   messageState.verb = "define"
   console.log(" @@@ booting up @@@@ ", { _init })
@@ -400,6 +400,7 @@ const _init = async ({ name }) => {
       @@@@*/
 
       //@ read
+      _init.public.getUsers = () => {}
       _init.public.getUserOrganizations =  () => {}
       _init.public.getOrganizationServices = () => {}
       _init.public.getServiceFeatures = () => {}
@@ -684,8 +685,9 @@ const defineOrgSchema = defineSchema(
 );
 
 
-messageState.action = "define schema relations"
+
 const defineRelations = async () => {
+  messageState.action = "define schema relations"
   oplog._.inform({
       verb: "enforcing schema relations",
       status: "active",
@@ -723,8 +725,9 @@ const defineRelations = async () => {
 };
 
 
-messageState.action = "init:schemas"
+
 const _initSchemas = async () => {
+  messageState.action = "init:schemas"
   oplog._.inform({
       verb: "enforcing schemas",
       status: "active",
@@ -761,15 +764,21 @@ if (process.env.NEXUS_SCHEMA === "true") {
 }
 
 
-
-// const instance = init()
+const singleton = await init({ name: "NexusDB" })
+// const instance = _init.init({ name: "NexusDB" })
 
 /* decorate public interface */
 
 
-const done = async ({name}) => {
-  return await _init({name})
+const getNexus = async () => {
+  let instance = singleton
+  if (singleton && !singleton?.ready()) {
+    instance = await singleton.init()
+  }
+  return instance
 }
+
+const PublicNexus = getNexus
 
 // console.log({ instance })
 
@@ -778,5 +787,5 @@ const done = async ({name}) => {
 (check respective dbs, maybe split init for each db) */
 
 export { 
-  done as NexusDB 
-};
+  PublicNexus as loadDb
+}
