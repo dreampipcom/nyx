@@ -330,11 +330,16 @@ const init = async ({ name }) => {
       const oCollection = Instance.private.orgs;
       const uCollection = Instance.private.users;
 
+      const allUsers = await uCollection.find().toArray();
+      const facadeUsers = allUsers.map((user) => user.email)
+      console.log({ allUsers })
+
       /* get demo org */
-      const demoOrg = await oCollection.findOne({ name: "demo" });
+      const { name: demoOrg } = await oCollection.findOne({ name: "demo" });
 
       // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
       const _userQuerySchema = { organizations: demoOrg };
+      const _orgAllMembers = { members: facadeUsers }
 
       /* users -> org relations */
 
@@ -345,9 +350,15 @@ const init = async ({ name }) => {
         schema: _userQuerySchema,
       };
 
-      const result = uCollection.updateMany(
+      const usersResult = await uCollection.updateMany(
         {},
         { $push: _userQuerySchema },
+        { upsert: true },
+      );
+
+      const orgResult = await oCollection.updateOne(
+        { name: "demo" },
+        { $set: _orgAllMembers },
         { upsert: true },
       );
     };
