@@ -226,6 +226,32 @@ const prepare = async (name: Tdbs): (() => any) => {
     return db;
 };
 
+// IMPORTANT: to-do: to enforce on existing docs (not on insert only)
+const createSchemaQuery = () => {
+  // use $exists: false
+};
+
+const defineSchema =
+  (
+    {
+      schema,
+      db,
+      collection: collectionName,
+    }: {
+      schema: UserDecoration | OrgDecoration;
+      db: string;
+      collection: string;
+    },
+    col
+  ) =>
+  async () => {
+    const result = col.updateMany(
+      {},
+      { $set: schema },
+      { upsert: true },
+    );
+  };
+
 
 // to-do: singleton + mutex
 // to tired to figure this any now
@@ -260,14 +286,72 @@ const init = async ({ name }) => {
     }
     Instance.private.users = await Instance.private.loadUsers()
 
-
-    /* (PVT) orgs */
+        /* (PVT) orgs */
     if (process.env.NEXUS_MODE == "full") {
       Instance.private.loadOrgs = async () => {
         const orgs = await Instance.orgs.db.collection("organizations")
         return orgs 
       }
       Instance.private.orgs = await Instance.private.loadOrgs()
+    }
+
+
+  Instance.private.defineUserSchema = await defineSchema(
+    {
+      db: userDatabaseName || databaseName,
+      collection: "users",
+      schema: _UserSchema,
+    },
+    Instance.private.users
+  );
+
+  Instance.private.defineOrgSchema = await defineSchema(
+    {
+      db: orgsDatabaseName || databaseName,
+      collection: "organizations",
+      schema: _OrgSchema,
+    },
+    Instance.private.orgs
+  );
+
+
+  Instance.private.defineRelations = async () =>
+  {
+      const oCollection = Instance.private.orgs;
+      const uCollection = Instance.private.users;
+
+      /* get demo org */
+      const demoOrg = await oCollection.findOne({ name: "demo" });
+
+      // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
+      const _userQuerySchema = { organizations: demoOrg };
+
+      /* users -> org relations */
+
+      /* IMPORTANT: to-do: extract method to add to org */
+      const userQuerySchema = {
+        db: userDatabaseName || databaseName,
+        collection: "users",
+        schema: _userQuerySchema,
+      };
+
+      const result = uCollection.updateMany(
+        {},
+        { $push: _userQuerySchema },
+        { upsert: true },
+      );
+    };
+
+    // migrations: add this env var and set it to 'true' to enforce schemas
+    // or run yarn dev:schema (local), start:schema (CI)
+    Instance.private.defineSchema = async () => {
+      if (!process.env.NEXUS_SCHEMA === "true") {
+        return
+      }
+      console.log("@@@@ SCHEMA @@@@")
+      await Instance.private.defineUserSchema()
+      await Instance.private.defineOrgSchema()
+      await Instance.private.defineRelations()
     }
 
 
@@ -284,136 +368,10 @@ const init = async ({ name }) => {
         );
     }
 
-
+    await Instance.private.defineSchema()
     Instance.ready = true
     return true
 }
-
-
-/** ORM **/
-
-// IMPORTANT: to-do: to enforce on existing docs (not on insert only)
-const createSchemaQuery = () => {
-  // use $exists: false
-};
-
-const defineSchema =
-  (
-    {
-      schema,
-      db,
-      collection: collectionName,
-    }: {
-      schema: UserDecoration | OrgDecoration;
-      db: string;
-      collection: string;
-    }
-  ) =>
-  async () => {
-    const collection = await Instance.private[collection];
-    const result = collection.updateMany(
-      {},
-      { $set: schema },
-      { upsert: true },
-    );
-  };
-
-const defineUserSchema = defineSchema(
-  {
-    db: userDatabaseName || databaseName,
-    collection: "users",
-    schema: _UserSchema,
-  }
-);
-
-const defineOrgSchema = defineSchema(
-  {
-    db: orgsDatabaseName || databaseName,
-    collection: "organizations",
-    schema: _OrgSchema,
-  }
-);
-
-
-
-const defineRelations = async () => {
-  messageState.action = "define schema relations"
-  oplog._.inform({
-      verb: "enforcing schema relations",
-      status: "active",
-      message: ``,
-  });
-  const oCollection = await getOrgCollection();
-  const uCollection = await getUserCollection();
-
-  /* get demo org */
-  const demoOrg = await oCollection.findOne({ name: "demo" });
-
-  // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
-  const _userQuerySchema = { organizations: demoOrg };
-
-  /* users -> org relations */
-
-  /* IMPORTANT: to-do: extract method to add to org */
-  const userQuerySchema = {
-    db: userDatabaseName || databaseName,
-    collection: "users",
-    schema: _userQuerySchema,
-  };
-
-  const result = uCollection.updateMany(
-    {},
-    { $push: _userQuerySchema },
-    { upsert: true },
-  );
-
-   oplog._.inform({
-      verb: "enforcing schema relations",
-      status: "ready",
-      message: ``,
-   });
-};
-
-
-
-const _initSchemas = async () => {
-  messageState.action = "init:schemas"
-  oplog._.inform({
-      verb: "enforcing schemas",
-      status: "active",
-      message: ``,
-   });
-  // IMPORTANT: to-do; work on race conditions; the backwards upsert schema enforcing is the way
-  await defineUserSchema();
-  await defineOrgSchema();
-
-  await defineRelations();
-
-  oplog._.inform({
-      verb: "enforcing schemas",
-      status: "ready",
-      message: ``,
-   });
-};
-
-// migrations: add this env var and set it to 'true' to enforce schemas
-// or run yarn dev:schema (local), start:schema (CI)
-if (process.env.NEXUS_SCHEMA === "true") {
-  _initSchemas();
-  oplog._.inform({
-      verb: "starting data layer (with schema)",
-      status: "done",
-      message: ``,
-   });
-} else {
-  oplog._.inform({
-      verb: "skipping schema loading",
-      status: "schema:done",
-      message: `not enforcing schemas`,
-   });
-}
-
-/* decorate public interface */
 
 
 const getNexus = async () => {
