@@ -243,14 +243,14 @@ const init = async ({ name }) => {
     }
 
     Instance.users = _users
-    console.log({Instance})
 
     if (process.env.NEXUS_MODE == "full") {
-      console.log("FULL MODE", { orgsDatabaseName })
       const _orgs = {
         status: "loading",
         db: await prepare(orgsDatabaseName),
       }
+
+      Instance.orgs = _orgs
     }
 
     Instance.private = {}
@@ -260,6 +260,19 @@ const init = async ({ name }) => {
     }
     Instance.private.users = await Instance.private.loadUsers()
 
+
+    /* (PVT) orgs */
+    if (process.env.NEXUS_MODE == "full") {
+      Instance.private.loadOrgs = async () => {
+        const orgs = await Instance.orgs.db.collection("organizations")
+        return orgs 
+      }
+      Instance.private.orgs = await Instance.private.loadOrgs()
+    }
+
+
+
+    /* (PUB) users */
     Instance.public = {}
     Instance.public.getUser = async (email: string) => {
       return await Instance.private.users.findOne({ email })
