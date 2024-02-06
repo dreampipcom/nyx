@@ -1,6 +1,6 @@
 // db-users-actions.ts
 'use client';
-import { BuildAction, CreateAction } from '@action';
+import { BuildAction, CreateAction } from '@actions';
 
 import { AuthContext } from '@state';
 

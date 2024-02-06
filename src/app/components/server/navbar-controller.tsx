@@ -1,11 +1,11 @@
 // navbar-controller.tsx
 'use server';
-import type { IFeature } from '@types';
+import type { IFeature, UserSchema } from '@types';
 import { getUser } from '@gateway';
 import { VNavBar } from '@components/client';
 
 interface INavBarData {
-  features: IFeature[];
+  user: UserSchema;
 }
 
 async function getEnabledFeatures(): Promise<INavBarData> {
@@ -16,7 +16,7 @@ async function getEnabledFeatures(): Promise<INavBarData> {
 }
 
 export const CNavBar = async () => {
-  const props: ISignInData = await getEnabledFeatures();
-  const features: IAuthProviders[] = props?.features || [];
-  return <VNavBar features={features} />;
+  const props: INavBarData = await getEnabledFeatures();
+  // const features: IAuthProviders[] = props?.features || [];
+  return <VNavBar />;
 };

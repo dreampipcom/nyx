@@ -4,6 +4,7 @@ export type ActionT = 'init' | 'login' | 'logout' | 'hydrate' | 'update_db' | 's
 export type ActionTypes = 'init' | 'auth' | 'rickmorty' | string;
 export type ActionAuthNames =
   | 'load user'
+  | 'load user meta'
   | 'unload user'
   | 'load characters'
   | 'unload characters'
@@ -22,13 +23,20 @@ export interface ILogContext {
   message?: string;
   category?: string;
   context?: string;
+  get?: () => ILogContext;
+  priority?: string;
+  time?: string;
+  _id?: string;
 }
 
 export interface IOplogOps {
-  addToQueue: (args: ILogContext) => void;
-  update: (args: ILogContext) => void;
-  safeAction: (func: any) => any;
-  throw: (err: string) => void;
+  addToQueue?: (args: ILogContext) => void;
+  update?: (args: ILogContext) => void;
+  inform?: (payload: ILogContext) => void;
+  safeAction?: (func: any) => any;
+  throw?: (err: string) => void;
+  decorateLog?: (args: ILogContext) => ILogContext;
+  queue?: ILogContext[];
 }
 
 export interface ILogger extends Array<ILogContext> {

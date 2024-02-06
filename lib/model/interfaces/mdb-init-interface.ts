@@ -42,6 +42,7 @@ oplog._.queue = [];
 
 oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
   // console.log("@@@ decorating log @@@")
+  if (!messageState.get) return { type, action, verb, status, message, priority };
   const statusMessage: ILogContext = {
     type: type || 'mongodb',
     action: action || messageState.get().action,
@@ -59,19 +60,20 @@ oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
 };
 
 oplog._.addToQueue = (payload: ILogContext) => {
+  if (!oplog?._?.decorateLog) return payload;
   const _action = oplog._.decorateLog(payload);
 
   const entry = dbLog(_action);
 
-  oplog._.queue.push(_action);
+  oplog?._?.queue?.push(_action);
   oplog.push(_action);
 
   return _action;
 };
 
 oplog._.inform = (payload) => {
-  if (!process.env.ENABLE_LOG === 'true')
-    if (!Object.isObject(payload) && process.env.LOG_DEPTH === '1') {
+  if (process.env.ENABLE_LOG === 'true' && messageState.get) {
+    if (process.env.LOG_DEPTH === '1') {
       messageState.status = status || messageState.get().status;
       // console.log("@@@ oplog informing @@@", payload)
     } else {
@@ -81,10 +83,11 @@ oplog._.inform = (payload) => {
       messageState.status = status || messageState.get().status;
       messageState.message = message || messageState.get().message;
     }
+  }
 
   // console.log({ messageState })
 
-  const log = oplog._.decorateLog(messageState);
+  const log = oplog._.decorateLog ? oplog._.decorateLog(messageState) : messageState;
 
   dbLog(log);
   oplog.push(log);
@@ -97,13 +100,15 @@ oplog._.update = (payload: ILogContext) => {
   messageState.status = status || messageState.status;
   messageState.message = message || messageState.message;
 
+  if (!oplog._.addToQueue) return;
   oplog._.addToQueue({ action, verb, status, message });
 };
 
 oplog._.throw = (e: string) => {
-  const ms = {};
+  const ms: { status: string; message: string } = { status: '', message: '' };
   ms.status = 'error';
   ms.message = (e as string) || '';
+  if (!oplog._.inform) return;
   oplog._.inform(ms);
 };
 
@@ -125,58 +130,58 @@ interface ILogSafeActionArgs {
 }
 
 /* to-do: use a generic type */
-type ILogSafeAction = (
-  fn: ILogSafeActionArgs<'func'>,
-  res: ILogSafeActionArgs<'expectedResult'>,
-  config: ILogSafeActionOptions,
-) => ILogSafeActionArgs<'expectedResult'>;
+// type ILogSafeAction = (
+//   fn: ILogSafeActionArgs<'func'>,
+//   res: ILogSafeActionArgs<'expectedResult'>,
+//   config: ILogSafeActionOptions,
+// ) => ILogSafeActionArgs<'expectedResult'>;
 
-oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeActionOptions) => {
-  const verb = payload?.verb || messageState?.verb;
-  const whatToDo = async () => {
-    try {
-      messageState.status = 'active';
-      messageState.message = `[${verb}]:execution-context:starting`;
-      oplog._.inform();
+// oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeActionOptions) => {
+//   const verb = payload?.verb || messageState?.verb;
+//   const whatToDo = async () => {
+//     try {
+//       messageState.status = 'active';
+//       messageState.message = `[${verb}]:execution-context:starting`;
+//       oplog._.inform();
 
-      messageState.status = 'done';
-      messageState.message = `[${verb}]:success`;
-      oplog._.inform();
+//       messageState.status = 'done';
+//       messageState.message = `[${verb}]:success`;
+//       oplog._.inform();
 
-      messageState.status = 'active';
-      messageState.message = `[${verb}]:deeper-execution-context:starting`;
-      oplog._.inform();
+//       messageState.status = 'active';
+//       messageState.message = `[${verb}]:deeper-execution-context:starting`;
+//       oplog._.inform();
 
-      // console.log({ func, type: typeof func })
-      if (typeof func === 'function') {
-        return await func();
-      }
+//       // console.log({ func, type: typeof func })
+//       if (typeof func === 'function') {
+//         return await func();
+//       }
 
-      messageState.status = 'done';
-      oplog._.inform();
-      return func;
-    } catch (e) {
-      if (process.LOG_DEPTH === '1') {
-        console.error(e);
-      }
-    }
-  };
-  return await whatToDo();
-};
+//       messageState.status = 'done';
+//       oplog._.inform();
+//       return func;
+//     } catch (e) {
+//       if (process.LOG_DEPTH === '1') {
+//         console.error(e);
+//       }
+//     }
+//   };
+//   return await whatToDo();
+// };
 
-oplog._.safeActionSync = (func: any, options: ILogSafeActionOptions) => {
-  oplog._.safeAction(func, options).then((err, res) => {
-    if (err) oplog._.throw(err);
-    return res;
-  });
-};
+// oplog._.safeActionSync = (func: any, options: ILogSafeActionOptions) => {
+//   oplog._.safeAction(func, options).then((err, res) => {
+//     if (err) oplog._.throw(err);
+//     return res;
+//   });
+// };
 
-/* to-do: oplog + garbage collection */
-oplog._.history = [] as unknown as ILogContext[];
-oplog._.collectGarbage = () => {
-  oplog._.history = [..._init.history, ...oplog];
-  oplog._.length = 0;
-};
+// /* to-do: oplog + garbage collection */
+// oplog._.history = [] as unknown as ILogContext[];
+// oplog._.collectGarbage = () => {
+//   oplog._.history = [..._init.history, ...oplog];
+//   oplog._.length = 0;
+// };
 
 /* schemas */
 const _UserSchema: UserDecoration = {
@@ -200,7 +205,7 @@ const _OrgSchema: OrgDecoration = {
 
 /* private */
 
-const prepare = async (name: Tdbs): (() => any) => {
+const prepare = async (name: Tdbs): Promise<any> => {
   const conn = await MongoConnector;
   const db_conn = await setDb(name);
   const db = await db_conn.db(name);
@@ -218,17 +223,17 @@ const defineSchema =
       schema,
       db,
       collection: collectionName,
-      doc,
+      docQuery,
     }: {
       schema: UserDecoration | OrgDecoration;
       db: string;
       collection: string;
-      docQuery: unknown;
+      docQuery?: unknown;
     },
-    col,
+    col: any,
   ) =>
   async () => {
-    if (doc) {
+    if (docQuery) {
       const result = col.updateOne(docQuery, { $set: schema }, { upsert: true });
     } else {
       const result = col.updateMany({}, { $set: schema }, { upsert: true });
@@ -241,7 +246,7 @@ const Instance: any = {};
 
 /* private methods */
 /* 0. init */
-const init = async ({ name }) => {
+const init = async ({ name }: { name: string }) => {
   const usersDb = userDatabaseName || databaseName;
 
   const _users = {
@@ -330,13 +335,13 @@ const init = async ({ name }) => {
     Instance.private.orgs,
   );
 
-  Instance.private.defineRelations = async (options) => {
+  Instance.private.defineRelations = async (options: { user: string }) => {
     const user = options?.user;
     const oCollection = Instance.private.orgs;
     const uCollection = Instance.private.users;
 
     const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
-    const facadeUsers = allUsers.map((user) => user.email);
+    const facadeUsers = allUsers.map((user: UserSchema) => user.email);
 
     /* get demo org */
     const org = await oCollection.findOne({ name: defaultOrg });
@@ -363,7 +368,7 @@ const init = async ({ name }) => {
   // migrations: add this env var and set it to 'true' to enforce schemas
   // or run yarn dev:schema (local), start:schema (CI)
   Instance.private.defineSchema = async () => {
-    if (!process.env.NEXUS_SCHEMA === 'true') {
+    if (process.env.NEXUS_SCHEMA !== 'true') {
       return;
     }
     await Instance.private.defineUserSchema();
@@ -380,10 +385,10 @@ const init = async ({ name }) => {
   Instance.public.getUser = async (email: string) => {
     return await Instance.private.users.findOne({ email });
   };
-  Instance.public.updateUser = async ({ email, query, value }) => {
+  Instance.public.updateUser = async ({ email, query, value }: { email: string; query: string; value: any }) => {
     return await Instance.private.users.updateOne({ email }, { $addToSet: { [query]: value } });
   };
-  Instance.public.initUser = async ({ email }) => {
+  Instance.public.initUser = async ({ email }: { email: string }) => {
     return await Instance.private.initUser({ email });
   };
 

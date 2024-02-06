@@ -2,7 +2,7 @@
 // to-do: let's make an @helpers alias!
 // import { NexusDB } from "@controller"
 
-export const patience = async (sleep = 1000) => {
+export const patience = async (sleep = 1000): Promise<unknown> => {
   // if (NexusDB && !NexusDB.oplog?.length) {
   // if (NexusDB) {
   //   NexusDB.log({

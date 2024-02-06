@@ -9,7 +9,7 @@ import { patience } from './helpers';
 import { NexusInterface } from './mdb-init-interface';
 
 /* public */
-export const getUserMeta = async ({ email = '', options }: Pick<UserSchema, 'email'>) => {
+export const getUserMeta = async ({ email = '', options }: Pick<UserSchema, 'email'> | string) => {
   const Nexus = await NexusInterface;
   const user = await Nexus.getUser(email);
   return user;

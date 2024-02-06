@@ -25,7 +25,7 @@ async function getProvidersData(): Promise<ISignInData> {
   return { providers: providers ?? [] };
 }
 
-export const CSignIn = async ({ user }) => {
+export const CSignIn = async ({ user }: ISignInProps) => {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
   return <VSignIn user={user} providers={providers} />;

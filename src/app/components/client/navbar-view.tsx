@@ -14,10 +14,9 @@ import { MenuItem } from '@mui/base/MenuItem';
 import navbarStyles from '@styles/components/navbar.module.css';
 
 interface VNavBar {
-  providers: IAuthProvider[];
 }
 
-export const VNavBar = ({ providers }: VSignInProps) => {
+export const VNavBar = () => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
   const initd = useRef(false);
@@ -31,8 +30,8 @@ export const VNavBar = ({ providers }: VSignInProps) => {
   }, []);
 
   const handleSignOut = async () => {
-    unloadUser();
-    await doSignOut();
+    // unloadUser();
+    // await doSignOut();
   };
 
   // if (!providers) return;
@@ -55,5 +54,5 @@ export const VNavBar = ({ providers }: VSignInProps) => {
       </Dropdown>
     );
 
-  return <button>Nav items !auth.d</button>;
+  // return <button>Nav items !auth.d</button>;
 };

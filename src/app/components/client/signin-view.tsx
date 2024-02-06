@@ -5,7 +5,8 @@ import { useSession, signOut } from 'next-auth/react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
-import { ButtonView as NButton } from '@atoms/button';
+import { UserSchema } from '@types';
+// import { ButtonView as NButton } from '@atoms/button';
 
 interface IAuthProvider {
   id?: string;
@@ -14,6 +15,7 @@ interface IAuthProvider {
 
 interface VSignInProps {
   providers: IAuthProvider[];
+  user?: UserSchema;
 }
 
 async function doSignOut() {

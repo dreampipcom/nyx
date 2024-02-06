@@ -24,10 +24,10 @@ export const authOptions: AuthOptions = {
     // ...add more providers here
   ],
   events: {
-    signIn: async function signIn({ user, isNewUser }) {
+    async signIn({ user, isNewUser }) {
       try {
         if (isNewUser) {
-          await initUser({ email: user.email });
+          return await initUser({ email: user.email });
         }
         return true;
       } catch (e) {
