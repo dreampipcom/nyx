@@ -44,7 +44,7 @@ export const oplog: ILogger = [] as unknown as ILogger;
 const messageState: ILogContext = {};
 
 messageState.get = () => {
-  console.log("@@@ getting current message @@@")
+  // console.log("@@@ getting current message @@@")
   return messageState
 };
 
@@ -52,7 +52,7 @@ oplog._ = {}
 oplog._.queue = []
 
 oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
-  console.log("@@@ decorating log @@@")
+  // console.log("@@@ decorating log @@@")
   const statusMessage: ILogContext = {
     type: type || "mongodb",
     action: action || messageState.get().action,
@@ -64,7 +64,7 @@ oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
     _id: uuid(),
   };
 
-  console.log("@@@ decorated log @@@", { statusMessage })
+  // console.log("@@@ decorated log @@@", { statusMessage })
 
   return statusMessage
 }
@@ -82,7 +82,7 @@ oplog._.addToQueue = (payload: ILogContext) => {
 
 oplog._.inform = (payload) => {
   if (!process.env.ENABLE_LOG === "true")
-  if (!Object.isObject(payload) && process.env.LOG_DEPTH === payload) {
+  if (!Object.isObject(payload) && process.env.LOG_DEPTH == "1") {
     messageState.status = status || messageState.get().status
     console.log("@@@ oplog informing @@@", payload)
   } else {
@@ -93,7 +93,7 @@ oplog._.inform = (payload) => {
     messageState.message = message || messageState.get().message;
   }
 
-  console.log({ messageState })
+  // console.log({ messageState })
 
   const log = oplog._.decorateLog(messageState)
 
@@ -180,7 +180,7 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
           messageState.message = `[${verb}]:execution-context:starting`
           oplog._.inform();
           //const result = await func();
-          console.log("@@@@ opresult @@@@", verb, { func })
+          // console.log("@@@@ opresult @@@@", verb, { func })
           
 
           messageState.status = "done"
@@ -311,7 +311,7 @@ const _init: any = {}
 const init = async ({ name }) => {
   messageState.action = `init:${name}:nexus`
   messageState.verb = "define"
-  console.log(" @@@ booting up @@@@ ", { _init })
+  // console.log(" @@@ booting up @@@@ ", { _init })
   return await oplog._.safeAction(
     {
       verb: "initiating NexusDB",

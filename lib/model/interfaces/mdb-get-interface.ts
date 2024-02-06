@@ -17,6 +17,8 @@ export const getUserMeta = async ({
 
 }
   const NexusDB = await loadDb()
+  console.log("@@@@ get iface @@@@", {NexusDB, loadDb})
+  if(!NexusDB) await patience(3000)
   console.log("@@@@ get iface @@@@", {NexusDB})
   if(!NexusDB) return
 
