@@ -9,7 +9,7 @@ import type {
   ILogger,
   ILogContext,
 } from "@types";
-import { MongoConnector, _setDb as setDb } from "../mdb-connector";
+import { MongoConnector, setDb } from "@model";
 import {
   DATABASE_STRING as databaseName,
   DATABASE_USERS_STRING as userDatabaseName,
@@ -218,12 +218,15 @@ const _OrgSchema: OrgDecoration = {
 /* private */
 
 const prepare = async (name: Tdbs): (() => any) => {
-    console.log("@@@@ prepare @@@@")
-    const conn = await MongoConnector;
-    const db_conn = await setDb(name);
-    const db = await db_conn.db(name);
-    console.log("@@@@ prepare again @@@@", { conn, db_conn, db })
-    return db;
+  const conn = MongoConnector;
+  const db_conn = await setDb(name);
+  const db = await db_conn.db(name);
+  console.log("@@@@ prepare @@@@", { conn, db_conn, db })
+
+  // console.log({ db })
+  // const _db = await db();
+  // console.log({ _db })
+  // return _db;
 };
 
 
@@ -234,45 +237,193 @@ const Instance: any = {}
 /* private methods */
 /* 0. init */
 const init = async ({ name }) => {
-    const usersDb = userDatabaseName || databaseName
     console.log("----- @@@ Starting a brand new instance of NexusDB @@@ -----", { Instance })
 
     /* <<<<init singleton>>>> */
 
     const _users = {
       status: "loading",
-      db: await prepare(usersDb)
+      db: await prepare(userDatabaseName || databaseName),
+      last: oplog.contextTime,
+      initiated: oploag.contextTime
     }
 
     Instance.users = _users
-    console.log({Instance})
 
     if (process.env.NEXUS_MODE == "full") {
-      console.log("FULL MODE", { orgsDatabaseName })
-      const _orgs = {
-        status: "loading",
-        db: await prepare(orgsDatabaseName),
-      }
+      // console.log("FULL MODE", { orgsDatabaseName })
+      // const _orgs = {
+      //   status: "loading",
+      //   db: await prepare(orgsDatabaseName),
+      //   last: oplog.contextTime,
+      //   initiated: oploag.contextTime,
+      // }
+
+      // _init.private.addCursor({
+      //   name: 'organizations',
+      //   value: _orgs,
+      //   scope: 'private'
+      // })
+
     }
-
-    Instance.private = {}
-    Instance.private.loadUsers = async () => {
-      const users = await Instance.users.db.collection("users")
-      console.log({users})
-      return users 
-    }
-    Instance.private.users = await Instance.private.loadUsers()
-
-    Instance.public = {}
-    Instance.public.getUser = async (email: string) => {
-      return await Instance.private.users.findOne({ email })
-    }
-
-
-    Instance.ready = true
     console.log("@@@ end init @@@ ")
     return true
 }
+
+
+/* private: collection methods */
+const getCollection =
+  async (_db = databaseName) =>
+  async (_collection = "users") => {
+    return await oplog._.safeAction({
+      verb: "loading collection",
+      message: name || "",
+    },async () => {
+      oplog._.inform({
+        verb: "loading collection",
+        status: "active",
+        message: `${_db}|${_collection}`,
+      });
+      if (!_init.done[_db].db) {
+        const db = await _init.done[_db]();
+        _init.done[_db].db = db;
+      }
+
+      const collection = await _init[_db].db.collection(_collection);
+      if (!_init.done[_db].db) return oplog._.throw("error connecting to db");
+
+      oplog._.inform({
+        verb: "loading collection",
+        status: "ready",
+        message: `${_db}|${_collection}`,
+      });
+
+      /* init-collections */
+      _init.done[_db].collections = { ..._init.done[_db].collections };
+      _init.done[_db].collections[_collection] = collection;
+
+      return collection;
+    });
+  };
+
+
+const loadUserCollection = async () => {
+  return await oplog._.safeAction(
+    {
+      verb: "asking MongoDB for users collection",
+      message: "",
+    },
+    async () => {
+        console.log("----- loading:users -----", {_init})
+        return await true
+          const col = await getCollection(userDatabaseName);
+        }
+    )
+};
+
+const loadingOrgsCollection = async () => {
+  return await oplog._.safeAction(
+    {
+      verb: "asking MongoDB for orgs collection",
+      message: "",
+    },
+    async () => {
+      return await oplog._.safeActtion(
+        {
+          verb: "preparing collection"
+        },
+        async () => {
+          return await oplog._.safeAction(async () => {
+            const col = await getCollection(orgsDatabaseName);
+            const _col = await col("organizations");
+            _init[orgsDatabaseName].collections["organizations"] = _col;
+
+            oplog._.inform({
+                verb: "loaded collection",
+                status: "idle",
+                message: `${orgsDatabaseName}|${"organisations"}`,
+            });
+            oplog._.status = {
+            ...oplog._.status,
+            organizations: 'ready'
+            }
+            return _col;
+          });
+        });
+    })
+};
+
+
+
+/* internal methods */
+const getUserCollection = async () => {
+  console.log("@@@ wait init, use safeaction ! starting to get users @@@", { _init })
+  if (!_init || !_init.ready || !_init?.ready()) return await false
+  return await oplog._.safeAction(
+    {
+      verb: "getting users collection",
+      message: "",
+    },
+    async () => await oplog._.safeAction(
+      {
+        verb: "checking users cache",
+        message: "",
+      }, 
+      async () => {
+        if(oplog._.users && !oplog._.users?.expired()) {
+          oplog._.update({
+            verb: "loaded cached users collection",
+            status: "idle",
+            message: `${userDatabaseName}|${"users"}`,
+          });
+          return _init.users
+        }
+
+        oplog._.inform({
+            verb: "reloading users collection",
+            status: "active",
+            message: `${userDatabaseName}|${"users"}`,
+        });
+        console.log("------- starting to load users -----", {_init})
+        return await loadUserCollection()
+      }, 
+      { last: _init?.private?.users_db?.lastUpdate },
+    ),
+  );
+};
+
+const getOrgCollection = async () => {
+    return await oplog._.safeAction(
+    {
+      verb: "getting orgs collection",
+      message: "",
+    },
+    oplog._.safeAction(
+      {
+        verb: "checking orgs cache",
+        message: "",
+      }, 
+      async () => {
+        if(oplog._.users && !oplog._.users?.expired()) {
+          oplog._.inform({
+            verb: "loaded cached orgs collection",
+            status: "idle",
+            message: `${userDatabaseName}|${"users"}`,
+          });
+          return _init.users
+        }
+
+        oplog._.inform({
+            verb: "reloading orgs collection",
+            status: "active",
+            message: `${userDatabaseName}|${"users"}`,
+        });
+        return await loadUserCollection()
+      }, 
+      { last: _init?.private?.users_db?.lastUpdate },
+    ),
+  );
+};
 
 
 /* public methods */
@@ -295,15 +446,27 @@ const defineSchema =
       schema: UserDecoration | OrgDecoration;
       db: string;
       collection: string;
-    }
+    },
+    getOneCollection: () => any,
   ) =>
   async () => {
-    const collection = await Instance.private[collection];
+    /* add safe actions */
+    oplog._.inform({
+        verb: "enforcing users schema",
+        status: "active",
+        message: `${db}|${collection}`,
+    });
+    const collection = await getOneCollection();
     const result = collection.updateMany(
       {},
       { $set: schema },
       { upsert: true },
     );
+    oplog._.inform({
+        verb: "enforcing orgs schema",
+        status: "ready",
+        message: `${db}|${collection}`,
+    });
   };
 
 const defineUserSchema = defineSchema(
@@ -311,7 +474,8 @@ const defineUserSchema = defineSchema(
     db: userDatabaseName || databaseName,
     collection: "users",
     schema: _UserSchema,
-  }
+  },
+  getUserCollection,
 );
 
 const defineOrgSchema = defineSchema(
@@ -319,7 +483,8 @@ const defineOrgSchema = defineSchema(
     db: orgsDatabaseName || databaseName,
     collection: "organizations",
     schema: _OrgSchema,
-  }
+  },
+  getOrgCollection,
 );
 
 
@@ -406,17 +571,21 @@ if (process.env.NEXUS_SCHEMA === "true") {
 
 const getNexus = async () => {
   if (!Instance?.ready) {
+    console.log("@@@ init instance @@@")
     const finished = await init({ name: "NexusDB" })
+    console.log({ finished })
   }
-  return Instance.public
+  return Instance
 }
 
-const PublicNexus = Instance.public || getNexus()
+const PublicNexus = getNexus()
+
+// console.log({ instance })
 
 
 /* to-do: services, projects, billing, krn cols interfaces. 
 (check respective dbs, maybe split init for each db) */
 
 export { 
-  PublicNexus as NexusInterface,
+  PublicNexus as loadDb
 }

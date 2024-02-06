@@ -6,7 +6,7 @@ let DATABASE_USERS_STRING = "";
 let DATABASE_ORGS_STRING = "";
 
 /* lean */
-if (process.env.NEXUS_MODE !== "full") {
+if (process.env.NEXUS_MODE != "full") {
   console.log("DEFAULT DB IS", process.env.MONGODB_DATABASE);
   nexusDatabase = process.env.MONGODB_DATABASE || nexusDatabase;
 } else {
