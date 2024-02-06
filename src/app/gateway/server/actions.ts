@@ -43,11 +43,8 @@ so i can split into multiple files */
 
 export async function getUser() {
   const session = await getServerSession(finalAuth);
-  console.log({ session })
   const email = session?.user?.email || "";
   const user = await getUserMeta(email);
-
-  console.log("gateway user", { user })
 
   return user;
   // we might need to decorate users in the future, 

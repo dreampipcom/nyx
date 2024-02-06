@@ -26,9 +26,7 @@ export const authOptions: AuthOptions = {
   events: {
     signIn: async function signIn({ user, isNewUser }) {
       try {
-        console.log({ user, isNewUser })
         if(isNewUser) {
-          console.log("SIGN UP CALL BACK")
           await initUser({ email: user.email })
         }
         return true

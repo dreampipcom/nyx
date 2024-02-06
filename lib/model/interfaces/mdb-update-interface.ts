@@ -15,7 +15,6 @@ export const addToFavorites = async ({
   cid: number;
   type?: string;
 }) => {
-  console.log("---- update iface ----")
   const Nexus = await NexusInterface
   const user = await Nexus.updateUser({ email, query: `rickmorty.favorites.${type}`, value: cid})
   return user

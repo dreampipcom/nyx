@@ -22,7 +22,6 @@ import {
 
 import { dbLog } from "@log";
 
-console.log("===== init iface =====", { orgsDatabaseName, userDatabaseName })
 
 /* to-do: move types to declaration file */
 type Tdbs = "nexus" | "organizations" | "test" | string;
@@ -84,7 +83,7 @@ oplog._.inform = (payload) => {
   if (!process.env.ENABLE_LOG === "true")
   if (!Object.isObject(payload) && process.env.LOG_DEPTH == "1") {
     messageState.status = status || messageState.get().status
-    console.log("@@@ oplog informing @@@", payload)
+    // console.log("@@@ oplog informing @@@", payload)
   } else {
     const { action, verb, status, message } = payload;
     messageState.action = action || messageState.get().action;
@@ -159,7 +158,7 @@ oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeAc
           oplog._.inform();
 
           
-          console.log({ func, type: typeof func })
+          // console.log({ func, type: typeof func })
           if(typeof func === 'function') {
             return await func()
           }
@@ -333,7 +332,7 @@ const init = async ({ name }) => {
     const defaultOrg = Instance.private.defaultOrg
     const isFirstUser = defaultOrg.members.length <= 1
 
-    console.log({ defaultOrg, isFirstUser })
+    // console.log({ defaultOrg, isFirstUser })
     const initiator = await defineSchema(
     {
       db: userDatabaseName || databaseName,
@@ -367,7 +366,6 @@ const init = async ({ name }) => {
 
       const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
       const facadeUsers = allUsers.map((user) => user.email)
-      console.log({ allUsers })
 
       /* get demo org */
       const org = await oCollection.findOne({ name: defaultOrg });
