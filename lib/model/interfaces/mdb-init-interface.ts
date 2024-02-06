@@ -332,7 +332,6 @@ const init = async ({ name }) => {
     const defaultOrg = Instance.private.defaultOrg
     const isFirstUser = defaultOrg.members.length <= 1
 
-    // console.log({ defaultOrg, isFirstUser })
     const initiator = await defineSchema(
     {
       db: userDatabaseName || databaseName,

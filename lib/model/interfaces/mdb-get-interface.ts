@@ -15,6 +15,5 @@ export const getUserMeta = async ({
 }: Pick<UserSchema, "email">) => {
   const Nexus = await NexusInterface
   const user = await Nexus.getUser(email)
-  console.log({ Nexus, user })
   return user
 }
