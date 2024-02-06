@@ -1,26 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // mdb-init-interface.ts
-import type {
-  UserSchema,
-  INCharacter,
-  UserDecoration,
-  OrgDecoration,
-  ILogger,
-  ILogContext,
-} from "@types";
-import { MongoConnector, setDb } from "@model";
+import { v4 as uuid } from 'uuid';
+import type { UserSchema, INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext } from '@types';
+import { default as MongoConnector, _setDb as setDb } from '../mdb-connector';
 import {
   DATABASE_STRING as databaseName,
   DATABASE_USERS_STRING as userDatabaseName,
   DATABASE_ORGS_STRING as orgsDatabaseName,
-} from "./constants";
+  DEFAULT_ORG as defaultOrg,
+} from './constants';
+import { patience } from './helpers';
 
-import { dbLog } from "@log";
+import { dbLog } from '@log';
 
-// console.log(dbLog)
-
-// we can get more specific later
-type Tdbs = "nexus" | "organizations" | "test" | string;
+/* to-do: move types to declaration file */
+type Tdbs = 'nexus' | 'organizations' | 'test' | string;
 
 interface IDBGeneric {
   [x: string]: {
@@ -35,173 +29,188 @@ type TDBModel = IDBGeneric & {
 };
 
 /* to-do: database connection logs and error handling */
-const messageQueue: ILogger = [] as unknown as ILogger;
+export const oplog: ILogger = [] as unknown as ILogger;
 const messageState: ILogContext = {};
 
-messageQueue.addToQueue = ({ action, verb, status, message }: ILogContext) => {
-  const log: ILogContext = {
-    type: "db",
-    action: action || messageState.action,
-    verb: verb || messageState.verb,
-    status: status || messageState.status,
-    message: message || messageState.message,
-  };
-
-  const entry = dbLog(log);
-  messageQueue.push(log);
+messageState.get = () => {
+  // console.log("@@@ getting current message @@@")
+  return messageState;
 };
 
-messageQueue.update = (payload: ILogContext) => {
+oplog._ = {};
+oplog._.queue = [];
+
+oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
+  // console.log("@@@ decorating log @@@")
+  if (!messageState.get) return { type, action, verb, status, message, priority };
+  const statusMessage: ILogContext = {
+    type: type || 'mongodb',
+    action: action || messageState.get().action,
+    verb: verb || messageState.get().verb,
+    status: status || messageState.get().status,
+    message: message || messageState.get().message,
+    time: new Date().toISOString(),
+    priority: priority || messageState.get().priority || 'default',
+    _id: uuid(),
+  };
+
+  // console.log("@@@ decorated log @@@", { statusMessage })
+
+  return statusMessage;
+};
+
+oplog._.addToQueue = (payload: ILogContext) => {
+  if (!oplog?._?.decorateLog) return payload;
+  const _action = oplog._.decorateLog(payload);
+
+  const entry = dbLog(_action);
+
+  oplog?._?.queue?.push(_action);
+  oplog.push(_action);
+
+  return _action;
+};
+
+oplog._.inform = (payload) => {
+  if (process.env.ENABLE_LOG === 'true' && messageState.get) {
+    if (process.env.LOG_DEPTH === '1') {
+      messageState.status = status || messageState.get().status;
+      // console.log("@@@ oplog informing @@@", payload)
+    } else {
+      const { action, verb, status, message } = payload;
+      messageState.action = action || messageState.get().action;
+      messageState.verb = verb || messageState.get().verb;
+      messageState.status = status || messageState.get().status;
+      messageState.message = message || messageState.get().message;
+    }
+  }
+
+  // console.log({ messageState })
+
+  const log = oplog._.decorateLog ? oplog._.decorateLog(messageState) : messageState;
+
+  dbLog(log);
+  oplog.push(log);
+};
+
+oplog._.update = (payload: ILogContext) => {
   const { action, verb, status, message } = payload;
   messageState.action = action || messageState.action;
   messageState.verb = verb || messageState.verb;
   messageState.status = status || messageState.status;
   messageState.message = message || messageState.message;
 
-  messageQueue.addToQueue({ action, verb, status, message });
+  if (!oplog._.addToQueue) return;
+  oplog._.addToQueue({ action, verb, status, message });
 };
 
-messageQueue.throw = (e: string) => {
-  const ms = (e as string) || "";
-  messageQueue.update({ status: "error", message: ms });
+oplog._.throw = (e: string) => {
+  const ms: { status: string; message: string } = { status: '', message: '' };
+  ms.status = 'error';
+  ms.message = (e as string) || '';
+  if (!oplog._.inform) return;
+  oplog._.inform(ms);
 };
 
-messageQueue.safeAction = (func: any) => {
-  try {
-    return func();
-  } catch (e) {
-    if (typeof e === "string") {
-      messageQueue.throw(e);
-    } else {
-      messageQueue.throw(JSON.stringify(e));
-    }
-  }
-};
+// console.log({ oplog })
+
+/* to-do: move types to declaration file */
+interface ILogSafeActionOptions {
+  last?: number;
+  retry?: boolean;
+  interval?: number;
+  required?: boolean;
+}
+
+interface ILogSafeActionArgs {
+  err?: string;
+  func: any;
+  expectedResult?: any;
+  options?: ILogSafeActionOptions;
+}
+
+/* to-do: use a generic type */
+// type ILogSafeAction = (
+//   fn: ILogSafeActionArgs<'func'>,
+//   res: ILogSafeActionArgs<'expectedResult'>,
+//   config: ILogSafeActionOptions,
+// ) => ILogSafeActionArgs<'expectedResult'>;
+
+// oplog._.safeAction = async (payload: ILogContext, func: any, options: ILogSafeActionOptions) => {
+//   const verb = payload?.verb || messageState?.verb;
+//   const whatToDo = async () => {
+//     try {
+//       messageState.status = 'active';
+//       messageState.message = `[${verb}]:execution-context:starting`;
+//       oplog._.inform();
+
+//       messageState.status = 'done';
+//       messageState.message = `[${verb}]:success`;
+//       oplog._.inform();
+
+//       messageState.status = 'active';
+//       messageState.message = `[${verb}]:deeper-execution-context:starting`;
+//       oplog._.inform();
+
+//       // console.log({ func, type: typeof func })
+//       if (typeof func === 'function') {
+//         return await func();
+//       }
+
+//       messageState.status = 'done';
+//       oplog._.inform();
+//       return func;
+//     } catch (e) {
+//       if (process.LOG_DEPTH === '1') {
+//         console.error(e);
+//       }
+//     }
+//   };
+//   return await whatToDo();
+// };
+
+// oplog._.safeActionSync = (func: any, options: ILogSafeActionOptions) => {
+//   oplog._.safeAction(func, options).then((err, res) => {
+//     if (err) oplog._.throw(err);
+//     return res;
+//   });
+// };
+
+// /* to-do: oplog + garbage collection */
+// oplog._.history = [] as unknown as ILogContext[];
+// oplog._.collectGarbage = () => {
+//   oplog._.history = [..._init.history, ...oplog];
+//   oplog._.length = 0;
+// };
 
 /* schemas */
 const _UserSchema: UserDecoration = {
   rickmorty: {
     favorites: {
-      characters: [] as INCharacter["id"][],
+      characters: [] as INCharacter['id'][],
     },
   },
   organizations: [],
 };
 
 const _OrgSchema: OrgDecoration = {
-  name: "demo",
+  name: defaultOrg,
   members: [],
   rickmorty_meta: {
     favorites: {
-      characters: [] as INCharacter["id"][],
+      characters: [] as INCharacter['id'][],
     },
   },
 };
 
 /* private */
-const getDB = (name: Tdbs) => async () => {
-  return await messageQueue.safeAction(async () => {
-    messageQueue.update({
-      action: "init",
-      verb: "database",
-      status: "connecting",
-      message: name || "",
-    });
-    const conn = await MongoConnector;
-    const db_conn = await setDb(name);
-    const db = await db_conn.db(name);
-    return db;
-  });
+
+const prepare = async (name: Tdbs): Promise<any> => {
+  const conn = await MongoConnector;
+  const db_conn = await setDb(name);
+  const db = await db_conn.db(name);
+  return db;
 };
-
-const init =
-  (db: Tdbs): (() => any) =>
-  async (): Promise<any> => {
-    return (await messageQueue.safeAction(async () => {
-      const _getDB = getDB(db);
-      const _db = await _getDB();
-      messageQueue.update({ status: "loading", message: db });
-      return _db;
-    })) as IDBGeneric;
-  };
-
-// to-do: singleton + mutex
-// to tired to figure this any now
-const _init: any = {
-  [userDatabaseName || databaseName]: init(userDatabaseName || databaseName),
-};
-
-if (process.env.NEXUS_MODE === "full") {
-  _init[orgsDatabaseName] = init(orgsDatabaseName);
-}
-
-/* to-do: oplog + garbage collection */
-_init.history = [] as unknown as ILogContext[];
-_init.collectGarbage = () => {
-  _init.history = [..._init.history, ...messageQueue];
-};
-
-// _init[databaseName] = init(databaseName);
-
-const getCollection =
-  async (_db = databaseName) =>
-  async (_collection = "users") => {
-    return messageQueue.safeAction(async () => {
-      messageQueue.update({
-        action: "init",
-        verb: "collection",
-        status: "loading",
-        message: `${_db}|${_collection}`,
-      });
-      if (!_init[_db].db) {
-        const db = await _init[_db]();
-        _init[_db].db = db;
-      }
-      const collection = await _init[_db].db.collection(_collection);
-      if (!_init[_db].db) return messageQueue.throw("error connecting to db");
-
-      /* init-collections */
-      _init[_db].collections = { ..._init[_db].collections };
-      _init[_db].collections[_collection] = collection;
-
-      return collection;
-    });
-  };
-
-/* public methods */
-
-const getUserCollection = async () => {
-  return messageQueue.safeAction(async () => {
-    const col = await getCollection(userDatabaseName);
-    const _col = await col("users");
-    _init[userDatabaseName].collections["users"] = _col;
-
-    messageQueue.update({
-      verb: "collection",
-      status: "ready",
-      message: `${userDatabaseName}|"users"`,
-    });
-
-    return _col;
-  });
-};
-
-const getOrgCollection = async () => {
-  return messageQueue.safeAction(async () => {
-    const col = await getCollection(orgsDatabaseName);
-    const _col = await col("organizations");
-    _init[orgsDatabaseName].collections["organizations"] = _col;
-
-    messageQueue.update({
-      verb: "collection",
-      status: "ready",
-      message: `${orgsDatabaseName}|"organizations"`,
-    });
-    return _col;
-  });
-};
-
-/** ORM **/
 
 // IMPORTANT: to-do: to enforce on existing docs (not on insert only)
 const createSchemaQuery = () => {
@@ -214,95 +223,190 @@ const defineSchema =
       schema,
       db,
       collection: collectionName,
+      docQuery,
     }: {
       schema: UserDecoration | OrgDecoration;
       db: string;
       collection: string;
+      docQuery?: unknown;
     },
-    getOneCollection: () => any,
+    col: any,
   ) =>
   async () => {
-    /* add safe actions */
-    const collection = await getOneCollection();
-    const result = collection.updateMany(
-      {},
-      { $set: schema },
-      { upsert: true },
-    );
-    messageQueue.update({
-      action: "schema-enforcing",
-      verb: "collection",
-      status: "done",
-      message: `${db}|"${collectionName}"`,
-    });
+    if (docQuery) {
+      const result = col.updateOne(docQuery, { $set: schema }, { upsert: true });
+    } else {
+      const result = col.updateMany({}, { $set: schema }, { upsert: true });
+    }
   };
 
-const defineUserSchema = defineSchema(
-  {
-    db: userDatabaseName || databaseName,
-    collection: "users",
-    schema: _UserSchema,
-  },
-  getUserCollection,
-);
+// to-do: singleton + mutex
+// to tired to figure this any now
+const Instance: any = {};
 
-const defineOrgSchema = defineSchema(
-  {
-    db: orgsDatabaseName || databaseName,
-    collection: "organizations",
-    schema: _OrgSchema,
-  },
-  getOrgCollection,
-);
+/* private methods */
+/* 0. init */
+const init = async ({ name }: { name: string }) => {
+  const usersDb = userDatabaseName || databaseName;
 
-const defineRelations = async () => {
-  const oCollection = await getOrgCollection();
-  const uCollection = await getUserCollection();
-
-  /* get demo org */
-  const demoOrg = await oCollection.findOne({ name: "demo" });
-
-  // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
-  const _userQuerySchema = { organizations: demoOrg };
-
-  /* users -> org relations */
-
-  /* IMPORTANT: to-do: extract method to add to org */
-  const userQuerySchema = {
-    db: userDatabaseName || databaseName,
-    collection: "users",
-    schema: _userQuerySchema,
+  const _users = {
+    status: 'loading',
+    db: await prepare(usersDb),
   };
 
-  const result = uCollection.updateMany(
-    {},
-    { $push: _userQuerySchema },
-    { upsert: true },
+  Instance.users = _users;
+
+  if (process.env.NEXUS_MODE === 'full') {
+    const _orgs = {
+      status: 'loading',
+      db: await prepare(orgsDatabaseName),
+    };
+
+    Instance.orgs = _orgs;
+  }
+
+  Instance.private = {};
+  Instance.private.loadUsers = async () => {
+    const users = await Instance.users.db.collection('users');
+    return users;
+  };
+  Instance.private.reloadUsers = async () => {
+    const users = await Instance.users.db.collection('users');
+    Instance.private.users = users;
+    return users;
+  };
+  Instance.private.users = await Instance.private.loadUsers();
+
+  /* (PVT) orgs */
+  if (process.env.NEXUS_MODE === 'full') {
+    Instance.private.loadOrgs = async () => {
+      const orgs = await Instance.orgs.db.collection('organizations');
+      return orgs;
+    };
+    Instance.private.reloadOrgs = async () => {
+      const orgs = await Instance.orgs.db.collection('organizations');
+      Instance.private.orgs = orgs;
+      return orgs;
+    };
+    Instance.private.loadDefaultOrg = async () => {
+      return Instance.private.orgs.findOne({ name: defaultOrg });
+    };
+    Instance.private.orgs = await Instance.private.loadOrgs();
+    Instance.private.defaultOrg = await Instance.private.loadDefaultOrg();
+  }
+
+  Instance.private.defineUserSchema = await defineSchema(
+    {
+      db: userDatabaseName || databaseName,
+      collection: 'users',
+      schema: _UserSchema,
+      docQuery: undefined,
+    },
+    Instance.private.users,
   );
 
-  messageQueue.update({
-    action: "schema-enforcing",
-    verb: "relations",
-    status: "done",
-    message: `${userDatabaseName}|"users"`,
-  });
+  Instance.private.initUser = async (email: string) => {
+    if (!email) return;
+    const defaultOrg = Instance.private.defaultOrg;
+    const isFirstUser = defaultOrg.members.length <= 1;
+
+    const initiator = await defineSchema(
+      {
+        db: userDatabaseName || databaseName,
+        collection: 'users',
+        schema: _UserSchema,
+        docQuery: { email },
+      },
+      Instance.private.users,
+    );
+    if (isFirstUser) {
+      await Instance.private.defineOrgSchema();
+      await Instance.private.defineRelations();
+    }
+    return initiator;
+  };
+
+  Instance.private.defineOrgSchema = await defineSchema(
+    {
+      db: orgsDatabaseName || databaseName,
+      collection: 'organizations',
+      schema: _OrgSchema,
+    },
+    Instance.private.orgs,
+  );
+
+  Instance.private.defineRelations = async (options: { user: string }) => {
+    const user = options?.user;
+    const oCollection = Instance.private.orgs;
+    const uCollection = Instance.private.users;
+
+    const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
+    const facadeUsers = allUsers.map((user: UserSchema) => user.email);
+
+    /* get demo org */
+    const org = await oCollection.findOne({ name: defaultOrg });
+    const demoOrg = org?.name;
+
+    // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
+    const _userQuerySchema = { organizations: demoOrg };
+    const _orgAllMembers = { members: facadeUsers };
+
+    /* users -> org relations */
+
+    /* IMPORTANT: to-do: extract method to add to org */
+    const userQuerySchema = {
+      db: userDatabaseName || databaseName,
+      collection: 'users',
+      schema: _userQuerySchema,
+    };
+
+    const usersResult = await uCollection.updateMany({}, { $push: _userQuerySchema }, { upsert: true });
+
+    const orgResult = await oCollection.updateOne({ name: defaultOrg }, { $set: _orgAllMembers }, { upsert: true });
+  };
+
+  // migrations: add this env var and set it to 'true' to enforce schemas
+  // or run yarn dev:schema (local), start:schema (CI)
+  Instance.private.defineSchema = async () => {
+    if (process.env.NEXUS_SCHEMA !== 'true') {
+      return;
+    }
+    await Instance.private.defineUserSchema();
+    await Instance.private.reloadUsers();
+    await Instance.private.defineOrgSchema();
+    await Instance.private.reloadOrgs();
+    await Instance.private.defineRelations();
+    await Instance.private.reloadUsers();
+    await Instance.private.reloadOrgs();
+  };
+
+  /* (PUB) users */
+  Instance.public = {};
+  Instance.public.getUser = async (email: string) => {
+    return await Instance.private.users.findOne({ email });
+  };
+  Instance.public.updateUser = async ({ email, query, value }: { email: string; query: string; value: any }) => {
+    return await Instance.private.users.updateOne({ email }, { $addToSet: { [query]: value } });
+  };
+  Instance.public.initUser = async ({ email }: { email: string }) => {
+    return await Instance.private.initUser({ email });
+  };
+
+  await Instance.private.defineSchema();
+  Instance.ready = true;
+  return true;
 };
 
-const _initSchemas = async () => {
-  // IMPORTANT: to-do; work on race conditions; the backwards upsert schema enforcing is the way
-  await defineUserSchema();
-  await defineOrgSchema();
-
-  await defineRelations();
+const getNexus = async () => {
+  if (!Instance?.ready) {
+    const finished = await init({ name: 'NexusDB' });
+  }
+  return Instance.public;
 };
 
-// migrations: add this env var and set it to 'true' to enforce schemas
-// or run yarn dev:schema (local), start:schema (CI)
-if (process.env.NEXUS_SCHEMA === "true") {
-  _initSchemas();
-}
+const PublicNexus = Instance.public || getNexus();
 
 /* to-do: services, projects, billing, krn cols interfaces. 
 (check respective dbs, maybe split init for each db) */
 
-export { _init, getUserCollection };
+export { PublicNexus as NexusInterface };

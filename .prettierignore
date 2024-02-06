@@ -1,3 +1,9 @@
 # .prettierignore
 
 .github/
+
+
+# temporary
+src/app/components/system/**/*
+**/components/**/*
+**/nsx/**/*

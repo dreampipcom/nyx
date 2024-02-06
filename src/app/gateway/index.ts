@@ -1,12 +1,7 @@
 // index.ts
 
 // client
-export { navigate } from "./client/actions";
+export { navigate } from './client/actions';
 
 // server
-export {
-  addToFavorites,
-  loadChars,
-  reloadChars,
-  getChars,
-} from "./server/actions";
+export { getUser, addToFavorites, loadChars, reloadChars, getChars } from './server/actions';

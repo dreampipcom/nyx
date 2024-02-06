@@ -21,8 +21,14 @@
     "paths": {
       "@styles": ["./src/app/styles"],
       "@styles/*": ["./src/app/styles/*"],
+      "@atoms": ["./src/app/components/atoms"],
+      "@atoms/*": ["./src/app/components/atoms/*"],
       "@model": ["./lib/model"],
       "@model/*": ["./lib/model/*"],
+      "@view": ["./lib/view"],
+      "@view/*": ["./lib/view/*"],
+      "@pragmas": ["./lib/view/adapters/"],
+      "@pragmas/*": ["./lib/view/*"],
       "@log": ["./lib/log"],
       "@log/*": ["./lib/log/*"],
       "@types": ["./lib/types"],
@@ -43,5 +49,5 @@
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/nsx/**/*", "**/system/**/*"],
 }

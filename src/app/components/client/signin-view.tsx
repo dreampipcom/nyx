@@ -1,10 +1,12 @@
 // signin-view.ts
-"use client";
-import { useContext, useEffect, useRef } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { AuthContext } from "@state";
-import { ALogIn, ALogOut } from "@actions";
-import { navigate } from "@gateway";
+'use client';
+import { useContext, useEffect, useRef } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import { AuthContext } from '@state';
+import { ALogIn, ALogOut } from '@actions';
+import { navigate } from '@gateway';
+import { UserSchema } from '@types';
+// import { ButtonView as NButton } from '@atoms/button';
 
 interface IAuthProvider {
   id?: string;
@@ -13,17 +15,14 @@ interface IAuthProvider {
 
 interface VSignInProps {
   providers: IAuthProvider[];
+  user?: UserSchema;
 }
-
-// async function doSignIn({ id }: IAuthProvider) {
-//   await signIn(id);
-// }
 
 async function doSignOut() {
   await signOut();
 }
 
-export const VSignIn = ({ providers }: VSignInProps) => {
+export const VSignIn = ({ providers, user }: VSignInProps) => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
   const [isUserLoaded, loadUser] = ALogIn({});
@@ -31,6 +30,11 @@ export const VSignIn = ({ providers }: VSignInProps) => {
   const initd = useRef(false);
 
   const { authd, name } = authContext;
+
+  // console.log({ NButton })
+
+  /* server/client isomorphism */
+  const coercedName = name || user?.name || user?.email;
 
   useEffect(() => {
     if (!isUserLoaded && session?.user && !initd.current) {
@@ -49,28 +53,15 @@ export const VSignIn = ({ providers }: VSignInProps) => {
     await doSignOut();
   };
 
-  if (!providers) return;
+  // if (!providers) return;
 
-  if (typeof session === "undefined") return <span>Loading...</span>;
-
-  if (authd)
+  if (user || authd)
     return (
       <span>
-        Welcome, {name}. Your smoke signals will appear here! <button onClick={handleSignOut}>Sign out</button>
+        Welcome, {coercedName} <button onClick={handleSignOut}>Sign out</button>
       </span>
     );
 
-  return <button onClick={() => navigate("/api/auth/signin")}>Receive a smoke signal from Angelo Reale!</button>;
-
-  // return (
-  //   <>
-  //     {Object.values(providers).map((provider: IAuthProvider) => (
-  //       <span key={provider.name}>
-  //         <button onClick={() => navigate('/api/auth/signin')}>
-  //           Sign in
-  //         </button>
-  //       </span>
-  //     ))}
-  //   </>
-  // );
+  // return <NButton/>;
+  return <button onClick={() => navigate('/api/auth/signin')}>Sign in</button>;
 };

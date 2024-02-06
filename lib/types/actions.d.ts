@@ -1,22 +1,17 @@
 // actions.d.ts
-import type { Context } from "react";
-export type ActionT =
-  | "init"
-  | "login"
-  | "logout"
-  | "hydrate"
-  | "update_db"
-  | "schema-enforcing";
-export type ActionTypes = "init" | "auth" | "rickmorty" | string;
+import type { Context } from 'react';
+export type ActionT = 'init' | 'login' | 'logout' | 'hydrate' | 'update_db' | 'schema-enforcing';
+export type ActionTypes = 'init' | 'auth' | 'rickmorty' | string;
 export type ActionAuthNames =
-  | "load user"
-  | "unload user"
-  | "load characters"
-  | "unload characters"
-  | "decorate characters"
-  | "add char to favorites";
+  | 'load user'
+  | 'load user meta'
+  | 'unload user'
+  | 'load characters'
+  | 'unload characters'
+  | 'decorate characters'
+  | 'add char to favorites';
 
-export type ActionDBNames = "database" | "collection" | "relations" | "connect";
+export type ActionDBNames = 'database' | 'collection' | 'relations' | 'connect';
 
 export type ISupportedContexts = IAuthContext | IRMContext | ILogContext;
 
@@ -28,14 +23,24 @@ export interface ILogContext {
   message?: string;
   category?: string;
   context?: string;
+  get?: () => ILogContext;
+  priority?: string;
+  time?: string;
+  _id?: string;
+}
+
+export interface IOplogOps {
+  addToQueue?: (args: ILogContext) => void;
+  update?: (args: ILogContext) => void;
+  inform?: (payload: ILogContext) => void;
+  safeAction?: (func: any) => any;
+  throw?: (err: string) => void;
+  decorateLog?: (args: ILogContext) => ILogContext;
+  queue?: ILogContext[];
 }
 
 export interface ILogger extends Array<ILogContext> {
-  /* should specify later */
-  addToQueue: (args: ILogContext) => void;
-  update: (args: ILogContext) => void;
-  safeAction: (func: any) => any;
-  throw: (err: string) => void;
+  _: IOplogOps;
 }
 
 export interface IActionBack extends ILogContext {
@@ -71,9 +76,7 @@ export interface IACharacterPayload {
   cid?: number;
 }
 
-export type ICreateAction = (
-  options: IActionBack,
-) => (_options: IAction) => [boolean | undefined, IDispatch];
+export type ICreateAction = (options: IActionBack) => (_options: IAction) => [boolean | undefined, IDispatch];
 
 export type IAPayload = IALoginPayload | IACharacterPayload;
 export type IDPayload = IDAddToFavPayload;

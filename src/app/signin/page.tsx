@@ -1,9 +1,9 @@
 // signin/page.tsx TS-Doc?
-"use server";
-import { getProviders } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@auth";
-import { VSignIn } from "@components/client";
+'use server';
+import { getProviders } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@auth';
+import { VSignIn } from '@components/client';
 
 interface ISignInData {
   providers?: IAuthProviders[];
@@ -24,7 +24,7 @@ async function getProvidersData(): Promise<ISignInData> {
   // Note: Make sure not to redirect to the same page
   // To avoid an infinite loop!
   if (session) {
-    return { redirect: { destination: "/" } };
+    return { redirect: { destination: '/' } };
   }
 
   const providers = (await getProviders()) as unknown as IAuthProviders[];

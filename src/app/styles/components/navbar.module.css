@@ -1,0 +1,17 @@
+/* icons.module.css */
+@import './atoms/list.module.css' @value html from './atoms/list__item.module.css';
+
+.navbar__wrapper {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navbar__list {
+  position: relative;
+}
+
+.navbar__menu__list {
+  position: relative;
+  list-style: none;
+}

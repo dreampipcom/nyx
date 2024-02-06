@@ -1,5 +1,6 @@
 // contexts.d.ts
-import type { Dispatch, SetStateAction } from "react";
+import type { UserSchema } from '@types';
+import type { Dispatch, SetStateAction } from 'react';
 
 export interface History {
   history: string[];
@@ -29,6 +30,7 @@ export interface IAuthContext extends History {
   name?: string;
   initd?: boolean;
   email?: string;
+  meta?: UserSchema;
 }
 
 // to-do: characters type annotations

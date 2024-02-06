@@ -1,22 +1,17 @@
 // list-view.tsx
-"use client";
-import type { INCharacter, IDPayload } from "@types";
+'use client';
+import type { INCharacter, IDPayload } from '@types';
 
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from 'react';
 
-import { clsx } from "clsx";
-import Image from "next/image";
-import { RMContext, AuthContext } from "@state";
-import {
-  ALoadChars,
-  AUnloadChars,
-  ADecorateChars,
-  AAddToFavoriteChars,
-} from "@actions";
-import { navigate, addToFavorites, getChars } from "@gateway";
+import { clsx } from 'clsx';
+import Image from 'next/image';
+import { RMContext, AuthContext } from '@state';
+import { ALoadChars, AUnloadChars, ADecorateChars, AAddToFavoriteChars } from '@actions';
+import { navigate, addToFavorites, getChars } from '@gateway';
 
-import styles from "@styles/list.module.css";
-import icons from "@styles/components/icons.module.css";
+import styles from '@styles/list.module.css';
+import icons from '@styles/components/icons.module.css';
 
 // to-do: character type annotations
 interface VCharactersListProps {
@@ -123,5 +118,5 @@ export const VList = ({ characters }: VListProps) => {
     );
   }
 
-  return <button onClick={() => navigate("/api/auth/signin")}>Sign in</button>;
+  return <button onClick={() => navigate('/api/auth/signin')}>Sign in</button>;
 };
