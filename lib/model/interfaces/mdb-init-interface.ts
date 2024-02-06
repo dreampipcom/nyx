@@ -284,12 +284,22 @@ const init = async ({ name }) => {
       const users = await Instance.users.db.collection("users")
       return users 
     }
+    Instance.private.reloadUsers = async () => {
+      const users = await Instance.users.db.collection("users")
+      Instance.private.users = users
+      return users 
+    }
     Instance.private.users = await Instance.private.loadUsers()
 
         /* (PVT) orgs */
     if (process.env.NEXUS_MODE == "full") {
       Instance.private.loadOrgs = async () => {
         const orgs = await Instance.orgs.db.collection("organizations")
+        return orgs 
+      }
+      Instance.private.reloadOrgs = async () => {
+        const orgs = await Instance.orgs.db.collection("organizations")
+        Instance.private.orgs = orgs
         return orgs 
       }
       Instance.private.orgs = await Instance.private.loadOrgs()
@@ -350,8 +360,12 @@ const init = async ({ name }) => {
       }
       console.log("@@@@ SCHEMA @@@@")
       await Instance.private.defineUserSchema()
+      await Instance.private.reloadUsers()
       await Instance.private.defineOrgSchema()
+      await Instance.private.reloadOrgs()
       await Instance.private.defineRelations()
+      await Instance.private.reloadUsers()
+      await Instance.private.reloadOrgs()
     }
 
 
