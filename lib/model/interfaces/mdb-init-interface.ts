@@ -237,8 +237,6 @@ const init = async ({ name }) => {
     const usersDb = userDatabaseName || databaseName
     console.log("----- @@@ Starting a brand new instance of NexusDB @@@ -----", { Instance })
 
-    /* <<<<init singleton>>>> */
-
     const _users = {
       status: "loading",
       db: await prepare(usersDb)
@@ -258,7 +256,6 @@ const init = async ({ name }) => {
     Instance.private = {}
     Instance.private.loadUsers = async () => {
       const users = await Instance.users.db.collection("users")
-      console.log({users})
       return users 
     }
     Instance.private.users = await Instance.private.loadUsers()
@@ -267,15 +264,17 @@ const init = async ({ name }) => {
     Instance.public.getUser = async (email: string) => {
       return await Instance.private.users.findOne({ email })
     }
+    Instance.public.updateUser = async ({ email, query, value }) => {
+      return await Instance.private.users.updateOne(
+          { email },
+          { $addToSet: { [query]: value } },
+        );
+    }
 
 
     Instance.ready = true
-    console.log("@@@ end init @@@ ")
     return true
 }
-
-
-/* public methods */
 
 
 /** ORM **/
