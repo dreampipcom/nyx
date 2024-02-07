@@ -38,7 +38,7 @@ export const VNavBar = () => {
 
   // if (typeof session === "undefined") return <span>Loading...</span>;
 
-  if (!authd)
+  if (authd)
     return (
       <Dropdown>
         <MenuButton>Services</MenuButton>

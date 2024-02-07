@@ -38,7 +38,7 @@ export const VUserSettings = () => {
 
   // if (typeof session === "undefined") return <span>Loading...</span>;
 
-  if (!authd)
+  if (authd)
     return (
       <Dropdown>
         <MenuButton>My account</MenuButton>
