@@ -1,2 +1,2 @@
-// @atoms/button/server/index.ts
-export { NCButton } from './button-controller';
+// // @atoms/button/server/index.ts
+// export { NCButton } from './button-controller';
