@@ -1,2 +1,2 @@
 // @atoms/index.ts
-export NButton from './button'
+export { Button } from './button'

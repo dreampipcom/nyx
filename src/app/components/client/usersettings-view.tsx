@@ -1,4 +1,4 @@
-// navbar-view.tsx
+// usersettings-view.tsx
 'use client';
 import { useContext, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
@@ -13,10 +13,10 @@ import { MenuItem } from '@mui/base/MenuItem';
 
 import navbarStyles from '@styles/components/navbar.module.css';
 
-interface VNavBar {
+interface VUserSettings {
 }
 
-export const VNavBar = () => {
+export const VUserSettings = () => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
   const initd = useRef(false);
@@ -41,15 +41,15 @@ export const VNavBar = () => {
   if (authd)
     return (
       <Dropdown>
-        <MenuButton>Services</MenuButton>
+        <MenuButton>My account</MenuButton>
         <Menu
           slotProps={{
             listbox: { className: navbarStyles.navbar__menu__list },
           }}
         >
-          <MenuItem>Rick and Morty</MenuItem>
-          <MenuItem>Image uploader</MenuItem>
-          <MenuItem>Image tagger</MenuItem>
+          <MenuItem>Profile</MenuItem>
+          <MenuItem>Language settings</MenuItem>
+          <MenuItem>Log out</MenuItem>
         </Menu>
       </Dropdown>
     );

@@ -21,8 +21,8 @@
     "paths": {
       "@styles": ["./src/app/styles"],
       "@styles/*": ["./src/app/styles/*"],
-      "@atoms": ["./src/app/components/atoms"],
-      "@atoms/*": ["./src/app/components/atoms/*"],
+      "@atoms": ["./src/app/components/system/atoms"],
+      "@atoms/*": ["./src/app/components/system/atoms/*"],
       "@model": ["./lib/model"],
       "@model/*": ["./lib/model/*"],
       "@view": ["./lib/view"],

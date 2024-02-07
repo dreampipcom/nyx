@@ -3,7 +3,7 @@
 import { getProviders } from 'next-auth/react';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@auth';
-import { VSignIn } from '@components/client';
+import { VSignUp } from '@components/client';
 
 interface ISignInData {
   providers?: IAuthProviders[];
@@ -32,8 +32,8 @@ async function getProvidersData(): Promise<ISignInData> {
   return { providers: providers ?? [] };
 }
 
-export default async function SignIn() {
+export default async function SignUp() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  return <VSignIn providers={providers} />;
+  return <VSignUp providers={providers} />;
 }
