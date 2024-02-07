@@ -15,7 +15,7 @@ interface IAuthProvider {
 
 interface VSignInProps {
   providers: IAuthProvider[];
-  user: UserSchema;
+  user?: UserSchema;
 }
 
 async function doSignOut() {

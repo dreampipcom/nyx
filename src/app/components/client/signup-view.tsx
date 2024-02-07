@@ -12,18 +12,21 @@ import { Button } from "@atoms"
 interface IAuthProvider {
   id?: string;
   name?: string;
+  type?: string;
+  signinUrl?: string;
 }
 
-interface VSignInProps {
+interface VSignUpProps {
   providers: IAuthProvider[];
   user?: UserSchema;
+  csrf?: string;
 }
 
 async function doSignOut() {
   await signOut();
 }
 
-export const VSignUp = ({ providers, user, csrf }: VSignInProps) => {
+export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
   const [isUserLoaded, loadUser] = ALogIn({});
@@ -33,7 +36,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignInProps) => {
   const { authd, name } = authContext;
   const [email, setEmail] = useState("");
 
-  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH + process.env.NEXT_PUBLIC_NEXUS_LOGIN_REDIRECT_PATH
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH + "" + process.env.NEXT_PUBLIC_NEXUS_LOGIN_REDIRECT_PATH || "/"
 
   console.log({ prov })
   if (!prov) return

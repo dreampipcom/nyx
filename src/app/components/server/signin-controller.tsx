@@ -5,7 +5,7 @@ import { getProviders } from 'next-auth/react';
 import { VSignIn } from '@components/client';
 
 interface ISignInProps {
-  user?: UserSchema;
+  user?: UserSchema | undefined;
 }
 
 interface ISignInData {

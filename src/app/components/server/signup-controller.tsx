@@ -34,5 +34,5 @@ export const CSignUp = async ({ user }: ISignInProps) => {
   const providers: IAuthProviders[] = props?.providers || []
 
 
-  return <VSignUp providers={providers} csrfToken={csrf} />
+  return <VSignUp providers={providers} csrf={csrf} />
 }

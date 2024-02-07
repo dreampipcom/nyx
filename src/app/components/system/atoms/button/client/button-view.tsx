@@ -12,18 +12,17 @@ type position = positionCenter | positionX | positionY
 interface IButtonIcon {
   position: "left" | "right";
   size: positionX;
-  theme: themes
+  theme: themes;
 }
 
-interface VButtonProps {
-  children: React.Component;
-  variant : "solid" | "outline";
-  theme   : "light" | "dark";
-  onClick : (e: HTMLClickEvent) => void;
-  icon: IButtonIcon
+interface VButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "solid" | "outline";
+  theme?: "light" | "dark";
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  icon?: IButtonIcon;
 }
 
-export const NVButton = ({ children, onClick, variant, theme, icon }: VButtonProps) => {
+export const NVButton = ({ children, onClick, variant, theme, icon, ...regularHtmlProps }: VButtonProps) => {
   /* remember server/client isomorphism */
-  return <button onClick={onClick} className={styles.nexus__button}>{children}</button>;
+  return <button {...regularHtmlProps} onClick={onClick} className={styles.nexus__button}>{children}</button>;
 };
