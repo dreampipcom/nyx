@@ -28,12 +28,5 @@ export type {
   ILogger,
 } from './actions';
 
-
 // system
-export type {
-  Tposition,
-  TpositionX,
-  TpositionY,
-  Tsize,
-  Tthemes,
-} from './atoms';
+export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';

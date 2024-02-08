@@ -2,7 +2,7 @@
 'use server';
 import { getProviders } from 'next-auth/react';
 import { getServerSession } from 'next-auth/next';
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 import { authOptions } from '@auth';
 import { VSignUp } from '@components/client';
 import styles from '@styles/page.module.css';
@@ -37,10 +37,12 @@ async function getProvidersData(): Promise<ISignInData> {
 export default async function SignUp() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  return <main className={styles.main}>
+  return (
+    <main className={styles.main}>
       <article>
         <img className={styles.logo} src="/logo.svg" />
         <VSignUp providers={providers} />
       </article>
-  </main>;
+    </main>
+  );
 }

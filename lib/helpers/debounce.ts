@@ -4,10 +4,10 @@
   @param : time => the time delay for debounce
 */
 export const debounce = (fn, delay) => {
-  let timer = null
+  let timer = null;
 
   return (...args) => {
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => fn(...args), delay)
-  }
-}
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { clsx } from "clsx"
+import { clsx } from 'clsx';
 import { RootProviders } from '@state';
 import { Comfortaa } from 'next/font/google';
 import './globals.css';
@@ -8,7 +8,7 @@ const comfortaa = Comfortaa({ subsets: ['latin'] });
 
 const classes = clsx({
   [comfortaa.className]: true,
-})
+});
 
 export const metadata: Metadata = {
   title: process.env.PATTERNS_TITLE,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={comfortaa.className}>
+      <body className={classes}>
         <RootProviders>{children}</RootProviders>
       </body>
     </html>

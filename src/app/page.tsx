@@ -5,7 +5,7 @@ import { TopNav, List } from '@components';
 export default function Home() {
   return (
     <main className={styles.main}>
-        <TopNav />
+      <TopNav />
 
       <div className={styles.center}>
         <Image
