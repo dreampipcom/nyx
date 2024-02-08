@@ -47,8 +47,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const defaultP = _providers[0]
 
   const callbackUrl = "/"
+  console.log({ prov })
 
-  if (!prov) return
 
   /* server/client isomorphism */
   const coercedName = name || user?.name || user?.email;
@@ -74,8 +74,6 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
     await doSignOut();
   };
 
-  if (!providers) return
-
   const classes = clsx({
     [styles.nexus__signup]: true
   })
@@ -86,6 +84,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
         <Button onClick={handleSignOut}>Sign out</Button>
     </section>
   }
+
+  if (!Object.keys(prov).length) return
   
   return <section className={classes}>
 			<div> 

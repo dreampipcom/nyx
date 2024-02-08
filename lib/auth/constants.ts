@@ -23,6 +23,9 @@ export const authOptions: AuthOptions = {
     }),
     // ...add more providers here
   ],
+  session: {
+    strategy: "jwt",
+  },
   events: {
     async signIn({ user, isNewUser }) {
       try {
@@ -35,7 +38,23 @@ export const authOptions: AuthOptions = {
       }
     },
   },
-  callbacks: {},
+  callbacks: {
+    // async signIn() {
+      
+    // },
+    async jwt({ user , token }) {
+      if (user) {  // Note that this if condition is needed
+        token.user={...user}
+      }
+      return token
+     },
+    async session({ session, token }) {
+      if (token?.user) { // Note that this if condition is needed
+        session.user = token.user;
+      }
+      return session
+    },
+  },
   pages: {
     signIn: "/signin",
     signOut: '/',
