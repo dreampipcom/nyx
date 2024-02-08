@@ -42,12 +42,12 @@ export default async function SignUp() {
   const cookieCsrf: string | undefined = await getCsrfToken({
     req: {
       headers: {
-        cookie: cookies().toString(),
+        cookie: cook.toString(),
       },
     },
   });
   const newCsrf: string | undefined = await getCsrfToken();
-  const csrf = cookieCsrf || newCsrf
+  const csrf = cookieCsrf || newCsrf;
   return (
     <main className={styles.main}>
       <article>

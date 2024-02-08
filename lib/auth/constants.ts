@@ -39,14 +39,12 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn() {
       // extra sign-in checks
-      return true
+      return true;
     },
-    async redirect ({url, baseUrl}) {
-      return url.startsWith(baseUrl)
-        ? Promise.resolve(url)
-        : Promise.resolve(baseUrl)
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? Promise.resolve(url) : Promise.resolve(baseUrl);
     },
     async jwt({ user, token }) {
       if (user) {
