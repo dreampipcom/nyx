@@ -7,6 +7,10 @@
   min-height: 100vh;
 }
 
+.text * {
+  font-family: var(--nexus-font) !important;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;
