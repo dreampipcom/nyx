@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
           const { access_token } = response;
           return { tokens: { access_token } };
         },
-        async profile(profile) {
+        async profile(profile: any) {
           return {
             id: profile.id,
             name: profile.username,
