@@ -22,7 +22,7 @@ const classes = clsx({
   [styles.nexus__button]: true,
 })
 
-export const NVButton = ({ children, onClick, variant, theme, icon, ...regularHtmlProps }: VButtonProps) => {
+export const NVButton = ({ children, variant, theme, icon, ...regularHtmlProps }: VButtonProps) => {
   /* remember server/client isomorphism */
   return <Button className={classes} {...regularHtmlProps}>{children}</Button>;
 };
