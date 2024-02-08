@@ -1,0 +1,16 @@
+// @atoms/button-view.tsx
+'use client';
+import { Input } from "@mui/base/input"
+import { clsx } from "clsx"
+import styles from "./divider.module.css"
+
+interface VDividerProps extends React.HRHTMLAttributes<HTMLHRElement> {
+}
+
+export const NVDivider = ({ children, ...regularHtmlProps }: VDividerProps) => {
+  const classes = clsx({
+    [styles.nexus__divider]: regularHtmlProps.type !== "hidden",
+  })
+  /* remember server/client isomorphism */
+  return <hr className={classes} {...regularHtmlProps} />;
+};

@@ -1,4 +1,54 @@
 /* button.module.css */
+/* button.module.css */
 .nexus__button {
-  background-color: green;
+  display: flex;
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
+  padding: 0px 16px;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--1---Primary-Color, #FFF);
+  color: #333;
+  text-align: center;
+  font-feature-settings: 'liga' off;
+  justify-content: center;
+
+  /* BUTTON */
+  font-family: Comfortaa, Helvetica, sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-color: white;
+
+  margin-bottom: 16px;
+}
+
+
+.nexus__button--hover {
+  background-color: #333;
+}
+
+.nexus__button--active {
+  background-color: #333;
+  box-shadow: none;
+  transform: scale(0.99);
+}
+
+.nexus__button--focus-visible {
+  box-shadow: 0 0 0 4px #333;
+  outline: none;
+}
+
+.nexus__button--base--disabled {
+  background-color: #333;
+  color: #333;
+  border: 0;
+  cursor: default;
+  box-shadow: none;
+  transform: scale(1);
 }

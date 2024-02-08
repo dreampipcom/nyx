@@ -37,7 +37,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {},
   pages: {
-    // signIn: "/signin",
+    signIn: "/signin",
     signOut: '/',
     // error: '/api/rm/v0/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/api/rm/v0/auth/verify-request', // (used for check email message)
