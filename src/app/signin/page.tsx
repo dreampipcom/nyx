@@ -38,8 +38,16 @@ async function getProvidersData(): Promise<ISignInData> {
 export default async function SignUp() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  cookies();
-  const csrf: string | undefined = await getCsrfToken();
+  const cook = cookies();
+  const cookieCsrf: string | undefined = await getCsrfToken({
+    req: {
+      headers: {
+        cookie: cook.toString(),
+      },
+    },
+  });
+  const newCsrf: string | undefined = await getCsrfToken();
+  const csrf = cookieCsrf || newCsrf;
   return (
     <main className={styles.main}>
       <article>

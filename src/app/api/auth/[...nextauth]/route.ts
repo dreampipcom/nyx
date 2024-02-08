@@ -1,5 +1,4 @@
 // api/auth/route.ts simple poc
-
 // [...nextauth].ts// auth.ts TS-Doc?
 import NextAuth from 'next-auth';
 import { finalAuth } from '@auth/adapter';
