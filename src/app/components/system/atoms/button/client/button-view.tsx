@@ -1,6 +1,6 @@
 // @atoms/button-view.tsx
 'use client';
-import { Button } from "@mui/base/button"
+import { Button } from "@mui/base/Button"
 import { clsx } from "clsx"
 import styles from "./button.module.css"
 import { TpositionX, Tthemes, Tsize } from "@types"

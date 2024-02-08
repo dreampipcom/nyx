@@ -1,7 +1,7 @@
 // @atoms/button-view.tsx
 'use client';
 import type { TpositionX, Tthemes } from "@types"
-import { Input } from "@mui/base/input"
+import { Input } from "@mui/base/Input"
 import { debounce } from "@helpers"
 import { clsx } from "clsx"
 import styles from "./input.module.css"

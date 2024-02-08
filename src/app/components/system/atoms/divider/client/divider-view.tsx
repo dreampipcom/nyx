@@ -1,6 +1,5 @@
 // @atoms/button-view.tsx
 'use client';
-import { Input } from "@mui/base/input"
 import { clsx } from "clsx"
 import styles from "./divider.module.css"
 
