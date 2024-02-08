@@ -11,13 +11,7 @@ const nextConfig = {
     ],
   },
   async redirects() {
-    return [
-      {
-        source: '/signin',
-        destination: '/api/auth/signin',
-        permanent: false,
-      },
-    ];
+    return [];
   },
 };
 

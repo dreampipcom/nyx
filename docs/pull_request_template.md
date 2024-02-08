@@ -4,11 +4,14 @@ PLEASE REVIEW YOUR OWN PR BEFORE OPENING/UN-DRAFTING IT
 
 [ticket description]
 
+## Screenshots/Videocasts/Preview Links
+
 ## Have you?
 
 - [ ] Reviewed your own PR?
 - [ ] Tested your own feature/fix meets Acceptance Criteria?
 - [ ] Made sure it passes all checks? (lint, build, integrations, scripts, etc)?
+- [ ] Added screenshots? (if relevant)
 - [ ] Added unit tests? (if necessary)
 - [ ] Added documentation? (if necessary)
 

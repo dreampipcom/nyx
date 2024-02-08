@@ -6,7 +6,7 @@ import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
 import { UserSchema } from '@types';
-// import { ButtonView as NButton } from '@atoms/button';
+import { Button } from '@atoms';
 
 interface IAuthProvider {
   id?: string;
@@ -58,10 +58,10 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
   if (user || authd)
     return (
       <span>
-        Welcome, {coercedName} <button onClick={handleSignOut}>Sign out</button>
+        Welcome, {coercedName} <Button onClick={handleSignOut}>Sign out</Button>
       </span>
     );
 
   // return <NButton/>;
-  return <button onClick={() => navigate('/api/auth/signin')}>Sign in</button>;
+  return <Button onClick={() => navigate('/api/auth/signin')}>Sign in</Button>;
 };

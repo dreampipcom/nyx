@@ -1,5 +1,4 @@
 /* icons.module.css */
-@import './atoms/list.module.css' @value html from './atoms/list__item.module.css';
 
 .navbar__wrapper {
   position: relative;

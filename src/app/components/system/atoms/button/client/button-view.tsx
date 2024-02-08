@@ -1,18 +1,14 @@
 // @atoms/button-view.tsx
 'use client';
+import { Button } from "@mui/base/Button"
+import { clsx } from "clsx"
 import styles from "./button.module.css"
-
-type positionCenter = "center"
-type positionX = "left" | "right"
-type positionY = "top" | "bottom"
-type themes = "light" | "dark"
-
-type position = positionCenter | positionX | positionY
+import { TpositionX, Tthemes, Tsize } from "@types"
 
 interface IButtonIcon {
-  position: "left" | "right";
-  size: positionX;
-  theme: themes;
+  position: TpositionX;
+  size: Tsize;
+  theme: Tthemes;
 }
 
 interface VButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,7 +18,11 @@ interface VButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: IButtonIcon;
 }
 
+const classes = clsx({
+  [styles.nexus__button]: true,
+})
+
 export const NVButton = ({ children, onClick, variant, theme, icon, ...regularHtmlProps }: VButtonProps) => {
   /* remember server/client isomorphism */
-  return <button {...regularHtmlProps} onClick={onClick} className={styles.nexus__button}>{children}</button>;
+  return <Button className={classes} {...regularHtmlProps} onClick={onClick}>{children}</Button>;
 };

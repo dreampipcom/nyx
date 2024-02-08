@@ -27,3 +27,6 @@ export type {
   ILogContext,
   ILogger,
 } from './actions';
+
+// system
+export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';
