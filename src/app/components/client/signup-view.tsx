@@ -6,8 +6,9 @@ import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
 import { UserSchema } from '@types';
-import { Button, Input, Divider } from "@atoms"
-// import { ButtonView as NButton } from '@atoms/Button';
+import { Button, Input, Divider } from "@atoms";
+import { clsx } from "clsx"
+import styles from "./signup.module.css"
 
 interface IAuthProvider {
   id?: string;
@@ -29,6 +30,7 @@ async function doSignOut() {
 async function doSignIn() {
   await signIn();
 }
+
 
 export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const authContext = useContext(AuthContext);
@@ -64,9 +66,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   }, [session, isUserLoaded, loadUser]);
 
   const handleSignIn = async (id) => {
-    console.log("do siging", { id })
     await doSignIn(id);
-    //loadUser();
   };
 
   const handleSignOut = async () => {
@@ -74,15 +74,20 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
     await doSignOut();
   };
 
-  if (!providers) return;
+  if (!providers) return
 
-  // if (user || authd)
-  //   return (
-  //     <span>
-  //       Welcome, {coercedName} <Button onClick={handleSignOut}>Sign out</Button>
-  //     </span>
-  //   )
-  return <div>
+  const classes = clsx({
+    [styles.nexus__signup]: true
+  })
+
+  if (user || authd) {
+    return <section className={classes}>
+        <p>Welcome, {coercedName}. I hope you make yourself at home.</p>
+        <Button onClick={handleSignOut}>Sign out</Button>
+    </section>
+  }
+  
+  return <section className={classes}>
 			<div> 
         <form action={defaultP.signinUrl} method="POST">
           <Input type="hidden" name="csrfToken" value={csrf} />
@@ -100,46 +105,46 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             Continue
           </Button>
         </form>
-    	</div>
+    	 </div>
       <Divider />
     {oauth.map((provider) => (
       <div> 
-              {provider.type === "email" && (
-                <form action={defaultP.signinUrl} method="POST">
-                  <Input type="hidden" name="csrfToken" value={csrf} />
-                  <Input
-                    id={`input-email-for-${provider.id}-provider`}
-                    autoFocus
-                    type="email"
-                    name="email"
-                    value={email}
-                    placeholder="Your email"
-                    required
-                  />
-                  <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
-                    Continue
-                  </Button>
-                  </form>
-              )}
+        {provider.type === "email" && (
+          <form action={defaultP.signinUrl} method="POST">
+            <Input type="hidden" name="csrfToken" value={csrf} />
+            <Input
+              id={`input-email-for-${provider.id}-provider`}
+              autoFocus
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Your email"
+              required
+            />
+            <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
+              Continue
+            </Button>
+            </form>
+        )}
 
-              {provider.type === "oauth" && (
-                <form action={provider.signinUrl} method="POST">
-                  <Input type="hidden" name="csrfToken" value={csrf} />
-                  {callbackUrl && (
-                    <Input
-                      type="hidden"
-                      name="callbackUrl"
-                      value={"/"}
-                    />
-                  )}
-                  <Button
-                    onClick={() => signIn(provider.id)}
-                  >
-                    Sign in with {provider.name}
-                  </Button>
-                </form>
-              )}
+        {provider.type === "oauth" && (
+          <form action={provider.signinUrl} method="POST">
+            <Input type="hidden" name="csrfToken" value={csrf} />
+            {callbackUrl && (
+              <Input
+                type="hidden"
+                name="callbackUrl"
+                value={"/"}
+              />
+            )}
+            <Button
+              onClick={() => signIn(provider.id)}
+            >
+              Sign in with {provider.name}
+            </Button>
+          </form>
+        )}
       </div>
     ))}
-  </div>
-};
+  </section>
+}
