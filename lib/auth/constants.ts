@@ -20,6 +20,30 @@ export const authOptions: AuthOptions = {
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+      token: {
+      url: "https://api.instagram.com/oauth/access_token",
+      async request(context) {
+          const {
+            provider,
+            params: { code },
+          } = context
+          const body = new URLSearchParams([
+            ["grant_type", "authorization_code"],
+            ["code", code],
+            ["client_id", provider.clientId],
+            ["client_secret", provider.clientSecret],
+            ["redirect_uri", provider.callbackUrl],
+          ])
+          const response = await (
+            await fetch(provider.token.url, {
+              method: "POST",
+              body,
+            })
+          ).json()
+          const { access_token } = response
+          return { tokens: { access_token } }
+        },
+      },
     }),
     // ...add more providers here
   ],
