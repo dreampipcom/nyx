@@ -20,10 +20,6 @@ export const authOptions: AuthOptions = {
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
-      userinfo: "https://graph.instagram.com/me?fields=id,username",
-      client: {
-        token_endpoint_auth_method: 'client_secret_post',
-      },
       async profile(profile: any) {
         return {
           id: profile.id,

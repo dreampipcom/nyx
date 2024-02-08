@@ -141,7 +141,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             <Button
               onClick={() => signIn(provider.id)}
             >
-              Sign in with {provider.name}
+              Continue with {provider.name}
             </Button>
           </form>
         )}
