@@ -1,8 +1,9 @@
 // signin/page.tsx TS-Doc?
 'use server';
-import { getProviders } from 'next-auth/react';
+import { getProviders, getCsrfToken } from 'next-auth/react';
 import { getServerSession } from 'next-auth/next';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { authOptions } from '@auth';
 import { VSignUp } from '@components/client';
 import styles from '@styles/page.module.css';
@@ -37,11 +38,13 @@ async function getProvidersData(): Promise<ISignInData> {
 export default async function SignUp() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
+  cookies();
+  const csrf: string | undefined = await getCsrfToken();
   return (
     <main className={styles.main}>
       <article>
         <img className={styles.logo} src="/logo.svg" />
-        <VSignUp providers={providers} />
+        <VSignUp providers={providers} csrf={csrf} />
       </article>
     </main>
   );

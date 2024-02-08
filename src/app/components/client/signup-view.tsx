@@ -65,6 +65,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   }, [session, isUserLoaded, loadUser]);
 
   const handleSignIn = async (id?: string, value?: SignInOptions) => {
+    console.log({ value })
     await doSignIn(id, value);
   };
 
@@ -88,8 +89,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   
   return <section className={classes}>
 			<div> 
-        <form action={defaultP.signinUrl} method="POST">
-          <Input type="hidden" name="csrfToken" value={csrf} />
+        <form action={defaultP.signinUrl} method="post">
+          <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <Input
             id={`input-email-for-${defaultP.id}-provider`}
             autoFocus
@@ -100,7 +101,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             placeholder="Your email"
             required
           />
-          <Button id="submitButton" type="submit" onClick={() => handleSignIn("email", { email })}>
+          <Button id="submitButton" type="submit">
             Continue
           </Button>
         </form>
@@ -110,7 +111,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
       <div> 
         {provider.type === "email" && (
           <form action={defaultP.signinUrl} method="POST">
-            <Input type="hidden" name="csrfToken" value={csrf} />
+            <input name="csrfToken" type="hidden" defaultValue={csrf} />
             <Input
               id={`input-email-for-${provider.id}-provider`}
               autoFocus
