@@ -38,21 +38,14 @@ async function getProvidersData(): Promise<ISignInData> {
 export default async function SignUp() {
   const props: ISignInData = await getProvidersData();
   const providers: IAuthProviders[] = props?.providers || [];
-  const cook = cookies();
-  const cookieCsrf: string | undefined = await getCsrfToken({
-    req: {
-      headers: {
-        cookie: cookies().toString(),
-      },
-    },
-  });
-  const newCsrf: string | undefined = await getCsrfToken();
-  const csrf = cookieCsrf || newCsrf
+  cookies();
+  const csrf: string | undefined = await getCsrfToken();
   return (
     <main className={styles.main}>
       <article>
         <img className={styles.logo} src="/logo.svg" />
-        <VSignUp providers={providers} csrf={csrf} />
+        <p>There was an error logging you in.</p>
+        <p>Please be patient, this is still an Alpha release and not official.</p>
       </article>
     </main>
   );

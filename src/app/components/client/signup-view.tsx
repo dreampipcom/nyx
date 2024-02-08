@@ -91,6 +91,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
 			<div> 
         <form action={defaultP.signinUrl} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
+          <input type="hidden" name="callbackUrl" value="/verify" />
           <Input
             id={`input-email-for-${defaultP.id}-provider`}
             autoFocus

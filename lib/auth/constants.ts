@@ -39,9 +39,15 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    // async signIn() {
-
-    // },
+    async signIn({ user, account, profile, email, credentials }) {
+      // extra sign-in checks
+      return true
+    },
+    async redirect ({url, baseUrl}) {
+      return url.startsWith(baseUrl)
+        ? Promise.resolve(url)
+        : Promise.resolve(baseUrl)
+    },
     async jwt({ user, token }) {
       if (user) {
         // Note that this if condition is needed
@@ -60,8 +66,8 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: '/signin',
     signOut: '/',
-    // error: '/api/rm/v0/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/api/rm/v0/auth/verify-request', // (used for check email message)
+    error: '/error', // Error code passed in query string as ?error=
+    verifyRequest: '/verify', // (used for check email message)
     // newUser: '/' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
