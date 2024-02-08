@@ -24,5 +24,5 @@ const classes = clsx({
 
 export const NVButton = ({ children, onClick, variant, theme, icon, ...regularHtmlProps }: VButtonProps) => {
   /* remember server/client isomorphism */
-  return <Button className={classes} {...regularHtmlProps} onClick={onClick}>{children}</Button>;
+  return <Button className={classes} {...regularHtmlProps}>{children}</Button>;
 };

@@ -12,7 +12,7 @@
   margin-bottom: 16px;
 }
 
-.nexus__input input {
+input.nexus__input {
   height: 100%;
   width: 100%;
   padding: 8px 16px;

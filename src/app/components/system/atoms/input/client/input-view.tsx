@@ -1,7 +1,7 @@
 // @atoms/button-view.tsx
 'use client';
 import type { TpositionX, Tthemes } from "@types"
-import { Input } from "@mui/base/Input"
+import { useInput } from '@mui/base/useInput';
 import { debounce } from "@helpers"
 import { clsx } from "clsx"
 import styles from "./input.module.css"
@@ -20,6 +20,7 @@ interface VInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const NVInput = ({ children, onChange, value, ...regularHtmlProps }: VInputProps) => {
+  const { getRootProps }  = useInput()
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(onChange) {
       onChange(e.target.value)
@@ -34,5 +35,5 @@ export const NVInput = ({ children, onChange, value, ...regularHtmlProps }: VInp
     [styles.nexus__input]: regularHtmlProps.type !== "hidden",
   })
   /* remember server/client isomorphism */
-  return <Input className={classes} {...regularHtmlProps} onChange={dbHandleChange} >{children}</Input>;
+  return <input className={classes} {...getRootProps()} {...regularHtmlProps} onChange={dbHandleChange} >{children}</input>;
 };
