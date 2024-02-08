@@ -1,6 +1,5 @@
 // signup-view.ts
 'use client';
-// import type { SignInOptions } from "next-auth"
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
 import { AuthContext } from '@state';
@@ -47,8 +46,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const oauth = _providers.slice(1, providers.length)
   const defaultP = _providers[0]
 
-  const callbackUrl = "/"
-  console.log({ prov })
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
 
   /* server/client isomorphism */

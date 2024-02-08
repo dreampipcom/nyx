@@ -16,7 +16,7 @@
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  background-color: #3f3f3f;
+  background-color: var(--nexus-main-bg);
 }
 
 .list__image {

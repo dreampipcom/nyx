@@ -1,5 +1,4 @@
 /* button.module.css */
-/* button.module.css */
 .nexus__button {
   display: flex;
   width: 100%;
@@ -9,8 +8,8 @@
   align-items: center;
   flex-shrink: 0;
   border-radius: 4px;
-  background: var(--1---Primary-Color, #FFF);
-  color: #333;
+  background: var(--nexus-main-fg);
+  color: var(--nexus-main-bg);
   text-align: center;
   font-feature-settings: 'liga' off;
   justify-content: center;
@@ -30,23 +29,23 @@
 
 
 .nexus__button--hover {
-  background-color: #333;
+  background-color: var(--nexus-main-bg);
 }
 
 .nexus__button--active {
-  background-color: #333;
+  background-color: var(--nexus-main-bg);
   box-shadow: none;
   transform: scale(0.99);
 }
 
 .nexus__button--focus-visible {
-  box-shadow: 0 0 0 4px #333;
+  box-shadow: 0 0 0 4px var(--nexus-main-bg);
   outline: none;
 }
 
 .nexus__button--base--disabled {
-  background-color: #333;
-  color: #333;
+  background-color: var(--nexus-main-bg);
+  color: var(--nexus-main-bg);
   border: 0;
   cursor: default;
   box-shadow: none;
