@@ -15,7 +15,7 @@
     "format:fix": "next lint --fix && prettier --write --ignore-path .gitignore --ignore-path .prettierignore ."
   },
   "dependencies": {
-    "@mui/base": "5.0.0-beta.35",
+    "@mui/base": "5.0.0-beta.33",
     "clsx": "2.1.0",
     "next": "14.0.4",
     "react": "18",
