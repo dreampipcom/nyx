@@ -1,7 +1,8 @@
 // signup-view.ts
 'use client';
+// import type { SignInOptions } from "next-auth"
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useSession, signOut, signIn } from 'next-auth/react';
+import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
@@ -27,8 +28,8 @@ async function doSignOut() {
   await signOut();
 }
 
-async function doSignIn() {
-  await signIn();
+async function doSignIn(id?: string, value?: SignInOptions) {
+  await signIn(id, value);
 }
 
 
@@ -40,7 +41,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const initd = useRef(false);
   const prov = providers
   const { authd, name } = authContext;
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
 
   const _providers = Object.values(providers)
   const oauth = _providers.slice(1, providers.length)
@@ -65,8 +66,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
     }
   }, [session, isUserLoaded, loadUser]);
 
-  const handleSignIn = async (id) => {
-    await doSignIn(id);
+  const handleSignIn = async (id?: string, value?: SignInOptions) => {
+    await doSignIn(id, value);
   };
 
   const handleSignOut = async () => {
@@ -97,11 +98,11 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             type="email"
             name="email"
             value={email}
-            onChange={setEmail}
+            onChange={(e) => setEmail(e)}
             placeholder="Your email"
             required
           />
-          <Button id="submitButton" type="submit" onClick={() => handleSignIn("email", email)}>
+          <Button id="submitButton" type="submit" onClick={() => handleSignIn("email", { email })}>
             Continue
           </Button>
         </form>

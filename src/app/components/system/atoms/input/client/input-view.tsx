@@ -1,5 +1,6 @@
 // @atoms/button-view.tsx
 'use client';
+import type { TpositionX, Tthemes } from "@types"
 import { Input } from "@mui/base/input"
 import { debounce } from "@helpers"
 import { clsx } from "clsx"
@@ -14,18 +15,17 @@ interface IInputIcon {
 interface VInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant?: "solid" | "outline";
   theme?: "light" | "dark";
-  onChange?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onChange?: (value: any) => any;
   icon?: IInputIcon;
 }
 
 export const NVInput = ({ children, onChange, value, ...regularHtmlProps }: VInputProps) => {
-  const handleChange = (e) => {
-    setValue()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(onChange) {
       onChange(e.target.value)
     }
   }
-  const dbHandleChange = (e) => {
+  const dbHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     debounce(handleChange, 500)
   }
 

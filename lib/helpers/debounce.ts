@@ -3,10 +3,10 @@
   @param : fn => the function to convert
   @param : time => the time delay for debounce
 */
-export const debounce = (fn, delay) => {
-  let timer = null;
+export const debounce = (fn: (...args: any) => any, delay: number) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
 
-  return (...args) => {
+  return (...args: any) => {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => fn(...args), delay);
   };
