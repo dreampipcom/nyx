@@ -10,6 +10,7 @@ export interface IService {
   status: Record<EServiceStatus, number>;
   statusModified: Date;
   // cost: number;
+  // currency: ECurrency
   // cycle: EBillingCycles;
   version: string;
   features: IFeature[];

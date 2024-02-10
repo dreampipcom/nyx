@@ -15,7 +15,8 @@ interface INexusSet extends Set<IActionTypes> {
   gimme?: (value: string) => string[] | [];
 }
 
-const publicNexusActions: Set<NexusActionTypes> = new Set(['init', 'login', 'logout', 'hydrate']);
+const publicNexusActions: Set<NexusActionTypes> = new Set(['init', 'login', 'logout', 'hydrate'] as NexusActionTypes[]);
+const iterablePublicActions: NexusActionTypes[] = Array.from(publicNexusActions);
 
 const commonActions: INexusSet = new Set<IActionTypes>(['like']);
 commonActions.gimme = (value: string) => {
@@ -23,9 +24,9 @@ commonActions.gimme = (value: string) => {
   return [];
 };
 
-export const nominalRMActions = [...publicNexusActions, ...commonActions.gimme('like')];
+export const nominalRMActions = [...iterablePublicActions, commonActions.gimme('like')];
 
-export const defaultRMActions = nominalRMActions.reduce((acc, actionType) => {
+export const defaultRMActions = nominalRMActions.reduce((acc, actionType: IActionTypes) => {
   return {
     ...acc,
     [actionType]: true,

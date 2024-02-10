@@ -1,2 +1,2 @@
-// index.ts
-export { NVDivider as Divider } from './client';
+// // index.ts
+// export { NVDivider as Divider } from './client';
