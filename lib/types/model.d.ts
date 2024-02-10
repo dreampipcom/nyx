@@ -1,24 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // IMPORTANT: above rule is temporary ^, until file split + schema wrap
 // model.d.ts
-import type { INCharacter, DUserOrgAmbiRelation } from '@types';
-import type { ObjectID } from 'mongodb';
 import type { PostalAddress } from '@types/json-schmea';
 
 /* nexus db */
-
-export interface OrgDecoration {
-  _id?: ObjectID /* uid */;
-  /* temp optional */
-  name?: string;
-  bio?: string;
-  members: DUserOrgAmbiRelation[];
-  rickmorty_meta: {
-    favorites: {
-      characters: INCharacter['id'][];
-    };
-  };
-}
 
 export type IAddress = PostalAddress;
 
@@ -84,27 +69,3 @@ closeOrgCap status
 dividend
 */
 export interface IUserTokenData {}
-
-export interface DOrgUserRelation {}
-
-/* orgs collection */
-export interface OrgSchema {
-  _id: ObjectID /* oid */;
-  name: string;
-  billing: IBillingData;
-  krn: IOrgTokenData;
-  addresses: IAddress[];
-  websites: string[];
-  members: DUserOrgAmbiRelation[];
-  projects: DProjectOrgRelation[];
-  services: {
-    available: DServiceOrgRelation[];
-  };
-  rickmorty: {
-    favorites: {
-      characters: INCharacter['id'][];
-    };
-  };
-}
-
-export interface UserSchema extends User, UserDecoration {}

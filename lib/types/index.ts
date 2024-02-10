@@ -4,10 +4,13 @@
 export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
 
 // model
-export type { OrgDecoration } from './model';
+export type {} from './model';
 
 // users
 export type { UserSchema, User, UserDecoration } from './users';
+
+// orgs
+export type { OrgDecoration } from './orgs';
 
 // actions
 export type {

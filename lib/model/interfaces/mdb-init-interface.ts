@@ -196,6 +196,15 @@ const _UserSchema: UserDecoration = {
 const _OrgSchema: OrgDecoration = {
   name: defaultOrg,
   members: [],
+  projects: {
+    active: [],
+    inactive: [],
+    archived: [],
+  },
+  services: {
+    enabled: [],
+    available: [],
+  },
   rickmorty_meta: {
     favorites: {
       characters: [] as INCharacter['id'][],
