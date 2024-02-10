@@ -3,8 +3,8 @@
 // contexts
 export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
 
-// model
-export type {} from './model';
+// db
+export type { ICollections } from './db';
 
 // users
 export type { UserSchema, User, UserDecoration } from './users';
