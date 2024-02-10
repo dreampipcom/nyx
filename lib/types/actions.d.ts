@@ -11,7 +11,7 @@ export type ServicesActionContexts = 'rickmorty' | 'image-uploader';
 export type ActionContexts = NexusActionContexts | ServicesActionContexts;
 
 export type ActionAuthVerbs = 'load user' | 'load user meta' | 'unload user';
-export type ActionDBVerbs = 'database' | 'collection' | 'relations' | 'connect';
+export type ActionDBVerbs = 'load database' | 'load collection' | 'define relations' | 'connect to database';
 export type ActionRMVerbs = 'load characters' | 'unload characters' | 'decorate characters' | 'add char to favorites';
 
 export type ActionVerbs = ActionAuthVerbs | ActionRMVerbs | ActionDBVerbs;

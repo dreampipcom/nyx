@@ -7,7 +7,7 @@ export interface IBillingData {}
 
 export enum EBillingCycles {
   /* core */
-  '1M' = 0,
+  '1m' = 0,
   '1H' = 1,
   '1D' = 2,
   '1W' = 3,
