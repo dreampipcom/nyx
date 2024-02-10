@@ -9,7 +9,7 @@ import { AuthContext } from '@state';
 /* public */
 export const ALoadUserMeta = BuildAction(CreateAction, {
   action: 'hydrate',
-  type: 'users',
+  type: 'database',
   verb: 'load user meta',
   context: AuthContext,
 });

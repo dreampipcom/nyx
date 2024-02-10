@@ -44,7 +44,7 @@ oplog._.decorateLog = ({ type, action, verb, status, message, priority }) => {
   // console.log("@@@ decorating log @@@")
   if (!messageState.get) return { type, action, verb, status, message, priority };
   const statusMessage: ILogContext = {
-    type: type || 'mongodb',
+    type: type || 'database',
     action: action || messageState.get().action,
     verb: verb || messageState.get().verb,
     status: status || messageState.get().status,

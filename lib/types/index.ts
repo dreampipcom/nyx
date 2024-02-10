@@ -8,12 +8,12 @@ export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from '
 
 // actions
 export type {
-  ActionT,
-  ActionTypes,
-  ActionAuthNames,
-  ISupportedContexts,
-  IActionBack,
   IAction,
+  IActionTypes,
+  ActionAuthVerbs,
+  ISupportedContexts,
+  IActionDispatch,
+  IActionBack,
   IStatus,
   IALoginPayload,
   IDAddToFavPayload,

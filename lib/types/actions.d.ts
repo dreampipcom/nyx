@@ -1,24 +1,32 @@
 // actions.d.ts
 import type { Context } from 'react';
-export type ActionT = 'init' | 'login' | 'logout' | 'hydrate' | 'update_db' | 'schema-enforcing';
-export type ActionTypes = 'init' | 'auth' | 'rickmorty' | string;
-export type ActionAuthNames =
-  | 'load user'
-  | 'load user meta'
-  | 'unload user'
-  | 'load characters'
-  | 'unload characters'
-  | 'decorate characters'
-  | 'add char to favorites';
+export type _NexusIAction = 'update_db' | 'schema-enforcing';
+export type NexusIAction = 'init' | 'login' | 'logout' | 'hydrate';
+export type CommonIAction = 'like';
+export type RMIActionypes = CommonIAction<'like'>;
+export type IActionTypes = NexusIAction | RMIActionypes;
 
-export type ActionDBNames = 'database' | 'collection' | 'relations' | 'connect';
+export type NexusActionContexts = 'init' | 'auth' | 'ubiquity' | 'database';
+export type ServicesActionContexts = 'rickmorty' | 'image-uploader';
+export type ActionContexts = NexusActionContexts | ServicesActionContexts;
+
+export type ActionAuthVerbs = 'load user' | 'load user meta' | 'unload user';
+export type ActionDBVerbs = 'database' | 'collection' | 'relations' | 'connect';
+export type ActionRMVerbs = 'load characters' | 'unload characters' | 'decorate characters' | 'add char to favorites';
+
+export type ActionVerbs = ActionAuthVerbs | ActionRMVerbs | ActionDBVerbs;
+
+export interface IAction {
+  action: IActionTypes;
+  type: ActionContexts;
+}
 
 export type ISupportedContexts = IAuthContext | IRMContext | ILogContext;
 
 export interface ILogContext {
-  action?: ActionT;
-  type?: ActionTypes;
-  verb?: ActionAuthNames | ActionDBNames;
+  action?: IActionTypes;
+  type?: ActionContexts;
+  verb?: ActionVerbs;
   status?: string;
   message?: string;
   category?: string;
@@ -47,7 +55,7 @@ export interface IActionBack extends ILogContext {
   context: Context<ISupportedContexts>;
 }
 
-export interface IAction {
+export interface IActionDispatch {
   cb?: Array<() => void>;
 }
 
@@ -76,7 +84,7 @@ export interface IACharacterPayload {
   cid?: number;
 }
 
-export type ICreateAction = (options: IActionBack) => (_options: IAction) => [boolean | undefined, IDispatch];
+export type ICreateAction = (options: IActionBack) => (_options: IActionDispatch) => [boolean | undefined, IDispatch];
 
 export type IAPayload = IALoginPayload | IACharacterPayload;
 export type IDPayload = IDAddToFavPayload;
