@@ -4,18 +4,12 @@ import { v4 as uuid } from 'uuid';
 import type { UserSchema, INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext } from '@types';
 import { ECollections } from '@constants';
 import { default as MongoConnector, _setDb as setDb } from '../mdb-connector';
-import {
-  DATABASE_STRING as databaseName,
-  DATABASE_USERS_STRING as userDatabaseName,
-  DATABASE_ORGS_STRING as orgsDatabaseName,
-  DEFAULT_ORG as defaultOrg,
-} from './constants';
+import { DEFAULT_ORG as defaultOrg } from '@model';
+import { EDBs } from '@constants';
+
 import { patience } from './helpers';
 
 import { dbLog } from '@log';
-
-/* to-do: move types to declaration file */
-type Tdbs = 'nexus' | 'orgs' | 'test' | string;
 
 interface IDBGeneric {
   [x: string]: {
@@ -215,12 +209,12 @@ const _OrgSchema: OrgDecoration = {
 
 /* private */
 
-const prepare = async (name: Tdbs): Promise<any> => {
+async function prepare<DB extends keyof typeof EDBs>(name: (typeof EDBs)[DB]): Promise<any> {
   const conn = await MongoConnector;
   const db_conn = await setDb(name);
   const db = await db_conn.db(name);
   return db;
-};
+}
 
 // IMPORTANT: to-do: to enforce on existing docs (not on insert only)
 const createSchemaQuery = () => {
@@ -257,7 +251,7 @@ const Instance: any = {};
 /* private methods */
 /* 0. init */
 const init = async ({ name }: { name: string }) => {
-  const usersDb = userDatabaseName || databaseName;
+  const usersDb = EDBs.USERS || EDBs.DEFAULT;
 
   const _users = {
     status: 'loading',
@@ -269,7 +263,7 @@ const init = async ({ name }: { name: string }) => {
   if (process.env.NEXUS_MODE === 'full') {
     const _orgs = {
       status: 'loading',
-      db: await prepare(orgsDatabaseName),
+      db: await prepare(EDBs.ORGS),
     };
 
     Instance.orgs = _orgs;
@@ -307,7 +301,7 @@ const init = async ({ name }: { name: string }) => {
 
   Instance.private.defineUserSchema = await defineSchema(
     {
-      db: userDatabaseName || databaseName,
+      db: EDBs.USERS || EDBs.DEFAULT,
       collection: ECollections.USERS,
       schema: _UserSchema,
       docQuery: undefined,
@@ -322,7 +316,7 @@ const init = async ({ name }: { name: string }) => {
 
     const initiator = await defineSchema(
       {
-        db: userDatabaseName || databaseName,
+        db: EDBs.USERS || EDBs.DEFAULT,
         collection: ECollections.USERS,
         schema: _UserSchema,
         docQuery: { email },
@@ -338,7 +332,7 @@ const init = async ({ name }: { name: string }) => {
 
   Instance.private.defineOrgSchema = await defineSchema(
     {
-      db: orgsDatabaseName || databaseName,
+      db: EDBs.ORGS || EDBs.DEFAULT,
       collection: ECollections.ORGS,
       schema: _OrgSchema,
     },
@@ -365,7 +359,7 @@ const init = async ({ name }: { name: string }) => {
 
     /* IMPORTANT: to-do: extract method to add to org */
     const userQuerySchema = {
-      db: userDatabaseName || databaseName,
+      db: EDBs.USERS || EDBs.DEFAULT,
       collection: ECollections.USERS,
       schema: _userQuerySchema,
     };

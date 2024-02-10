@@ -11,7 +11,7 @@ export {
   DATABASE_USERS_STRING,
   DATABASE_ORGS_STRING,
   DEFAULT_ORG,
-} from './interfaces';
+} from './constants';
 
 /* rm-decorators */
 export { decorateRMCharacters } from './decorators';

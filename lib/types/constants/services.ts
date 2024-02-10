@@ -38,8 +38,8 @@ export enum ERMFeatures {
 }
 
 export const EFeatures = {
-  ...ERMFeatures
-}
+  ...ERMFeatures,
+};
 
 export enum EFeatureStatus {
   'inactive' = 0,

@@ -38,7 +38,7 @@ export interface IFeature {
 
 export type IFeatureSet = {
   [x in keyof IFeature<name>]: IFeature<x>;
-}
+};
 
 export type AbilityFuzziesT = 'age' | 'idv' | 'addv' | 'role';
 
