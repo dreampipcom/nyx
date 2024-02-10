@@ -28,5 +28,8 @@ export type {
   ILogger,
 } from './actions';
 
+// authorization
+export type { IAbility, EAbilityStatus, EUserOrgRoles } from './authorization';
+
 // system
 export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';
