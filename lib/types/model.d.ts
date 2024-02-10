@@ -1,26 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 // IMPORTANT: above rule is temporary ^, until file split + schema wrap
 // model.d.ts
-import type { User } from 'next-auth';
-import type { INCharacter } from '@types';
+import type { INCharacter, DUserOrgAmbiRelation } from '@types';
 import type { ObjectID } from 'mongodb';
 import type { PostalAddress } from '@types/json-schmea';
 
-export { User };
-
 /* nexus db */
-export interface UserDecoration {
-  _id?: ObjectID /* uid */;
-  /* temp optional */
-  username?: string;
-  bio?: string;
-  organizations: DUserOrgAmbiRelation[];
-  rickmorty: {
-    favorites: {
-      characters: INCharacter['id'][];
-    };
-  };
-}
 
 export interface OrgDecoration {
   _id?: ObjectID /* uid */;
@@ -68,10 +53,6 @@ export enum EBillingCycles {
 export interface IBillingData {}
 
 export interface DBillingOrgRelation {}
-
-/* currencies: to-do: move to a different type file */
-
-export type ECurrency = ETraditionalCurrencies | ECryptoCurrencies;
 
 // Example usage
 // const usdCurrency: TraditionalCurrencies = TraditionalCurrencies.USD;

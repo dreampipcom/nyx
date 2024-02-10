@@ -204,3 +204,5 @@ export enum ECryptoCurrencies {
   YFI = 'yearn.finance',
   ZEC = 'Zcash',
 }
+
+export type ECurrency = ETraditionalCurrencies | ECryptoCurrencies;
