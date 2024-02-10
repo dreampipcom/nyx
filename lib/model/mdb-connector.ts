@@ -37,9 +37,9 @@ const genPromise = (name = '') => {
   }
 
   log({
-    type: 'connector',
+    type: 'database',
     action: 'init',
-    verb: 'connect',
+    verb: 'connect to database',
     status: 'connecting-to',
     message: domain,
   });

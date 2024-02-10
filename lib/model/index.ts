@@ -10,7 +10,8 @@ export {
   DATABASE_STRING,
   DATABASE_USERS_STRING,
   DATABASE_ORGS_STRING,
-} from './interfaces';
+  DEFAULT_ORG,
+} from './constants';
 
 /* rm-decorators */
 export { decorateRMCharacters } from './decorators';

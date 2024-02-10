@@ -5,7 +5,7 @@ let usersDatabase = '';
 let defaultOrg = '';
 let DATABASE_USERS_STRING = '';
 let DATABASE_ORGS_STRING = '';
-let DEFAULT_ORG = 'demo';
+let DEFAULT_ORG = 'community';
 
 /* lean */
 if (process.env.NEXUS_MODE !== 'full') {

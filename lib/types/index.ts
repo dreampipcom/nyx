@@ -3,17 +3,23 @@
 // contexts
 export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
 
-// model
-export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from './model';
+// db
+export type { ICollections } from './db';
+
+// users
+export type { UserSchema, User, UserDecoration, DUserOrgAmbiRelation } from './users';
+
+// orgs
+export type { OrgDecoration } from './orgs';
 
 // actions
 export type {
-  ActionT,
-  ActionTypes,
-  ActionAuthNames,
-  ISupportedContexts,
-  IActionBack,
   IAction,
+  IActionTypes,
+  ActionAuthVerbs,
+  ISupportedContexts,
+  IActionDispatch,
+  IActionBack,
   IStatus,
   IALoginPayload,
   IDAddToFavPayload,
@@ -26,7 +32,14 @@ export type {
   IDispatchPayload,
   ILogContext,
   ILogger,
+  NexusActionTypes,
 } from './actions';
+
+// authorization
+export type { IAbility, IFuzzyAbilities } from './authorization';
+
+// services
+export type { IFeature, IFeatureSet, IProject, IServiceUserAmbiRelation } from './services';
 
 // system
 export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';

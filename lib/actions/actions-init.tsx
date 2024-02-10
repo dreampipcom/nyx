@@ -1,14 +1,22 @@
 // actions-init.tsx
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 'use client';
-import type { ISupportedContexts, IActionBack, IAction, IStatus, ICreateAction, IDispatch, IPayload } from '@types';
+import type {
+  ISupportedContexts,
+  IActionBack,
+  IActionDispatch,
+  IStatus,
+  ICreateAction,
+  IDispatch,
+  IPayload,
+} from '@types';
 
 import { createLogMessage, fluxLog as log } from '@log';
 import { useState, useEffect, useContext, useRef } from 'react';
 
 export const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
-  ({ cb }: IAction) => {
+  ({ cb }: IActionDispatch) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
 
