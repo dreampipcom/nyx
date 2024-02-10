@@ -2,6 +2,9 @@
 /* trad
   IMPORTANT: still need to be completely validated
  */
+// Example usage
+// const usdCurrency: TraditionalCurrencies = TraditionalCurrencies.USD;
+// const btcCryptocurrency: Cryptocurrencies = Cryptocurrencies.BTC;
 
 export enum ETraditionalCurrencies {
   AED = 'United Arab Emirates Dirham',
