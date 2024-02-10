@@ -4,7 +4,7 @@
 export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
 
 // model
-export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from './model';
+export type { UserSchema, User, UserDecoration, OrgDecoration } from './model';
 
 // actions
 export type {
@@ -30,6 +30,9 @@ export type {
 
 // authorization
 export type { IAbility, EAbilityStatus, EUserOrgRoles } from './authorization';
+
+// services
+export type { IFeature } from './services';
 
 // system
 export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';
