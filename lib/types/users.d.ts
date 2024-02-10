@@ -1,5 +1,5 @@
 // users.d.ts
-import type { IProject, IServiceUserAmbiRelation, IAbility, EUserOrgRoles, INCharacter } from '@types';
+import type { IProject, IServiceUserAmbiRelation, EUserOrgRoles, INCharacter } from '@types';
 import type { User } from 'next-auth';
 export { User };
 
@@ -19,7 +19,7 @@ export interface UserDecoration {
 
 export interface DUserOrgAmbiRelation {
   role: EUserOrgRoles[];
-  abilities: IAbility[];
+  abilities: IFuzzyAbilities;
   services: IServiceUserAmbiRelation[];
   projects: IProject[];
   _id: ObjectID /* uid */;

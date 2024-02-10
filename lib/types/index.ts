@@ -36,10 +36,10 @@ export type {
 } from './actions';
 
 // authorization
-export type { IAbility } from './authorization';
+export type { IAbility, IFuzzyAbilities } from './authorization';
 
 // services
-export type { IFeature, IProject, IServiceUserAmbiRelation } from './services';
+export type { IFeature, IFeatureSet, IProject, IServiceUserAmbiRelation } from './services';
 
 // system
 export type { Tposition, TpositionX, TpositionY, Tsize, Tthemes } from './atoms';

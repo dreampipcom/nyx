@@ -33,6 +33,14 @@ export enum EServiceStatus {
   'delinquent' = 10,
 }
 
+export enum ERMFeatures {
+  'love-characters' = 0,
+}
+
+export const EFeatures = {
+  ...ERMFeatures
+}
+
 export enum EFeatureStatus {
   'inactive' = 0,
   'ghost' = 1,

@@ -1,5 +1,5 @@
 // services.d.ts
-import type { IAbility } from '@types';
+import type { IFuzzyAbilities } from '@types';
 import type { EServiceTypes, EServiceStatus, EFeatureStatus } from '@constants';
 
 export interface IService {
@@ -13,6 +13,7 @@ export interface IService {
   // cycle: EBillingCycles;
   version: string;
   features: IFeature[];
+  abilities: IFuzzyAbilities;
 }
 
 /* facading sensitive service-> org data */
@@ -24,8 +25,7 @@ export interface IServiceUserAmbiRelation {
   status: EServiceStatus;
   statusModified: Date;
   version: string;
-  features: IFeature[];
-  // projects: DProjectServiceRelation[];
+  features: IFeatureSet;
 }
 
 /* features */
@@ -33,13 +33,20 @@ export interface IFeature {
   name: string;
   status: EFeatureStatus;
   version: string;
-  abilities: IAbility[];
+  abilities: IFuzzyAbilities;
 }
+
+export type IFeatureSet = {
+  [x in keyof IFeature<name>]: IFeature<x>;
+}
+
+export type AbilityFuzziesT = 'age' | 'idv' | 'addv' | 'role';
 
 export interface IProject {
   name: string;
   status: Record<EServiceStatus, number>;
   service: IService<'name'>;
+  abilities: IFuzzyAbilities;
   sid: IService<'_id'>;
 }
 

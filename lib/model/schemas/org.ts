@@ -3,7 +3,7 @@ import type {
   NexusActionTypes,
   IActionTypes,
   IServiceUserAmbiRelation,
-  IFeature,
+  IFeatureSet,
   OrgDecoration,
   INCharacter,
 } from '@types';
@@ -14,24 +14,6 @@ import { defaultAbilities } from '@schema/user';
 interface INexusSet extends Set<IActionTypes> {
   gimme?: (value: string) => string[] | [];
 }
-// // @ts-ignore: reference error
-// const NexusSet: INexusSet = () => {}
-// NexusSet.prototype.gimme = (value:string) => {
-//   // @ts-ignore: reference error
-//   if(this?.has && this.has(value)) return [value]
-//   return []
-// }
-
-// // from stackoverflow: https://stackoverflow.com/a/5136392
-// function inherit (obj: Function, base: Function) {
-//     var tmp = function () {};
-//     tmp.prototype = base.prototype;
-//     // @ts-ignore: reference error
-//     obj.prototype = new tmp();
-//     obj.prototype.constructor = obj;
-// };
-
-// inherit(NexusSet, Set)
 
 const publicNexusActions: Set<NexusActionTypes> = new Set(['init', 'login', 'logout', 'hydrate']);
 
@@ -41,16 +23,23 @@ commonActions.gimme = (value: string) => {
   return [];
 };
 
-export const defaultRMActions = [...publicNexusActions, ...commonActions.gimme('like')];
+export const nominalRMActions = [...publicNexusActions, ...commonActions.gimme('like')];
 
-export const defaultRMFeatures: Set<IFeature> = new Set([
-  {
+export const defaultRMActions = nominalRMActions.reduce((acc, actionType) => {
+  return {
+    ...acc,
+    [actionType]: true,
+  };
+}, {});
+
+export const defaultRMFeatures: IFeatureSet = {
+  'love-characters': {
     name: 'love-characters',
     status: EFeatureStatus.active,
     version: '0.0.1',
     abilities: defaultAbilities,
   },
-]);
+};
 
 export const RMServiceSchema: IServiceUserAmbiRelation = {
   name: EServiceNames.SERV_RM,
@@ -59,7 +48,7 @@ export const RMServiceSchema: IServiceUserAmbiRelation = {
   status: EServiceStatus.active,
   statusModified: new Date(),
   version: '1.0.0',
-  features: [...defaultRMFeatures],
+  features: defaultRMFeatures,
 };
 
 export const defaultServices = {
