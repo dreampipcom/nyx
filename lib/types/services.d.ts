@@ -1,38 +1,13 @@
 // services.d.ts
-import type { IAbility } from '@ types';
-
-export enum EServiceTypes {
-  /* core */
-  'DCS' = 0,
-  'DBS' = 1,
-  'DWS' = 2,
-  'DVS' = 3,
-  'DFS' = 4,
-  /* extra */
-  'RM' = 999999999,
-  'EC' = 999999998,
-}
-
-export enum EServiceStatuses {
-  'deactivated' = 0,
-  'created' = 1,
-  'active' = 2,
-  'enabled' = 3,
-  'running' = 4,
-  'paused' = 5,
-  'stopped' = 6,
-  'disabled' = 7,
-  'inactive' = 8,
-  'deleted' = 9,
-  'delinquent' = 10,
-}
+import type { IAbility } from '@types';
+import type { EServiceTypes, EServiceStatus, EFeatureStatus } from '@constants';
 
 export interface IService {
-  _id: ObjectID /* sid */;
+  _id?: ObjectID /* sid */;
   name: string;
   type: Record<EServiceTypes, number>;
   createdOn: Date;
-  status: Record<EServiceStatuses, number>;
+  status: Record<EServiceStatus, number>;
   statusModified: Date;
   // cost: number;
   // cycle: EBillingCycles;
@@ -42,38 +17,31 @@ export interface IService {
 
 /* facading sensitive service-> org data */
 export interface IServiceUserAmbiRelation {
-  _id: ObjectID /* sid */;
+  _id?: ObjectID /* sid */;
   name: string;
   type: EServiceTypes;
-  status: EServiceStatuses;
+  createdOn: Date;
+  status: EServiceStatus;
   statusModified: Date;
   version: string;
   features: IFeature[];
-  projects: DProjectServiceRelation[];
+  // projects: DProjectServiceRelation[];
 }
 
 /* features */
 export interface IFeature {
   name: string;
-  status: Record<EFeatureStatus, number>;
+  status: EFeatureStatus;
   version: string;
   abilities: IAbility[];
 }
 
-export enum EFeatureStatus {
-  'inactive' = 0,
-  'ghost' = 1,
-  'active' = 2,
-  'beta' = 3,
-  'nightly' = 4,
-}
-
 export interface IProject {
   name: string;
-  status: Record<EServiceStatuses, number>;
+  status: Record<EServiceStatus, number>;
   service: IService<'name'>;
   sid: IService<'_id'>;
 }
 
-export type DProjectOrgRelation = IProject[];
-export type DServiceOrgRelation = IService[];
+export type DProjectOrgRelation = Record<IProject<'name'>, IProject>;
+export type DServiceOrgRelation = Record<IService<'name'>, IService>;

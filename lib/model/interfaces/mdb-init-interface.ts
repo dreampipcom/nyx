@@ -2,7 +2,7 @@
 // mdb-init-interface.ts
 import { v4 as uuid } from 'uuid';
 import type { UserSchema, INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext } from '@types';
-import { ECollections } from "@constants"
+import { ECollections } from '@constants';
 import { default as MongoConnector, _setDb as setDb } from '../mdb-connector';
 import {
   DATABASE_STRING as databaseName,

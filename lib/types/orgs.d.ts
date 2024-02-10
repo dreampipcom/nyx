@@ -11,13 +11,13 @@ export interface OrgDecoration {
   // websites: string[];
   members: DUserOrgAmbiRelation[];
   projects: {
-    active: DProjectOrgRelation[];
-    inactive: DProjectOrgRelation[];
-    archived: DProjectOrgRelation[];
+    active?: DProjectOrgRelation;
+    inactive?: DProjectOrgRelation;
+    archived?: DProjectOrgRelation;
   };
   services: {
-    available: DServiceOrgRelation[];
-    enabled: DServiceOrgRelation[];
+    available?: DServiceOrgRelation;
+    enabled?: DServiceOrgRelation;
   };
   rickmorty_meta: {
     favorites: {

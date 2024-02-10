@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -25,6 +25,8 @@
       "@atoms/*": ["./src/app/components/system/atoms/*"],
       "@model": ["./lib/model"],
       "@model/*": ["./lib/model/*"],
+      "@schema": ["./lib/model/schemas"],
+      "@schema/*": ["./lib/model/schemas/*"],
       "@view": ["./lib/view"],
       "@view/*": ["./lib/view/*"],
       "@pragmas": ["./lib/view/adapters/"],

@@ -1,10 +1,10 @@
 // actions.d.ts
 import type { Context } from 'react';
-export type _NexusIAction = 'update_db' | 'schema-enforcing';
-export type NexusIAction = 'init' | 'login' | 'logout' | 'hydrate';
+export type _NexusActionTypes = 'update_db' | 'schema-enforcing';
+export type NexusActionTypes = 'init' | 'login' | 'logout' | 'hydrate';
 export type CommonIAction = 'like';
-export type RMIActionypes = CommonIAction<'like'>;
-export type IActionTypes = NexusIAction | RMIActionypes;
+export type RMActionTypes = CommonIAction<'like'>;
+export type IActionTypes = NexusActionTypes | RMActionTypes;
 
 export type NexusActionContexts = 'init' | 'auth' | 'ubiquity' | 'database';
 export type ServicesActionContexts = 'rickmorty' | 'image-uploader';

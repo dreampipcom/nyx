@@ -7,7 +7,7 @@ export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from
 export type { ICollections } from './db';
 
 // users
-export type { UserSchema, User, UserDecoration } from './users';
+export type { UserSchema, User, UserDecoration, DUserOrgAmbiRelation } from './users';
 
 // orgs
 export type { OrgDecoration } from './orgs';
@@ -32,10 +32,11 @@ export type {
   IDispatchPayload,
   ILogContext,
   ILogger,
+  NexusActionTypes,
 } from './actions';
 
 // authorization
-export type { IAbility, EAbilityStatus, EUserOrgRoles } from './authorization';
+export type { IAbility } from './authorization';
 
 // services
 export type { IFeature, IProject, IServiceUserAmbiRelation } from './services';
