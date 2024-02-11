@@ -3,12 +3,12 @@ import type { IActionTypes } from '@types';
 import type { EAbilityStatus, EFeatures } from '@constants';
 
 export interface IAbility {
-  actions: IActionTypes[];
-  roles: EUserOrgRoles[];
-  contexts: IService<'name'>[];
-  restrictions: IFuzzyAbilities;
   name: string;
   status: EAbilityStatus;
+  actions: IActionTypes[];
+  roles: EUserOrgRoles[];
+  restrictions: IFuzzyAbilities;
+  allowances: IFuzzyAbilities;
 }
 
 export interface IUniversalAbilityMap {

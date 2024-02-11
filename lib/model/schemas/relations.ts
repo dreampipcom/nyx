@@ -1,13 +1,12 @@
 // relations.ts
 import { EUserOrgRoles } from '@constants';
-import { defaultAbilities } from '@schema/user';
-import { defaultProjects, defaultServices } from '@schema/org';
+import { NexusInterface } from '@controller';
 
 export const defaultOrgMemberRelation = {
   role: [EUserOrgRoles.MEMBER],
-  abilities: defaultAbilities,
-  services: defaultServices,
-  projects: defaultProjects,
-  org: 'name',
+  abilities: NexusInterface.getAbilitiesSync(),
+  services: NexusInterface.getServicesSync(),
+  projects: NexusInterface.getProjectsSync(),
+  org: NexusInterface.getAbilitiesSync(),
   user: 'email',
 };
