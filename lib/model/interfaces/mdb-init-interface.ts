@@ -17,7 +17,7 @@ import {
   defaultProjectsSchemas,
   defaultProjects,
 } from '@schema';
-import { UserSchema } from "@schema/user"
+import { UserSchema } from '@schema/user';
 
 import { patience } from './helpers';
 
@@ -581,7 +581,7 @@ const init = async ({ name }: { name: string }) => {
       };
     });
 
-    const _userQuerySchema = { ...UserSchema, organizations: [demoOrgName] }
+    const _userQuerySchema = { ...UserSchema, organizations: [demoOrgName] };
     const _orgAllMembers = { members: user ? [...org.members, ...decorateOrgRelation] : decorateOrgRelation };
 
     /* IMPORTANT: to-do: extract method to add to org */
@@ -633,7 +633,16 @@ const init = async ({ name }: { name: string }) => {
   Instance.public = {};
 
   /* to-do: replace query/value with action adapter on org load */
-  Instance.public.updateUser = async ({ query, value, action }: { email?: string; action?: IActionTypes, query: string; value: any }) => {
+  Instance.public.updateUser = async ({
+    query,
+    value,
+    action,
+  }: {
+    email?: string;
+    action?: IActionTypes;
+    query: string;
+    value: any;
+  }) => {
     if (!Instance.public.currentUser) throw Error('User is not logged in.');
     // if (!Instance.currentAbilities.includes(action)) throw Error ("User is not authorized.")
     return await Instance.private.users.updateOne(

@@ -1,5 +1,5 @@
 // org/projects.ts
-import { EServiceNames } from "@constants"
+import { EServiceNames } from '@constants';
 export const _defaultProjects = {
   [EServiceNames.SERV_RM]: {
     name: 'myorg-default-rm-index',

@@ -1,8 +1,8 @@
 // nexus/abilities.ts
 /* to finish, use hashmap */
-import type { IFuzzyAbilities } from "@types"
+import type { IFuzzyAbilities } from '@types';
 import { defaultActions } from '@schema/actions';
-import { EUserOrgRoles, EAbilityStatus } from "@constants"
+import { EUserOrgRoles, EAbilityStatus } from '@constants';
 export const _defaultAbilities: IFuzzyAbilities = {
   'like-stuff': {
     name: 'like-stuff',

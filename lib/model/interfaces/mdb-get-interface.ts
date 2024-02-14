@@ -11,6 +11,7 @@ import { NexusInterface } from './mdb-init-interface';
 /* public */
 export const getUserMeta = async ({ email = '', options }: Pick<UserSchema, 'email'> | string) => {
   const Nexus = await NexusInterface;
+  console.log({ Nexus });
   const user = await Nexus.getUser(email);
   return user;
 };
