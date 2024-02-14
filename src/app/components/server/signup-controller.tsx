@@ -1,13 +1,13 @@
 // signup-controller.ts
 'use server';
 import { cookies } from 'next/headers';
-import type { UserSchema } from '@types';
+import type { UserDecoration } from '@types';
 import { getProviders, getCsrfToken } from 'next-auth/react';
 import { VSignUp } from '@components/client';
 
 
 interface ISignInProps {
-  user?: UserSchema;
+  user?: UserDecoration;
 }
 
 interface ISignInData {

@@ -1,4 +1,5 @@
 // @state/actions.ts
+import type { IActionTypes, NexusActionTypes } from "@types"
 interface INexusSet extends Set<IActionTypes> {
   gimme?: (value: string) => string[] | [];
 }

@@ -4,9 +4,9 @@ import { NexusInterface } from '@controller';
 
 export const defaultOrgMemberRelation = {
   role: [EUserOrgRoles.MEMBER],
-  abilities: NexusInterface.getAbilitiesSync(),
-  services: NexusInterface.getServicesSync(),
-  projects: NexusInterface.getProjectsSync(),
-  org: NexusInterface.getAbilitiesSync(),
-  user: 'email',
+  abilities: NexusInterface.currentAbilities,
+  services: NexusInterface.currentServices,
+  projects: NexusInterface.currentProjects,
+  org: NexusInterface.currentOrg,
+  user: NexusInterface.currentUser,
 };

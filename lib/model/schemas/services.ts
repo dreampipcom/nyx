@@ -1,5 +1,7 @@
 // org/services.ts
-import { NexusInterface } from './mdb-init-interface';
+import type { IServiceUserAmbiRelation } from "@types"
+import { EServiceStatus, EServiceNames, EServiceTypes } from "@constants"
+import { NexusInterface } from '@controller';
 export const RMServiceSchema: IServiceUserAmbiRelation = {
   name: EServiceNames.SERV_RM,
   type: EServiceTypes.RM,

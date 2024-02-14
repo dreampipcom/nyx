@@ -2,7 +2,7 @@
 /* schemas */
 import type { UserDecoration, INCharacter, DUserOrgAmbiRelation } from '@types';
 
-export const _UserSchema: UserDecoration = {
+export const UserSchema: UserDecoration = {
   rickmorty: {
     favorites: {
       characters: [] as INCharacter['id'][],

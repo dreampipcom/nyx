@@ -2,7 +2,7 @@
 import type { OrgDecoration, INCharacter } from '@types';
 import { DEFAULT_ORG } from '@model';
 
-export const _OrgSchema: OrgDecoration = {
+export const OrgSchema: OrgDecoration = {
   members: [],
   services: {
     enabled: [],
@@ -20,7 +20,7 @@ export const _OrgSchema: OrgDecoration = {
   },
 };
 
-export const DefaultOrgSchema: OrgDecoration = {
+export const defaultOrgSchema: OrgDecoration = {
   name: DEFAULT_ORG,
-  ..._OrgSchema,
+  ...OrgSchema,
 };

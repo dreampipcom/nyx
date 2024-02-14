@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // mdb-init-interface.ts
 import { v4 as uuid } from 'uuid';
-import type { UserSchema, INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext, ISchema } from '@types';
-import { ECollections } from '@constants';
+import type { INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext, ISchema, IActionTypes } from '@types';
+import { ECollections, EUserOrgRoles } from '@constants';
 import { default as MongoConnector, _setDb as setDb } from '../mdb-connector';
 import { DEFAULT_ORG as defaultOrg } from '@model';
 import { EDBs } from '@constants';
 import {
   defaultAbilitiesSchema,
+  defaultAbilities,
   defaultOrgSchema,
   defaultServicesSchemas,
+  defaultServices,
   defaultFeaturesSchemas,
+  defaultFeatures,
   defaultProjectsSchemas,
+  defaultProjects,
 } from '@schema';
+import { UserSchema } from "@schema/user"
 
 import { patience } from './helpers';
 
@@ -281,10 +286,16 @@ const init = async ({ name }: { name: string }) => {
     const users = await Instance.users.db.collection(ECollections.USERS);
     return users;
   };
+
+  Instance.private.getUser = async (email: string) => {
+    return Instance.private.users.findOne({ email });
+  };
+
   Instance.private.loadFincore = async () => {
     const fincore = await Instance.users.db.collection(ECollections.FINCORE);
     return fincore;
   };
+
   Instance.private.loadAbilities = async () => {
     const abilities = await Instance.users.db.collection(ECollections.ABILITIES);
     return abilities;
@@ -305,6 +316,18 @@ const init = async ({ name }: { name: string }) => {
   Instance.private.reloadAbilities = async () => {
     const abilities = await Instance.users.db.collection(ECollections.ABILITIES);
     Instance.private.abilities = abilities;
+    return abilities;
+  };
+
+  Instance.private.getUserOrgAbilities = async ({ org }: { org: string }) => {
+    const abilities = Instance.private.users[0].find({ 'organizatons.$.org': org || defaultOrg });
+    Instance.public.currentAbilities = abilities;
+    return abilities;
+  };
+
+  Instance.private.getUserOrgAbilities = async ({ org }: { org: string }) => {
+    const abilities = Instance.private.users[0].find({ 'organizatons.$.org': org || defaultOrg });
+    Instance.public.currentAbilities = abilities;
     return abilities;
   };
 
@@ -379,7 +402,7 @@ const init = async ({ name }: { name: string }) => {
 
     Instance.private.loadDefaultFeatures = async () => {
       /* search if we can query multiple or define common taxonomy */
-      return Instance.private.orgs.find({ name: defaultFeatures });
+      return Instance.private.orgs.find(defaultFeatures);
     };
 
     /* add markers */
@@ -400,7 +423,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.USERS || EDBs.DEFAULT,
       collection: ECollections.USERS,
-      schema: [_UserSchema],
+      schemas: [UserSchema],
       docQuery: undefined,
     },
     Instance.private.users,
@@ -410,7 +433,7 @@ const init = async ({ name }: { name: string }) => {
   //   {
   //     db: EDBs.USERS || EDBs.DEFAULT,
   //     collection: ECollections.FINCORE,
-  //     schema: undefined,
+  //     schemas: undefined,
   //     docQuery: undefined,
   //   },
   //   Instance.private.fincore,
@@ -420,7 +443,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.USERS || EDBs.DEFAULT,
       collection: ECollections.ABILITIES,
-      schema: defaultAbilitiesSchema,
+      schemas: defaultAbilitiesSchema,
       docQuery: undefined,
     },
     Instance.private.abilities,
@@ -430,7 +453,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.ORGS || EDBs.DEFAULT,
       collection: ECollections.ORGS,
-      schema: [defaultOrgSchema],
+      schemas: [defaultOrgSchema],
     },
     Instance.private.orgs,
   );
@@ -439,7 +462,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.ORGS || EDBs.DEFAULT,
       collection: ECollections.SERVICES,
-      schema: defaultServicesSchemas,
+      schemas: defaultServicesSchemas,
     },
     Instance.private.services,
   );
@@ -448,7 +471,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.ORGS || EDBs.DEFAULT,
       collection: ECollections.FEATURES,
-      schema: defaultFeaturesSchemas,
+      schemas: defaultFeaturesSchemas,
     },
     Instance.private.features,
   );
@@ -457,7 +480,7 @@ const init = async ({ name }: { name: string }) => {
     {
       db: EDBs.ORGS || EDBs.DEFAULT,
       collection: ECollections.PROJECTS,
-      schema: defaultProjectsSchemas,
+      schemas: defaultProjectsSchemas,
     },
     Instance.private.projects,
   );
@@ -471,7 +494,7 @@ const init = async ({ name }: { name: string }) => {
       {
         db: EDBs.USERS || EDBs.DEFAULT,
         collection: ECollections.USERS,
-        schema: _UserSchema,
+        schemas: [UserSchema],
         docQuery: { email },
       },
       Instance.private.users,
@@ -489,7 +512,7 @@ const init = async ({ name }: { name: string }) => {
   //   const uCollection = Instance.private.users;
 
   //   const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
-  //   const facadeUsers = allUsers.map((user: UserSchema) => user.email);
+  //   const facadeUsers = allUsers.map((user: UserDecoration) => user.email);
 
   //   /* get demo org */
   //   const org = await oCollection.findOne({ name: defaultOrg });
@@ -505,7 +528,7 @@ const init = async ({ name }: { name: string }) => {
   //   const userQuerySchema = {
   //     db: EDBs.USERS || EDBs.DEFAULT,
   //     collection: ECollections.USERS,
-  //     schema: _userQuerySchema,
+  //     schemas: _userQuerySchema,
   //   };
 
   //   const usersResult = await uCollection.updateMany({}, { $push: _userQuerySchema }, { upsert: true });
@@ -524,7 +547,7 @@ const init = async ({ name }: { name: string }) => {
     const kCollection = Instance.private.fincore;
 
     const allUsers = await uCollection.find(user ? { email: user } : undefined).toArray();
-    const facadeUsers = allUsers.map((user: UserSchema) => user.email);
+    const facadeUsers = allUsers.map((user: UserDecoration) => user.email);
 
     /* get default abilities */
     const abilities = await aCollection.find({ name: { $in: defaultAbilities } });
@@ -534,13 +557,13 @@ const init = async ({ name }: { name: string }) => {
     const demoOrgName = org?.name;
 
     /* get default services */
-    const services = await sCollection.findOne({ name: { $in: defaultServices } });
+    const services = await sCollection.find({ name: { $in: defaultServices } });
 
     /* get default projects */
-    const projects = await pCollection.findOne({ name: { $in: defaultProjects } });
+    const projects = await pCollection.find({ name: { $in: defaultProjects } });
 
     /* get default features */
-    const features = await fCollection.findOne({ name: { $in: defaultFeatures } });
+    const features = await fCollection.find({ name: { $in: defaultFeatures } });
 
     const commonRelation = {
       org: demoOrgName,
@@ -551,21 +574,21 @@ const init = async ({ name }: { name: string }) => {
     };
 
     /* users -> org relations */
-    const decorateOrgRelation = allUsers.map((user: UserSchema) => {
+    const decorateOrgRelation = allUsers.map((user: UserDecoration) => {
       return {
         user: user.email,
         ...commonRelation,
       };
     });
 
-    // const _userQuerySchema = { ..._UserSchema, organizations: [demoOrg] }
+    const _userQuerySchema = { ...UserSchema, organizations: [demoOrgName] }
     const _orgAllMembers = { members: user ? [...org.members, ...decorateOrgRelation] : decorateOrgRelation };
 
     /* IMPORTANT: to-do: extract method to add to org */
     const userQuerySchema = {
       db: EDBs.USERS,
       collection: ECollections.USERS,
-      schema: _userQuerySchema,
+      schemas: _userQuerySchema,
     };
 
     const usersResult = await uCollection.updateMany(
@@ -583,25 +606,60 @@ const init = async ({ name }: { name: string }) => {
     if (process.env.NEXUS_SCHEMA !== 'true') {
       return;
     }
+    /* define */
     await Instance.private.defineUserSchema();
     await Instance.private.reloadUsers();
     await Instance.private.defineOrgSchema();
     await Instance.private.reloadOrgs();
+    await Instance.private.defineAbilitiesSchema();
+    await Instance.private.reloadAbilities();
+    await Instance.private.defineServicesSchema();
+    await Instance.private.reloadServices();
+    await Instance.private.defineProjectsSchema();
+    await Instance.private.reloadProjects();
+
+    /* relate */
     await Instance.private.defineRelations();
+
+    /* refresh */
     await Instance.private.reloadUsers();
     await Instance.private.reloadOrgs();
+    await Instance.private.reloadAbilities();
+    await Instance.private.reloadServices();
+    await Instance.private.reloadProjects();
   };
 
   /* (PUB) users */
   Instance.public = {};
-  Instance.public.getUser = async (email: string) => {
-    return await Instance.private.users.findOne({ email });
+
+  /* to-do: replace query/value with action adapter on org load */
+  Instance.public.updateUser = async ({ query, value, action }: { email?: string; action?: IActionTypes, query: string; value: any }) => {
+    if (!Instance.public.currentUser) throw Error('User is not logged in.');
+    // if (!Instance.currentAbilities.includes(action)) throw Error ("User is not authorized.")
+    return await Instance.private.users.updateOne(
+      { email: Instance.public.currentUser },
+      { $addToSet: { [query]: value } },
+    );
   };
-  Instance.public.updateUser = async ({ email, query, value }: { email: string; query: string; value: any }) => {
-    return await Instance.private.users.updateOne({ email }, { $addToSet: { [query]: value } });
-  };
+
   Instance.public.initUser = async ({ email }: { email: string }) => {
-    return await Instance.private.initUser({ email });
+    const user = await Instance.private.initUser({ email });
+    Instance.public.currentUser = user;
+  };
+
+  Instance.public.getUserAbilitiesSync = () => {
+    Instance.public.abilities = Instance.private.reloadAbilities();
+    return Instance.public.abilities;
+  };
+
+  Instance.public.getUserProjectsSync = () => {
+    Instance.public.projects = Instance.private.reloadProjects();
+    return Instance.public.projects;
+  };
+
+  Instance.public.getUserServicesSync = () => {
+    Instance.public.services = Instance.private.reloadServices();
+    return Instance.public.services;
   };
 
   /* public markers */

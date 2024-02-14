@@ -5,7 +5,7 @@ import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
-import { UserSchema } from '@types';
+import { UserDecoration } from '@types';
 import { Button, Input, Divider } from "@atoms";
 import { clsx } from "clsx"
 import styles from "./signup.module.css"
@@ -19,7 +19,7 @@ interface IAuthProvider {
 
 interface VSignUpProps {
   providers: IAuthProvider[];
-  user?: UserSchema;
+  user?: UserDecoration;
   csrf?: string;
 }
 

@@ -1,5 +1,7 @@
 // org/features.ts
-import { NexusInterface } from './mdb-init-interface';
+import type { IFeatureSet } from "@types"
+import { EFeatureStatus } from "@constants"
+import { NexusInterface } from '@controller';
 export const defaultRMFeatures: IFeatureSet = {
   'love-characters': {
     name: 'love-characters',

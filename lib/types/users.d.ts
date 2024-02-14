@@ -3,9 +3,9 @@ import type { IProject, IServiceUserAmbiRelation, EUserOrgRoles, INCharacter } f
 import type { User } from 'next-auth';
 export { User };
 
-export interface UserDecoration {
+export interface UserCustom {
   /* email comes from next auth */
-  _id?: ObjectID /* uid */;
+  id?: ObjectID /* uid */;
   /* temp optional */
   username?: string;
   bio?: string;
@@ -27,4 +27,4 @@ export interface DUserOrgAmbiRelation {
   user: string;
 }
 
-export interface UserSchema extends User, UserDecoration {}
+export interface UserDecoration extends UserCustom, User {}

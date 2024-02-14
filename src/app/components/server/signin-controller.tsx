@@ -1,11 +1,11 @@
 // signin-controller.tsx
 'use server';
-import type { UserSchema } from '@types';
+import type { UserDecoration } from '@types';
 import { getProviders } from 'next-auth/react';
 import { VSignIn } from '@components/client';
 
 interface ISignInProps {
-  user?: UserSchema | undefined;
+  user?: UserDecoration | undefined;
 }
 
 interface ISignInData {

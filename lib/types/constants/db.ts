@@ -18,6 +18,7 @@ enum EOrgCollections {
   BILLING = 'billing',
   SERVICES = 'services',
   FEATURES = 'features',
+  PROJECTS = 'projects',
 }
 
 export const ECollections = {
