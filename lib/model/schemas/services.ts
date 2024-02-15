@@ -1,9 +1,6 @@
 // org/services.ts
 import type { IServiceUserAmbiRelation } from '@types';
 import { EServiceStatus, EServiceNames, EServiceTypes } from '@constants';
-import { NexusInterface } from '@controller';
-
-const Nexus = await NexusInterface;
 
 export const RMServiceSchema: IServiceUserAmbiRelation = {
   name: EServiceNames.SERV_RM,
@@ -12,7 +9,8 @@ export const RMServiceSchema: IServiceUserAmbiRelation = {
   status: EServiceStatus.active,
   statusModified: new Date(),
   version: '1.0.0',
-  features: Nexus.currentFeatures,
+  /* to-fill later */
+  features: {},
 };
 
 export const _defaultServices = {

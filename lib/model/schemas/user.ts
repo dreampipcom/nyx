@@ -8,5 +8,6 @@ export const UserSchema: UserDecoration = {
       characters: [] as INCharacter['id'][],
     },
   },
+  /* let's make this a hashmap too! */
   organizations: [] as DUserOrgAmbiRelation[],
 };
