@@ -6,6 +6,9 @@ export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from
 // model
 export type { UserSchema, User, UserDecoration, OrgDecoration, IFeature } from './model';
 
+// chat
+export type { IChatConnection, IChatOperation, IChatMessage } from './chat';
+
 // actions
 export type {
   ActionT,

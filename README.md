@@ -66,6 +66,20 @@ eslint
 good to catch multiple types of dark patterns.
 ```
 
+mui/base
+
+```
+we want to save time, but have design and css bundling freedom.
+```
+
+socket.io
+
+```
+who doesn't like dialogues better than monologues?
+initially using this for server transactional messages
+and a chat feature.
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
