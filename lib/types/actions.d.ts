@@ -76,6 +76,9 @@ export interface IALoginPayload {
 export interface IDAddToFavPayload {
   email: string;
   cid: number;
+  type?: string;
+  query?: unknown;
+  value?: unknown;
 }
 
 export interface IACharacterPayload {

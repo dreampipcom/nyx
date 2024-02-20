@@ -15,6 +15,7 @@ const decorateCharacter = (character: INCharacter, uMeta: UserDecoration): IDCha
 /* public */
 export const decorateRMCharacters = async (characters: INCharacter[], uid: string): Promise<IDCharacter[]> => {
   const uMeta: UserDecoration = await getUserMeta({ email: uid });
+  console.log({ uMeta: uMeta.rickmorty });
   const decd: IDCharacter[] = characters.map((char) => decorateCharacter(char, uMeta));
   return decd;
 };

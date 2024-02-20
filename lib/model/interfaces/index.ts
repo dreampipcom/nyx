@@ -11,7 +11,7 @@ export { NexusInterface } from './mdb-init-interface';
 export { getUserMeta } from './mdb-get-interface';
 
 // write
-export { addToFavorites, initUser } from './mdb-update-interface';
+export { commitUpdate, initSignUpUser } from './mdb-update-interface';
 
 /* rm */
 

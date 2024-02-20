@@ -6,17 +6,14 @@ import { NexusInterface } from './mdb-init-interface';
 import { DATABASE_STRING as databaseName } from './constants';
 
 /* public */
-export const addToFavorites = async ({
+export const commitUpdate = async ({
   email = '',
   cid = undefined,
   type = 'characters',
-}: {
-  email: UserSchema['email'];
-  cid: number;
-  type?: string;
-}) => {
+  action = '',
+}: IDAddToFavPayload) => {
   const Nexus = await NexusInterface;
-  const user = await Nexus.updateUser({
+  const user = await Nexus.updateMyUser({
     email,
     query: `rickmorty.favorites.${type}`,
     value: cid,
@@ -24,7 +21,7 @@ export const addToFavorites = async ({
   return user;
 };
 
-export const initUser = async ({ email = '' }: { email: UserSchema['email'] }) => {
+export const initSignUpUser = async ({ email = '' }: { email: UserSchema['email'] }) => {
   const Nexus = await NexusInterface;
   const user = await Nexus.initUser({ email });
   return user;

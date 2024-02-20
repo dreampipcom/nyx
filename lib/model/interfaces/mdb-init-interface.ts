@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // mdb-init-interface.ts
 import { v4 as uuid } from 'uuid';
-import type { INCharacter, UserDecoration, OrgDecoration, ILogger, ILogContext, ISchema, IActionTypes } from '@types';
+import type {
+  INCharacter,
+  UserDecoration,
+  OrgDecoration,
+  ILogger,
+  ILogContext,
+  ISchema,
+  IActionTypes,
+  IDAddToFavPayload,
+} from '@types';
 import { ECollections, EUserOrgRoles } from '@constants';
 import { default as MongoConnector, _setDb as setDb } from '../mdb-connector';
 import { DEFAULT_ORG as defaultOrg } from '@model';
@@ -485,6 +494,19 @@ const init = async ({ name }: { name: string }) => {
     Instance.private.projects,
   );
 
+  /* 
+    this was created when we were trying 
+    to enforce the schema at signup.
+    so this is a function that expects the current
+    signed up user email
+    and should operate on their document
+    to create the missing fields.
+    there is a catch,
+    where if this is the first user to sign up,
+    or su,
+    it needs to also enforce the demo org schema.
+
+  */
   Instance.private.initUser = async (email: string) => {
     if (!email) return;
     const defaultOrg = Instance.private.defaultOrg;
@@ -501,8 +523,8 @@ const init = async ({ name }: { name: string }) => {
     );
     if (isFirstUser) {
       await Instance.private.defineOrgSchema();
-      await Instance.private.defineRelations();
     }
+    await Instance.private.defineRelations();
     return initiator;
   };
 
@@ -629,31 +651,45 @@ const init = async ({ name }: { name: string }) => {
     await Instance.private.reloadProjects();
   };
 
-  /* (PUB) users */
-  Instance.public = {};
-
   /* to-do: replace query/value with action adapter on org load */
-  Instance.public.updateUser = async ({
+  Instance.private.updateUser = async ({
     query,
     value,
-    action,
+    email = Instance.public.currentUser,
   }: {
     email?: string;
     action?: IActionTypes;
     query: string;
     value: any;
   }) => {
-    if (!Instance.public.currentUser) throw Error('User is not logged in.');
+    if (!email) throw Error('User is not logged in.');
     // if (!Instance.currentAbilities.includes(action)) throw Error ("User is not authorized.")
-    return await Instance.private.users.updateOne(
-      { email: Instance.public.currentUser },
-      { $addToSet: { [query]: value } },
-    );
+    return await Instance.private.users.updateOne({ email: email }, { $addToSet: { [query]: value } });
   };
 
+  /* (PUB) users */
+  Instance.public = {};
+
+  /*
+    this function is the public user initiator.
+    it should apply for sign ups only, as it calls
+    the schema enforcement function.
+  */
+  Instance.public.initSignUpUser = async ({ email }: { email: string }) => {
+    const initiator = await Instance.private.initUser({ email });
+    return initiator;
+    // Instance.public.currentUser = await initiator({ email });
+  };
+
+  /*
+    load signed in user data
+    it should add the marker to
+    the user on the public interface.
+  */
   Instance.public.initUser = async ({ email }: { email: string }) => {
-    const user = await Instance.private.initUser({ email });
+    const user = await Instance.private.getUser({ email });
     Instance.public.currentUser = user;
+    return user;
   };
 
   Instance.public.getUserAbilitiesSync = () => {
@@ -669,6 +705,11 @@ const init = async ({ name }: { name: string }) => {
   Instance.public.getUserServicesSync = () => {
     Instance.public.services = Instance.private.reloadServices();
     return Instance.public.services;
+  };
+
+  Instance.public.updateMyUser = ({ email, query, value }: IDAddToFavPayload) => {
+    console.log('updating user');
+    Instance.private.updateUser({ email: Instance.public.currentUser, query, value });
   };
 
   /* public markers */
