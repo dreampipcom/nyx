@@ -1,4 +1,4 @@
-# Hypnos - DreamPip's Edge Microservices Hub
+# Hypnos - DreamPip's Edge Micro-Services Hub
 License: HPL3-ECO-AND-ANC
 
 What: Headless Next.js Edge Runtime
