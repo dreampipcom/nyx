@@ -1,4 +1,4 @@
-# Hypnos - DreamPip's User Experience Hub
+# Nyx - DreamPip's User Experience Hub
 License: HPL3-ECO-AND-ANC
 
 ## Getting Started
