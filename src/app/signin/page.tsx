@@ -48,6 +48,8 @@ export default async function SignUp() {
   });
   const newCsrf: string | undefined = await getCsrfToken();
   const csrf = cookieCsrf || newCsrf;
+
+  console.log({ providers, cook, cookieCsrf, newCsrf })
   return (
     <main className={styles.main}>
       <article>
