@@ -33,8 +33,7 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  events: {
-  },
+  events: {},
   callbacks: {
     async signIn() {
       // extra sign-in checks

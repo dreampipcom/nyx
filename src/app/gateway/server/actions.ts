@@ -41,21 +41,21 @@ export async function getUser() {
     abilities: ['any'],
     services: ['default'] as unknown as IServiceUserAmbiRelation[],
     projects: ['1'] as unknown as IProject[],
-    _id: "123", /* uid */
-    org: "dreampip",
-    user: "john@doe.com",
-  }
+    _id: '123' /* uid */,
+    org: 'dreampip',
+    user: 'john@doe.com',
+  };
 
   const mockUser = {
-    email: "john@doe.com", 
-    id: "1", 
+    email: 'john@doe.com',
+    id: '1',
     organizations: [mockUserOrgRelation],
     rickmorty: {
       favorites: {
-      characters: [1]
-      }
-    }
-  }
+        characters: [1],
+      },
+    },
+  };
 
   return { user: mockUser };
   // we might need to decorate users in the future,
