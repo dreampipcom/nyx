@@ -3,7 +3,6 @@ import type { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
 import InstagramProvider from 'next-auth/providers/instagram';
-import { initUser } from '@controller';
 
 export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
@@ -35,16 +34,6 @@ export const authOptions: AuthOptions = {
     strategy: 'jwt',
   },
   events: {
-    async signIn({ user, isNewUser }) {
-      try {
-        if (isNewUser) {
-          return await initUser({ email: user.email });
-        }
-        return true;
-      } catch (e) {
-        console.error(e);
-      }
-    },
   },
   callbacks: {
     async signIn() {

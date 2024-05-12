@@ -32,8 +32,8 @@ export const VList = ({ characters }: VListProps) => {
   const { characters: chars }: { characters?: INCharacter[] } = rmContext;
 
   const dispatchAddToFavorites = async (cid?: number) => {
-    const func = async (payload: IDPayload) => {
-      await addToFavorites(payload);
+    const func = async () => {
+      await addToFavorites();
       const op_2 = await getChars();
       loadChars({ characters: op_2 });
     };
