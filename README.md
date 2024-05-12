@@ -7,6 +7,7 @@ What: Next.js SSG Engine
 ## Getting Started
 
 ```
+cp .env.public .env.local
 nvm use v20
 npm ci
 npm run dev
