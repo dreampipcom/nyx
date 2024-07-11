@@ -12,7 +12,6 @@ export type {
   History,
 } from './contexts';
 
-
 // users
 export type { UserSchema, User, UserDecoration, DUserOrgAmbiRelation } from './users';
 

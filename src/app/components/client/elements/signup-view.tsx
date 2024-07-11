@@ -75,7 +75,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   };
 
   if (user || authd) {
-    return <section className={classes}>
+    return <section>
         <p>Welcome, {coercedName}. I hope you make yourself at home.</p>
         <Button onClick={handleSignOut}>Sign out</Button>
     </section>
