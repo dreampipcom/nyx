@@ -93,16 +93,12 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
           <input type="hidden" name="callbackUrl" value="/verify" />
           <TextInput
             id={`input-email-for-${defaultP.id}-provider`}
-            autoFocus
-            type="email"
-            name="email"
             value={email}
             onChange={(e) => setEmail(e)}
-            placeholder="Your email"
+            label="Your email"
             className="pb-a1"
-            required
           />
-          <Button id="submitButton" type="submit">
+          <Button id="submitButton">
             Continue
           </Button>
         </form>
@@ -114,17 +110,13 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             <input name="csrfToken" type="hidden" defaultValue={csrf} />
             <TextInput
               id={`input-email-for-${provider.id}-provider`}
-              autoFocus
-              type="email"
-              name="email"
               value={email}
-              placeholder="Your email"
-              required
+              label="Your email"
             />
             <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
               Continue
             </Button>
-            </form>
+          </form>
         )}
 
         {provider.type === "oauth" && (
