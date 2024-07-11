@@ -36,7 +36,7 @@ export const AUnloadChars = BuildAction(CreateAction, {
 export const AAddToFavoriteChars = BuildAction(CreateAction, {
   action: 'update_db',
   type: 'rickmorty',
-  verb: 'add char to favorites',
+  verb: 'add to favorites',
   context: RMContext,
 });
 

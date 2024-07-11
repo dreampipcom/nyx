@@ -1,4 +1,4 @@
-// context-rm.ts// context-auth.ts
+// context-rm.ts
 'use client';
 import type { IRMContext } from '@types';
 import { createContext } from 'react';

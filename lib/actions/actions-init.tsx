@@ -1,28 +1,20 @@
 // actions-init.tsx
 /* eslint-disable react-hooks/exhaustive-deps, react-hooks/rules-of-hooks */
 'use client';
-import type {
-  ISupportedContexts,
-  IActionBack,
-  IActionDispatch,
-  IStatus,
-  ICreateAction,
-  IDispatch,
-  IPayload,
-} from '@types';
+import type { ISupportedContexts, IActionBack, IAction, IStatus, ICreateAction, IDispatch, IPayload } from '@types';
 
 import { createLogMessage, fluxLog as log } from '@log';
 import { useState, useEffect, useContext, useRef } from 'react';
 
 export const CreateAction: ICreateAction =
   ({ action, type, verb, context }: IActionBack) =>
-  ({ cb }: IActionDispatch) => {
+  ({ cb }: IAction) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const noop: IDispatch = async (...payload: IPayload): Promise<void> => {};
 
     // to-do: abstract from auth context (link to ticket)
     const _context: ISupportedContexts = useContext<ISupportedContexts>(context);
-    const { setter }: ISupportedContexts = _context;
+    const setter = _context?.setter;
 
     const init = useRef(false);
     const s_current = useRef('loaded');
@@ -94,7 +86,7 @@ export const CreateAction: ICreateAction =
         setter({
           ..._context,
           ...payload.current,
-          history: [..._context.history, status.current.str],
+          history: [...(_context?.history || []), status.current.str],
         });
       }
 

@@ -1,10 +1,11 @@
 // contexts.d.ts
+// import type { ICard } from '@dreampipcom/oneiros';
 import type { UserSchema } from '@types';
 import type { Dispatch, SetStateAction } from 'react';
 
 export interface History {
-  history: string[];
-  setter: Dispatch<SetStateAction<IAuthContext>> | undefined;
+  history?: string[];
+  setter?: Dispatch<SetStateAction<ISettableContexts>> | undefined;
 }
 
 export interface INCharacter {
@@ -26,15 +27,27 @@ export interface IDCharacter extends INCharacter {
 }
 
 export interface IAuthContext extends History {
+  initd?: boolean;
   authd?: boolean;
   name?: string;
-  initd?: boolean;
   email?: string;
   meta?: UserSchema;
 }
 
+export interface IGlobalContext extends History {
+  initd?: boolean;
+  theme?: 'light' | 'dark';
+}
+
 // to-do: characters type annotations
 export interface IRMContext extends History {
-  characters?: INCharacter[];
   initd?: boolean;
+  characters?: INCharacter[];
 }
+
+export interface IhypnosPublicContext extends History {
+  initd?: boolean;
+  listings?: any[]; // export from hypnos
+}
+
+export type ISettableContexts = IAuthContext | IGlobalContext | IRMContext | IhypnosPublicContext;
