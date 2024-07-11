@@ -56,3 +56,43 @@ jobs:
 
       - name: nyx::checks::lint::Run linters
         run: npm run format
+
+  run-e2e:
+    name: nyx::checks::e2e_core
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: nyx::checks::e2e_core::Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: nyx::checks::e2e_core::Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+
+      - name: nyx::checks::e2e_core::Install Node.js dependencies
+        run: npm ci && npx playwright install --with-deps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: nyx::checks::e2e_core::Build
+        run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+
+      - name: nyx::checks::e2e_core::Test
+        run: npx playwright test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          API_HOST: ${{ secrets.API_HOST }}
+          API_HOST_DEV: ${{ secrets.API_HOST_DEV }}
