@@ -1,8 +1,11 @@
-// import { DPPublicListings } from '@blocks/server';
+// page.tsx
+import { DPRMList } from '@blocks/server';
 export default function Home() {
   return (
     <main>
-      <section>{/* <DPPublicListings /> */}</section>
+      <section>
+        <DPRMList />
+      </section>
     </main>
   );
 }
