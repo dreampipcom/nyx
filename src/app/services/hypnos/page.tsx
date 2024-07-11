@@ -3,9 +3,7 @@
 export default function Home() {
   return (
     <main>
-      <section>
-        {/*<DPPublicListings />*/}
-      </section>
+      <section>{/* <DPPublicListings /> */}</section>
     </main>
   );
 }

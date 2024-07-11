@@ -2,7 +2,7 @@
 'use client';
 import { BuildAction, CreateAction } from '@actions';
 
-import { hypnosPublicContext } from '@state';
+import { HypnosPublicContext } from '@state';
 
 /* to-do: chained actions */
 // import { decorateRMCharacters } from "@model"
@@ -23,21 +23,21 @@ export const ALoadPublicListings = BuildAction(CreateAction, {
   action: 'hydrate',
   type: 'hypnos_public',
   verb: 'load listings',
-  context: hypnosPublicContext,
+  context: HypnosPublicContext,
 });
 
 export const AUnloadPublicListings = BuildAction(CreateAction, {
   action: 'hydrate',
   type: 'hypnos_public',
   verb: 'unload listings',
-  context: hypnosPublicContext,
+  context: HypnosPublicContext,
 });
 
 export const AAddToFavoritePublicListings = BuildAction(CreateAction, {
   action: 'update_db',
   type: 'hypnos_public',
   verb: 'add to favorites',
-  context: hypnosPublicContext,
+  context: HypnosPublicContext,
 });
 
 /* tmp-public */
@@ -45,7 +45,7 @@ export const ADecoratePublicListings = BuildAction(CreateAction, {
   action: 'hydrate',
   type: 'hypnos_public',
   verb: 'decorate listings',
-  context: hypnosPublicContext,
+  context: HypnosPublicContext,
   // to-do: chained actions
   // cb: [() => decorateRMCharacters()]
 });

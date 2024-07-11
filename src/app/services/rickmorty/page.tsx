@@ -1,10 +1,10 @@
 // page.tsx
-import { HRMList } from '@blocks/server';
+import { DPRMList } from '@blocks/server';
 export default function Home() {
   return (
     <main>
       <section>
-        <HRMList />
+        <DPRMList />
       </section>
     </main>
   );
