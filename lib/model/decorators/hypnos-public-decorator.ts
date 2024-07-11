@@ -14,8 +14,8 @@ const decorateListing = (listing: Record<string, any>, uMeta: UserSchema): ICard
     when: `${new Date(listing?.offers[0]?.launch).toLocaleString()}`,
     image: `https://placehold.co/600x400`,
     price: `${listing?.offers[0]?.cost} ${listing?.offers[0]?.currency}`,
-    link: 'https://dp.es',
-    badgeLink: 'https://dp.es',
+    link: 'https://www.dreampip.com',
+    badgeLink: 'https://www.dreampip.com',
     rating: '3/5',
     selected: false,
   } as Record<string, any> as ICard;

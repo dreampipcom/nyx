@@ -78,8 +78,8 @@ export const VRMList = ({ characters }: VRMListProps) => {
       when: `${char?.status}`,
       image: `${char?.image}`,
       price: '299€',
-      link: 'https://dp.es',
-      badgeLink: 'https://dp.es',
+      link: 'https://www.dreampip.com',
+      badgeLink: 'https://www.dreampip.com',
       rating: '3/5',
       selected: false,
     }))
