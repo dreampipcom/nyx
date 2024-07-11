@@ -1,10 +1,10 @@
 // page.tsx
-import { DPPublicListings } from '@blocks/server';
+// import { DPPublicListings } from '@blocks/server';
 export default function Home() {
   return (
     <main>
       <section>
-        <DPPublicListings />
+        {/*<DPPublicListings />*/}
       </section>
     </main>
   );

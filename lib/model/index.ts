@@ -10,4 +10,4 @@ export {
 } from './interfaces';
 
 /* decorators */
-export { decorateRMCharacters, decoratehypnosPublicListings } from './decorators';
+export { decorateRMCharacters, decorateHypnosPublicListings } from './decorators';

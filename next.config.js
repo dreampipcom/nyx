@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const { withSentryConfig } = require('@sentry/nextjs');
 const nextConfig = {
   basePath: process.env.NEXUS_BASE_PATH,
   transpilePackages: ['next-auth'],

@@ -1,9 +1,9 @@
-import { HPublicListings } from '@blocks/server';
+// import { DPPublicListings } from '@blocks/server';
 export default function Home() {
   return (
     <main>
       <section>
-        <HPublicListings />
+        {/*<DPPublicListings />*/}
       </section>
     </main>
   );

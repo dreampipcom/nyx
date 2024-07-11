@@ -5,4 +5,4 @@ export { VUserSettings } from './usersettings-view';
 export { VSignIn } from './signin-view';
 export { VSignUp } from './signup-view';
 export { VRMList } from './rm-list-view';
-export { VSMKPList } from './hypnos-list-view';
+export { VHPNPList } from './hypnos-list-view';

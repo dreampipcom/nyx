@@ -1,3 +1,3 @@
 // index.ts
 export { decorateRMCharacters } from './rm-decorator';
-export { decoratehypnosPublicListings } from './hypnos-public-decorator';
+export { decorateHypnosPublicListings } from './hypnos-public-decorator';

@@ -17,9 +17,9 @@ interface VListingListProps {
   listings: ICard[];
 }
 
-type VSMKPListingProps = VListingListProps;
+type VHPNPListingProps = VListingListProps;
 
-export const VSMKPList = ({ listings }: VSMKPListingProps) => {
+export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   const hypnosPublicContext = useContext(hypnosPublicContext);
 
   const { authd, email } = useContext(AuthContext);

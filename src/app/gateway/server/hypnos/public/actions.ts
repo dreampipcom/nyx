@@ -1,26 +1,25 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0 */
-// actions.ts
+// hypnos/public/actions.ts
 'use server';
 import type { UserSchema } from '@types';
-import { getRMCharacters } from '@controller';
-import { decorateRMCharacters } from '@model';
+import { getHypnosPublicListings } from '@controller';
+import { decorateHypnosPublicListings } from '@model';
 import { getServerSession } from 'next-auth/next';
 
-/* to-do: move to RM directory */
-export async function loadChars() {
+export async function loadHypnosPublicListings() {
   const session = await getServerSession();
   const email = session?.user?.email || '';
-  const chars = (await getRMCharacters()).results;
-  const decd = await decorateRMCharacters(chars, email);
+  const chars = await getHypnosPublicListings({});
+  const decd = await decorateHypnosPublicListings(chars, email);
   return decd;
 }
 
-export async function getChars() {
-  return await loadChars();
+export async function getListings() {
+  return await loadHypnosPublicListings();
 }
 
-export async function reloadChars() {
-  await loadChars();
+export async function reloadHypnosPublicListings() {
+  await loadHypnosPublicListings();
   return { ok: true };
 }
 

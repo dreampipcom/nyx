@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0, @typescript-eslint/no-unused-vars:0 */
-// hypnos-public-decorator.ts input: smk meta; output: decorated smk meta;
+// hypnos-public-decorator.ts input: hypnos meta; output: decorated hypnos meta;
 'use server';
 import type { UserSchema } from '@types';
 import type { ICard } from '@dreampipcom/oneiros';
@@ -27,7 +27,7 @@ const decorateListing = (listing: Record<string, any>, uMeta: UserSchema): ICard
 };
 
 /* public */
-export const decoratehypnosPublicListings = async (listings: Record<string, any>[], uid: string): Promise<ICard[]> => {
+export const decorateHypnosPublicListings = async (listings: Record<string, any>[], uid: string): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
   const decd: ICard[] = listings?.map((card) => decorateListing(card, { email: uid } as UserSchema));
   return decd;
