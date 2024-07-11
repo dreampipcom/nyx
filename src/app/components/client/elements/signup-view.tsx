@@ -1,12 +1,13 @@
 // signup-view.ts
 'use client';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
 import { UserSchema } from '@types';
-import { Button as HB } from '@dreampipcom/oneiros';
+import { Button, TextInput } from "@dreampipcom/oneiros";
+import { clsx } from "clsx"
 
 interface IAuthProvider {
   id?: string;
@@ -25,6 +26,11 @@ async function doSignOut() {
   await signOut();
 }
 
+async function doSignIn(id?: string, value?: SignInOptions) {
+  await signIn(id, value);
+}
+
+
 export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const authContext = useContext(AuthContext);
   const { data: session } = useSession();
@@ -33,13 +39,14 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const initd = useRef(false);
   const prov = providers
   const { authd, name } = authContext;
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
 
-  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH + "" + process.env.NEXT_PUBLIC_NEXUS_LOGIN_REDIRECT_PATH || "/"
+  const _providers = Object.values(providers)
+  const oauth = _providers.slice(1, providers.length)
+  const defaultP = _providers[0]
 
-  if (!prov) return
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
-  // console.log({ NButton })
 
   /* server/client isomorphism */
   const coercedName = name || user?.name || user?.email;
@@ -56,56 +63,84 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
     }
   }, [session, isUserLoaded, loadUser]);
 
+  const handleSignIn = async (id?: string, value?: SignInOptions) => {
+    console.log({ value })
+    await doSignIn(id, value);
+  };
+
   const handleSignOut = async () => {
     unloadUser();
     await doSignOut();
   };
 
-  // if (!providers) return;
+  if (user || authd) {
+    return <section className={classes}>
+        <p>Welcome, {coercedName}. I hope you make yourself at home.</p>
+        <Button onClick={handleSignOut}>Sign out</Button>
+    </section>
+  }
 
-  // if (user || authd)
-  //   return (
-  //     <span>
-  //       Welcome, {coercedName} <Button onClick={handleSignOut}>Sign out</Button>
-  //     </span>
-  //   )
-  return <div>
-    {Object.values(providers).map((provider) => (
-			<div> 
-              {provider.type === "email" && (
-                <form action={provider.signinUrl} method="POST">
-                  <input type="hidden" name="csrfToken" value={csrf} />
-                  <label
-                    className="section-header"
-                    htmlFor={`input-email-for-${provider.id}-provider`}
-                  >
-                    Email
-                  </label>
-                  <input
-                    id={`input-email-for-${provider.id}-provider`}
-                    autoFocus
-                    type="email"
-                    name="email"
-                    value={email}
-                    placeholder="email@example.com"
-                    required
-                  />
-                </form>
-              )}
-              {provider.type === "oauth" && (
-                <form action={provider.signinUrl} method="POST">
-                  <input type="hidden" name="csrfToken" value={csrf} />
-                  {callbackUrl && (
-                    <input
-                      type="hidden"
-                      name="callbackUrl"
-                      value={callbackUrl}
-                    />
-                  )}
-                </form>
-              )}
-    	</div>
+  if (!Object.keys(prov).length) return
+  
+  return <section className="">
+      <div className="py-a4"> 
+        <form action={defaultP.signinUrl} method="post">
+          <input type="hidden" name="csrfToken" defaultValue={csrf} />
+          <input type="hidden" name="callbackUrl" value="/verify" />
+          <TextInput
+            id={`input-email-for-${defaultP.id}-provider`}
+            autoFocus
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e)}
+            placeholder="Your email"
+            className="pb-a1"
+            required
+          />
+          <Button id="submitButton" type="submit">
+            Continue
+          </Button>
+        </form>
+       </div>
+    {oauth.map((provider) => (
+      <div className="py-a1"> 
+        {provider.type === "email" && (
+          <form action={defaultP.signinUrl} method="POST">
+            <input name="csrfToken" type="hidden" defaultValue={csrf} />
+            <TextInput
+              id={`input-email-for-${provider.id}-provider`}
+              autoFocus
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Your email"
+              required
+            />
+            <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
+              Continue
+            </Button>
+            </form>
+        )}
 
+        {provider.type === "oauth" && (
+          <form action={provider.signinUrl} method="POST">
+            <input type="hidden" name="csrfToken" value={csrf} />
+            {callbackUrl && (
+              <input
+                type="hidden"
+                name="callbackUrl"
+                value={"/"}
+              />
+            )}
+            <Button
+              onClick={() => signIn(provider.id)}
+            >
+              Continue with {provider.name}
+            </Button>
+          </form>
+        )}
+      </div>
     ))}
-  </div>;
-};
+  </section>
+}
