@@ -45,9 +45,9 @@ export interface IRMContext extends History {
   characters?: INCharacter[];
 }
 
-export interface IhypnosPublicContext extends History {
+export interface IHypnosPublicContext extends History {
   initd?: boolean;
   listings?: any[]; // export from hypnos
 }
 
-export type ISettableContexts = IAuthContext | IGlobalContext | IRMContext | IhypnosPublicContext;
+export type ISettableContexts = IAuthContext | IGlobalContext | IRMContext | IHypnosPublicContext;

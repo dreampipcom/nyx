@@ -7,7 +7,7 @@ import { useContext, useEffect, useRef, useMemo } from 'react';
 
 import { clsx } from 'clsx';
 import Image from 'next/image';
-import { hypnosPublicContext, AuthContext, GlobalContext } from '@state';
+import { HypnosPublicContext, AuthContext, GlobalContext } from '@state';
 import { ALoadPublicListings, AUnloadPublicListings, ADecoratePublicListings, AAddToFavoritePublicListings } from '@actions';
 import { navigate, addToFavorites, loadHypnosPublicListings } from '@gateway';
 import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
@@ -20,7 +20,7 @@ interface VListingListProps {
 type VHPNPListingProps = VListingListProps;
 
 export const VHPNPList = ({ listings }: VHPNPListingProps) => {
-  const hypnosPublicContext = useContext(hypnosPublicContext);
+  const hypnosPublicContext = useContext(HypnosPublicContext);
 
   const { authd, email } = useContext(AuthContext);
 

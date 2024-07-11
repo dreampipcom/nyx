@@ -1,9 +1,9 @@
 // context-hypnos-public.ts
 'use client';
-import type { IhypnosPublicContext } from '@types';
+import type { IHypnosPublicContext } from '@types';
 import { createContext } from 'react';
 
-export const hypnosPublicContext = createContext<IhypnosPublicContext>({
+export const HypnosPublicContext = createContext<IHypnosPublicContext>({
   initd: false,
   listings: [],
   setter: undefined,

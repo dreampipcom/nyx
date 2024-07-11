@@ -3,14 +3,14 @@
 import type { ICard } from '@dreampipcom/oneiros';
 import { VHPNPList } from '@elements/client';
 import { loadHypnosPublicListings } from '@gateway';
-import { hypnosPublicProvider } from '@state';
+import { HypnosPublicProvider } from '@state';
 
 export const CHPNPList = async () => {
   const listings: ICard[] = await loadHypnosPublicListings();
 
   return (
-    <hypnosPublicProvider>
+    <HypnosPublicProvider>
       <VHPNPList listings={listings} />
-    </hypnosPublicProvider>
+    </HypnosPublicProvider>
   );
 };

@@ -4,7 +4,7 @@
 export type {
   IAuthContext,
   IGlobalContext,
-  IhypnosPublicContext,
+  IHypnosPublicContext,
   ISettableContexts,
   IRMContext,
   INCharacter,

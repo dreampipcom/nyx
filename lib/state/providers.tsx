@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // providers.tsx
 'use client';
-import type { IAuthContext, IGlobalContext, IRMContext, IhypnosPublicContext } from '@types';
+import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import { AuthContext, GlobalContext, RMContext, hypnosPublicContext } from '@state';
+import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
 import { Globals } from '@dreampipcom/oneiros';
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
@@ -58,20 +58,20 @@ export function RickMortyProvider({ children }: { children: React.ReactNode }) {
   return <RMContext.Provider value={rmState}>{children}</RMContext.Provider>;
 }
 
-export function hypnosPublicProvider({ children }: { children: React.ReactNode }) {
-  const hypnosPublicContext = useContext<IhypnosPublicContext>(hypnosPublicContext);
-  const [hypnosPublicState, sethypnosPublicState] = useState<IhypnosPublicContext>({ ...hypnosPublicContext });
+export function HypnosPublicProvider({ children }: { children: React.ReactNode }) {
+  const hypnosPublicContext = useContext<IHypnosPublicContext>(HypnosPublicContext);
+  const [hypnosPublicState, setHypnosPublicState] = useState<IHypnosPublicContext>({ ...hypnosPublicContext });
   const init = useRef(false);
 
   useEffect(() => {
-    if (!init.current && hypnosPublicContext && !hypnosPublicState?.setter) {
-      sethypnosPublicState({ ...hypnosPublicState, setter: sethypnosPublicState, initd: true });
+    if (!init.current && HypnosPublicContext && !hypnosPublicState?.setter) {
+      setHypnosPublicState({ ...hypnosPublicState, setter: setHypnosPublicState, initd: true });
       console.log('Flux: --- hypnos_public context loaded ---');
       init.current = true;
     }
-  }, [JSON.stringify(hypnosPublicContext)]);
+  }, [JSON.stringify(HypnosPublicContext)]);
 
   if (!hypnosPublicState?.initd) return;
 
-  return <hypnosPublicContext.Provider value={hypnosPublicState}>{children}</hypnosPublicContext.Provider>;
+  return <HypnosPublicContext.Provider value={hypnosPublicState}>{children}</HypnosPublicContext.Provider>;
 }
