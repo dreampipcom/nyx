@@ -85,7 +85,9 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   
   return <section className="">
       <div className="py-a4 flex flex-col items-center justify-center"> 
-        <Logo className="m-auto w-full" />
+        <div className="m-auto w-full">
+          <Logo  />
+        </div>
         <form action={defaultP.signinUrl} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
