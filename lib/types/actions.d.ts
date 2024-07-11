@@ -35,7 +35,7 @@ export type ISupportedContexts = IAuthContext | IRMContext | ILogContext | IGlob
 export interface ILogContext extends History {
   action?: ActionT;
   type?: ActionTypes;
-  verb?: ActionGlobalVerbs | ActionAuthVerbs | ActionDBVerbs | ActionHypnosPublicVerbs;
+  verb?: ActionGlobalVerbs | ActionAuthVerbs | ActionDBVerbs | ActionHypnosPublicVerbs | ActionRMVerbs;
   status?: string;
   message?: string;
   category?: string;
