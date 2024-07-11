@@ -24,10 +24,13 @@ jobs:
 
       - name: nyx::checks::build::Install Node.js dependencies
         run: npm ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: nyx::checks::build::Build
         run: npm run build
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
@@ -48,6 +51,8 @@ jobs:
       # ESLint and Prettier must be in `package.json`
       - name: nyx::checks::lint::Install Node.js dependencies
         run: npm ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: nyx::checks::lint::Run linters
         run: npm run format
