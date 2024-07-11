@@ -48,10 +48,7 @@ export default async function SignUp() {
   });
   const newCsrf: string | undefined = await getCsrfToken();
   const csrf = cookieCsrf || newCsrf;
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   return (
     <main className={styles.main}>
       <article>
