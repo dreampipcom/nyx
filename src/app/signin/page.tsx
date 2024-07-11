@@ -52,7 +52,6 @@ export default async function SignUp() {
   return (
     <main className={styles.main}>
       <article>
-        <img className={styles.logo} src="/logo.svg" />
         <VSignUp providers={providers} csrf={csrf} />
       </article>
     </main>

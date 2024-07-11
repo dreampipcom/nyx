@@ -7,7 +7,8 @@ import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
 import { UserSchema } from '@types';
 import { Button, TextInput } from "@dreampipcom/oneiros";
-import { clsx } from "clsx"
+import { clsx } from "clsx";
+import { Logo } from '@dreampipcom/oneiros';
 
 interface IAuthProvider {
   id?: string;
@@ -83,7 +84,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   if (!Object.keys(prov).length) return
   
   return <section className="">
-      <div className="py-a4"> 
+      <div className="py-a4 flex flex-col items-center justify-center"> 
+        <Logo className="m-auto w-full" />
         <form action={defaultP.signinUrl} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
