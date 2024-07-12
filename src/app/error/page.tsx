@@ -1,15 +1,15 @@
-// signin/page.tsx TS-Doc?
-'use server';
-import styles from '@styles/page.module.css';
+// error/page.tsx TS-Doc?
+'use client';
+import { Logo, Typography, Grid } from '@dreampipcom/oneiros';
 
-export default async function SignUp() {
+export default function SignUp() {
   return (
-    <main className={styles.main}>
-      <article>
-        <img className={styles.logo} src="/logo.svg" />
-        <p>There was an error logging you in.</p>
-        <p>Please be patient, this is still an Alpha release and not official.</p>
-      </article>
-    </main>
+    <Grid full>
+      <div className="w-full flex flex-col justify-center items-center">
+        <Logo />
+        <Typography>There was an error logging you in.</Typography>
+        <Typography>Please be patient, this is still an Alpha release and not official.</Typography>
+      </div>
+    </Grid>
   );
 }

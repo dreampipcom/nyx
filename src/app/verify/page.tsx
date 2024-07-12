@@ -1,15 +1,15 @@
 // signin/page.tsx TS-Doc?
-'use server';
-import styles from '@styles/page.module.css';
+'use client';
+import { Logo, Typography, Grid } from '@dreampipcom/oneiros';
 
-export default async function SignUp() {
+export default function SignUp() {
   return (
-    <main className={styles.main}>
-      <article>
-        <img className={styles.logo} src="/logo.svg" />
-        <p>Please check your email.</p>
-        <p>There should be a login link there.</p>
-      </article>
-    </main>
+    <Grid full>
+      <div className="w-full flex flex-col justify-center items-center">
+        <Logo />
+        <Typography>Please check your email.</Typography>
+        <Typography>There should be a login link there.</Typography>
+      </div>
+    </Grid>
   );
 }
