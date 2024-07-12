@@ -1,11 +1,13 @@
 // constants.ts TS-Doc?
 import type { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import AppleProvider from 'next-auth/providers/apple';
+import FacebookProvider from 'next-auth/providers/facebook';
 import EmailProvider from 'next-auth/providers/email';
-import InstagramProvider from 'next-auth/providers/instagram';
+// import InstagramProvider from 'next-auth/providers/instagram';
 
 export const authOptions: AuthOptions = {
-  // Configure one or more authentication providers
   providers: [
     EmailProvider({
       server: process.env.EMAIL_SERVER as string,
@@ -16,17 +18,17 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-    InstagramProvider({
-      clientId: process.env.INSTAGRAM_CLIENT_ID,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
-      async profile(profile: any) {
-        return {
-          id: profile.id,
-          name: profile.username,
-          email: profile.username + '@insta.local',
-          image: null,
-        };
-      },
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    // }),
+    AppleProvider({
+      clientId: process.env.APPLE_CLIENT_ID as string,
+      clientSecret: process.env.APPLE_CLIENT_SECRET as string,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
     }),
     // ...add more providers here
   ],
