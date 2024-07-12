@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // providers.tsx
 'use client';
-import type { IAuthContext, IRMContext } from '@types';
+import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import { AuthContext, RMContext } from '@state';
+import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
+import { Globals } from '@dreampipcom/oneiros';
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
   const authContext = useContext<IAuthContext>(AuthContext);
+  const globalContext = useContext<IGlobalContext>(GlobalContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
+  const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
   const init = useRef(false);
   const base = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || '';
 
@@ -16,15 +19,23 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
     if (!init.current && authContext && !authState?.setter) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
+      setGlobalState({ ...globalState, setter: setGlobalState, theme: 'light', initd: true });
+      console.log('Flux: --- global context loaded ---');
       init.current = true;
     }
-  }, [JSON.stringify(authContext)]);
+  }, [JSON.stringify(authContext), JSON.stringify(globalContext)]);
 
   if (!authState?.initd) return;
 
   return (
     <SessionProvider basePath={base ? `${base}/api/auth` : '/api/auth'}>
-      <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+      <AuthContext.Provider value={authState}>
+        <GlobalContext.Provider value={globalState}>
+          <Globals theme={globalState?.theme || 'light'}>
+            <main className="min-h-screen">{children}</main>
+          </Globals>
+        </GlobalContext.Provider>
+      </AuthContext.Provider>
     </SessionProvider>
   );
 }
@@ -45,4 +56,22 @@ export function RickMortyProvider({ children }: { children: React.ReactNode }) {
   if (!rmState?.initd) return;
 
   return <RMContext.Provider value={rmState}>{children}</RMContext.Provider>;
+}
+
+export function HypnosPublicProvider({ children }: { children: React.ReactNode }) {
+  const hypnosPublicContext = useContext<IHypnosPublicContext>(HypnosPublicContext);
+  const [hypnosPublicState, setHypnosPublicState] = useState<IHypnosPublicContext>({ ...hypnosPublicContext });
+  const init = useRef(false);
+
+  useEffect(() => {
+    if (!init.current && HypnosPublicContext && !hypnosPublicState?.setter) {
+      setHypnosPublicState({ ...hypnosPublicState, setter: setHypnosPublicState, initd: true });
+      console.log('Flux: --- hypnos_public context loaded ---');
+      init.current = true;
+    }
+  }, [JSON.stringify(HypnosPublicContext)]);
+
+  if (!hypnosPublicState?.initd) return;
+
+  return <HypnosPublicContext.Provider value={hypnosPublicState}>{children}</HypnosPublicContext.Provider>;
 }

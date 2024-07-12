@@ -22,7 +22,7 @@ export const CreateAction: ICreateAction =
 
     // to-do: abstract from auth context (link to ticket)
     const _context: ISupportedContexts = useContext<ISupportedContexts>(context);
-    const { setter }: ISupportedContexts = _context;
+    const setter = _context?.setter;
 
     const init = useRef(false);
     const s_current = useRef('loaded');
@@ -94,7 +94,7 @@ export const CreateAction: ICreateAction =
         setter({
           ..._context,
           ...payload.current,
-          history: [..._context.history, status.current.str],
+          history: [...(_context?.history || []), status.current.str],
         });
       }
 

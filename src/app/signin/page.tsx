@@ -48,10 +48,10 @@ export default async function SignUp() {
   });
   const newCsrf: string | undefined = await getCsrfToken();
   const csrf = cookieCsrf || newCsrf;
+
   return (
     <main className={styles.main}>
       <article>
-        <img className={styles.logo} src="/logo.svg" />
         <VSignUp providers={providers} csrf={csrf} />
       </article>
     </main>

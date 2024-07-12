@@ -1,7 +1,16 @@
 // index.ts
 
 // contexts
-export type { IAuthContext, IRMContext, INCharacter, IDCharacter, History } from './contexts';
+export type {
+  IAuthContext,
+  IGlobalContext,
+  IHypnosPublicContext,
+  ISettableContexts,
+  IRMContext,
+  INCharacter,
+  IDCharacter,
+  History,
+} from './contexts';
 
 // users
 export type { UserSchema, User, UserDecoration, DUserOrgAmbiRelation } from './users';
@@ -11,12 +20,14 @@ export type { OrgDecoration } from './orgs';
 
 // actions
 export type {
+  ActionT,
+  ActionTypes,
+  ISupportedContexts,
   IAction,
+  IActionBack,
+  IActionDispatch,
   IActionTypes,
   ActionAuthVerbs,
-  ISupportedContexts,
-  IActionDispatch,
-  IActionBack,
   IStatus,
   IALoginPayload,
   IDAddToFavPayload,

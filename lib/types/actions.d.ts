@@ -1,32 +1,41 @@
 // actions.d.ts
+import type { IAuthContext, IGlobalContext, IHypnosPublicContext, IRMContext, History } from '@types';
 import type { Context } from 'react';
+
 export type _NexusActionTypes = 'update_db' | 'schema-enforcing';
 export type NexusActionTypes = 'init' | 'login' | 'logout' | 'hydrate';
+
 export type CommonIAction = 'like';
 export type RMActionTypes = CommonIAction<'like'>;
 export type IActionTypes = NexusActionTypes | RMActionTypes;
 
-export type NexusActionContexts = 'init' | 'auth' | 'ubiquity' | 'database';
-export type ServicesActionContexts = 'rickmorty' | 'image-uploader';
-export type ActionContexts = NexusActionContexts | ServicesActionContexts;
+export type ActionT = 'init' | 'login' | 'logout' | 'hydrate' | 'update_db' | 'schema-enforcing' | 'update_preferences';
+export type ActionTypes = 'init' | 'auth' | 'rickmorty' | 'preferences' | string;
 
 export type ActionAuthVerbs = 'load user' | 'load user meta' | 'unload user';
 export type ActionDBVerbs = 'load database' | 'load collection' | 'define relations' | 'connect to database';
 export type ActionRMVerbs = 'load characters' | 'unload characters' | 'decorate characters' | 'add char to favorites';
 
-export type ActionVerbs = ActionAuthVerbs | ActionRMVerbs | ActionDBVerbs;
+export type NexusActionContexts = 'init' | 'auth' | 'ubiquity' | 'database';
+export type ServicesActionContexts = 'rickmorty' | 'image-uploader';
+export type ActionContexts = NexusActionContexts | ServicesActionContexts;
+export type ActionGlobalVerbs = 'switch themes';
+
+export type ActionHypnosPublicVerbs = 'load listings' | 'unload listings' | 'decorate listings' | 'add to favorites';
+
+export type ActionDBNames = 'database' | 'collection' | 'relations' | 'connect';
 
 export interface IAction {
   action: IActionTypes;
   type: ActionContexts;
 }
 
-export type ISupportedContexts = IAuthContext | IRMContext | ILogContext;
+export type ISupportedContexts = IAuthContext | IRMContext | ILogContext | IGlobalContext | IHypnosPublicContext;
 
-export interface ILogContext {
-  action?: IActionTypes;
-  type?: ActionContexts;
-  verb?: ActionVerbs;
+export interface ILogContext extends History {
+  action?: ActionT;
+  type?: ActionTypes;
+  verb?: ActionGlobalVerbs | ActionAuthVerbs | ActionDBVerbs | ActionHypnosPublicVerbs | ActionRMVerbs;
   status?: string;
   message?: string;
   category?: string;
