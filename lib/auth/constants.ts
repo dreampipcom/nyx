@@ -64,6 +64,6 @@ export const authOptions: AuthOptions = {
     signOut: '/',
     error: '/error', // Error code passed in query string as ?error=
     verifyRequest: '/verify', // (used for check email message)
-    newUser: '/services/rickmorty' // New users will be directed here on first sign in (leave the property out if not of interest)
+    newUser: '/services/rickmorty', // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
