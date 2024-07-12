@@ -50,7 +50,7 @@ export const VTopNav = ({ providers, user }: VTopNavProps) => {
         </DPLink>
       </div>
       <VSignIn className="col-span-5 sm:col-span-5 lg:col-span-1 md:col-span-1 md:col-start-7 lg:col-start-7" providers={providers} user={user} />
-      <DPButton className="col-span-1 sm:col-span-1 lg:col-span-1 md:col-span-1 md:col-start-8 lg:col-start-8" icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
+      <DPButton theme={theme} className="col-span-1 sm:col-span-1 lg:col-span-1 md:col-span-1 md:col-start-8 lg:col-start-8" icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
     </DPGrid>
   );
 };

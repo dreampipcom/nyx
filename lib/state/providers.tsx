@@ -19,7 +19,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
     if (!init.current && authContext && !authState?.setter) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
-      setGlobalState({ ...globalState, setter: setGlobalState, theme: 'light', initd: true });
+      setGlobalState({ ...globalState, setter: setGlobalState, theme: 'dark', initd: true });
       console.log('Flux: --- global context loaded ---');
       init.current = true;
     }
@@ -31,7 +31,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
     <SessionProvider basePath={base ? `${base}/api/auth` : '/api/auth'}>
       <AuthContext.Provider value={authState}>
         <GlobalContext.Provider value={globalState}>
-          <Globals theme={globalState?.theme || 'light'}>
+          <Globals theme={globalState?.theme || 'dark'}>
             <main className="min-h-screen">{children}</main>
           </Globals>
         </GlobalContext.Provider>
