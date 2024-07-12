@@ -84,8 +84,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   if (!Object.keys(prov).length) return
   
   return <section className="">
-      <div className="py-a4 flex flex-col items-center justify-center"> 
-        <div className="m-auto w-full">
+      <div className="py-a4 "> 
+        <div className="m-auto w-full flex flex-col items-center justify-center">
           <Logo  />
         </div>
         <form action={defaultP.signinUrl} method="post">
@@ -97,6 +97,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
             onChange={(e) => setEmail(e)}
             label="Your email"
             className="pb-a1"
+            placeholder="jack@doe.com"
           />
           <Button id="submitButton">
             Continue
