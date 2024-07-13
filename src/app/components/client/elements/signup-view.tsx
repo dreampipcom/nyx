@@ -60,17 +60,16 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
     if (!isUserLoaded && user && !initd.current) {
       loadUser({
         authd: true,
-        name: user.name,
-        avatar: user.image,
-        email: user.email,
+        name: user?.name || user?.email,
+        avatar: user?.image,
+        email: user?.email,
       });
       initd.current = true;
     }
   }, [isUserLoaded, loadUser]);
 
   const handleSignIn = async (id?: string, value?: SignInOptions) => {
-    location.reload()
-    // await doSignIn(id, value);
+    // location.reload()
   };
 
   const handleSignOut = async () => {
@@ -123,7 +122,6 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             )}
             <Button
               type="submit"
-              // onClick={() => handleSignIn(provider)}
             >
               Continue with {provider.name}
             </Button>

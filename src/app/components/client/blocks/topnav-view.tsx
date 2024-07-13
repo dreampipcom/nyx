@@ -2,7 +2,7 @@
 'use client';
 import type { UserSchema } from '@types';
 import { getSession } from '@auth'
-import { useContext, useRef, useEffect, useState } from 'react';
+import { useContext, useRef, useEffect, useState, useMemo } from 'react';
 import { AuthContext, GlobalContext } from '@state';
 import { ASwitchThemes } from '@actions';
 import { navigate } from '@gateway';
@@ -28,15 +28,13 @@ export const VTopNav = ({ user }: VTopNavProps) => {
   const { theme } = globalContext;
 
   /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email || "Young Padawan";
-
-  useEffect(() => {
-    console.log("client session", { _user })
-  }, [_user])
+  const coercedName = useMemo(() => {
+    return _user?.name || _user?.email || "Young Padawan"
+  }, [_user]);
 
   // !make it isomorphic again with cookies
   useEffect(() => {
-    getSession().then((session) => setUser(session));
+    getSession().then((session) => setUser(session?.user));
   }, [])
 
   const [, switchTheme] = ASwitchThemes({});
