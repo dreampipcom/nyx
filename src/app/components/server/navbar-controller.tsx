@@ -1,11 +1,11 @@
 // navbar-controller.tsx
 'use server';
-import type { IFeature, UserSchema } from '@types';
+import type { IFeature } from '@types';
 import { getUser } from '@gateway';
 import { VNavBar } from '@components/client';
 
 interface INavBarData {
-  user: UserSchema;
+  user: any;
 }
 
 async function getEnabledFeatures(): Promise<INavBarData> {

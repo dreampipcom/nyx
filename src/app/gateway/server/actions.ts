@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0 */
 // actions.ts
 'use server';
-import type { UserSchema } from '@types';
+// import type { UserSchema } from '@types';
 import { getRMCharacters } from '@controller';
 import { decorateRMCharacters } from '@model';
 import { getSession } from '@auth';
@@ -38,7 +38,7 @@ export async function getUser() {
   // const email = session?.user?.email || '';
   // const user = await getUserMeta(email);
 
-  return { user: { email: 'lorem' } as UserSchema };
+  return { user: { email: 'lorem' } };
   // we might need to decorate users in the future,
   // reference decorateRMCharactes()
 }

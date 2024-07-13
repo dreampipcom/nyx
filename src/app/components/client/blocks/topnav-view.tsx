@@ -15,8 +15,7 @@ interface IAuthProvider {
 }
 
 interface VTopNavProps {
-  providers: IAuthProvider[];
-  user?: UserSchema;
+  user?: any;
 }
 
 export const VTopNav = ({ user }: VTopNavProps) => {

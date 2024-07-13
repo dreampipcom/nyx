@@ -22,16 +22,7 @@ interface IAuthProviders {
   name?: string;
 }
 
-async function getProvidersData(): Promise<ISignInData> {
-  const providers = (await getProviders()) as unknown as IAuthProviders[];
-  return { providers: providers ?? [] };
-}
-
 export const CSignUp = async ({ user }: ISignInProps) => {
 	const csrf = await getCsrf();
-  const props: ISignInData = await getProvidersData()
-  const providers: IAuthProviders[] = props?.providers || []
-
-
   return <VSignUp providers={providers} csrf={csrf} />
 }

@@ -11,26 +11,37 @@ export const providers = [
 const methods = {
   signIn: () => {},
   signOut: async () => {
-    console.log('start signout');
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/signout`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ csrfToken: await methods.getCsrf() }),
-    });
-    return response;
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/signout`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ csrfToken: await methods.getCsrf() }),
+      });
+      return response;
+    } catch (e) {
+      console.error(e);
+    }
   },
   getCsrf: async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`);
-    const csrf = await response.json();
-    return csrf.csrfToken;
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`);
+      const csrf = await response.json();
+      return csrf.csrfToken;
+    } catch (e) {
+      console.error(e);
+    }
   },
   getSession: async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`);
-    const session = await response.json();
-    return session;
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`);
+      const session = await response.json();
+      return session;
+    } catch (e) {
+      console.error(e);
+    }
   },
 };
 

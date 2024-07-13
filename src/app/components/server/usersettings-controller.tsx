@@ -5,7 +5,7 @@ import { getUser } from '@gateway';
 import { VUserSettings } from '@components/client';
 
 interface INavBarData {
-  user: UserSchema;
+  user: any;
 }
 
 async function getEnabledFeatures(): Promise<INavBarData> {

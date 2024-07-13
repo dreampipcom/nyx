@@ -3,9 +3,8 @@
 import { useContext, useEffect, useRef } from 'react';
 import { signOut } from '@auth';
 import { AuthContext, GlobalContext } from '@state';
-import { ALogIn, ALogOut } from '@actions';
+import { ALogOut } from '@actions';
 import { navigate } from '@gateway';
-import { UserSchema } from '@types';
 import { Button as DPButton } from '@dreampipcom/oneiros';
 
 interface IAuthProvider {
@@ -15,8 +14,7 @@ interface IAuthProvider {
 
 interface VSignInProps {
   className?: string;
-  providers: IAuthProvider[];
-  user?: UserSchema;
+  user?: any;
 }
 
 async function doSignOut() {
@@ -24,36 +22,21 @@ async function doSignOut() {
   location.reload()
 }
 
-export const VSignIn = ({ providers, user }: VSignInProps) => {
+export const VSignIn = ({ user }: VSignInProps) => {
   const authContext = useContext(AuthContext);
   const { authd, name } = authContext;
 
   const globalContext = useContext(GlobalContext);
   const { theme } = globalContext;
 
-  const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
 
-
-  useEffect(() => {
-    if (!isUserLoaded && user && !initd.current) {
-      loadUser({
-        authd: true,
-        name: user.name,
-        avatar: user.image,
-        email: user.email,
-      });
-      initd.current = true;
-    }
-  }, [isUserLoaded, loadUser]);
 
   const handleSignOut = async () => {
     unloadUser();
     await doSignOut();
   };
-
-  // if (!providers) return;
 
   if (user || authd)
     return (

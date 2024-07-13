@@ -1,14 +1,12 @@
 // signup-view.ts
 'use client';
-import { signIn, signOut, getCsrf } from "@auth";
+import { clsx } from "clsx";
 import { useContext, useEffect, useRef, useState } from 'react';
+import { signIn, signOut, getCsrf } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
-import { UserSchema } from '@types';
-import { Button, TextInput } from "@dreampipcom/oneiros";
-import { clsx } from "clsx";
-import { Logo, Typography } from '@dreampipcom/oneiros';
+import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
 
 interface IAuthProvider {
   id?: string;
@@ -19,7 +17,7 @@ interface IAuthProvider {
 
 interface VSignUpProps {
   providers: IAuthProvider[];
-  user?: UserSchema;
+  user?: any;
   csrf?: string;
 }
 
@@ -28,8 +26,8 @@ async function doSignOut() {
   location.reload();
 }
 
-async function doSignIn(id?: string, value?: SignInOptions) {
-  await signIn(id, value);
+async function doSignIn() {
+  await signIn();
 }
 
 
@@ -68,7 +66,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
     }
   }, [isUserLoaded, loadUser]);
 
-  const handleSignIn = async (id?: string, value?: SignInOptions) => {
+  const handleSignIn = async () => {
     // location.reload()
   };
 
