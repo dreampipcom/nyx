@@ -4,11 +4,11 @@
 import type { UserSchema } from '@types';
 import { getRMCharacters } from '@controller';
 import { decorateRMCharacters } from '@model';
-import { getServerSession } from 'next-auth/next';
+import { auth } from '@auth';
 
 /* to-do: move to RM directory */
 export async function loadChars() {
-  const session = await getServerSession();
+  const session = await auth();
   const email = session?.user?.email || '';
   const chars = (await getRMCharacters()).results;
   const decd = await decorateRMCharacters(chars, email);

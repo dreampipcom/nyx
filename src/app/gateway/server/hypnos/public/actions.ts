@@ -4,10 +4,10 @@
 import type { UserSchema } from '@types';
 import { getHypnosPublicListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
-import { getServerSession } from 'next-auth/next';
+import { auth } from '@auth';
 
 export async function loadHypnosPublicListings() {
-  const session = await getServerSession();
+  const session = await auth();
   const email = session?.user?.email || '';
   const chars = await getHypnosPublicListings({});
   const decd = await decorateHypnosPublicListings(chars, email);

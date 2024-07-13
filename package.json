@@ -42,7 +42,7 @@
     "eslint-config-next": "14.0.4",
     "husky": "9.0.11",
     "lodash": "4.17.21",
-    "next-auth": "4.24.5",
+    "next-auth": "^5.0.0-beta.19",
     "postcss": "^8.4.38",
     "prettier": "3.2.4",
     "server-only": "0.0.1",

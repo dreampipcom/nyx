@@ -28,8 +28,7 @@ async function getProvidersData(): Promise<ISignInData> {
 }
 
 export const CSignUp = async ({ user }: ISignInProps) => {
-	cookies();
-	const csrf = await getCsrfToken()
+	const csrf = cookies().get('next-auth.csrf-token')?.value.split('|')[0]
   const props: ISignInData = await getProvidersData()
   const providers: IAuthProviders[] = props?.providers || []
 

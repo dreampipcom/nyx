@@ -1,7 +1,7 @@
 // signup-view.ts
 'use client';
+import { signIn, signOut } from "@auth";
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
@@ -23,18 +23,27 @@ interface VSignUpProps {
   csrf?: string;
 }
 
+async function getCsrf() {
+  const response = await fetch('http://localhost:3000/api/auth/csrf')
+  const csrf = await response.json()
+  console.log({ csrf })
+  return csrf.csrfToken
+}
+
 async function doSignOut() {
   await signOut();
 }
 
 async function doSignIn(id?: string, value?: SignInOptions) {
+  console.log({signIn})
   await signIn(id, value);
 }
 
 
-export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
+export const VSignUp = ({ providers, user }: VSignUpProps) => {
+  const [csrf, setCsrf] = useState();
   const authContext = useContext(AuthContext);
-  const { data: session } = useSession();
+  // const { data:  = use;
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
@@ -46,6 +55,10 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const oauth = _providers.slice(1, providers.length)
   const defaultP = _providers[0]
 
+  const signInUrl = '/api/auth/signin'
+
+  console.log({ providers, oauth, csrf })
+
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
 
@@ -53,19 +66,20 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const coercedName = name || user?.name || user?.email;
 
   useEffect(() => {
-    if (!isUserLoaded && session?.user && !initd.current) {
+    getCsrf().then((_csrf) => setCsrf(_csrf));
+    if (!isUserLoaded && user && !initd.current) {
       loadUser({
         authd: true,
-        name: session.user.name,
-        avatar: session.user.image,
-        email: session.user.email,
+        name: user.name,
+        avatar: user.image,
+        email: user.email,
       });
       initd.current = true;
     }
-  }, [session, isUserLoaded, loadUser]);
+  }, [isUserLoaded, loadUser]);
 
   const handleSignIn = async (id?: string, value?: SignInOptions) => {
-    await doSignIn(id, value);
+    // await doSignIn(id, value);
   };
 
   const handleSignOut = async () => {
@@ -87,7 +101,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
         <div className="m-auto w-full flex flex-col items-center justify-center">
           <Logo  />
         </div>
-        <form action={defaultP.signinUrl} method="post">
+        <form action={signInUrl} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
           <TextInput
@@ -104,10 +118,10 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
           </Button>
         </form>
        </div>
-    {oauth.map((provider) => (
+    {providers.map((provider) => (
       <div className="py-a1"> 
         {provider.type === "email" && (
-          <form action={defaultP.signinUrl} method="POST">
+          <form action={`${signInUrl}/${provider.id}`} method="POST">
             <input name="csrfToken" type="hidden" defaultValue={csrf} />
             <TextInput
               name="email"
@@ -121,8 +135,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
           </form>
         )}
 
-        {provider.type === "oauth" && (
-          <form action={provider.signinUrl} method="POST">
+        {(provider.type === "oauth" || provider.type === "oidc") && (
+          <form action={`${signInUrl}/${provider.id}`} method="POST">
             <input type="hidden" name="csrfToken" value={csrf} />
             {callbackUrl && (
               <input
@@ -132,7 +146,8 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
               />
             )}
             <Button
-              onClick={() => signIn(provider.id)}
+              type="submit"
+              // onClick={() => handleSignIn(provider)}
             >
               Continue with {provider.name}
             </Button>

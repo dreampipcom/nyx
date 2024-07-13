@@ -1,7 +1,6 @@
 // topnav.tsx
 'use server';
 import type { UserSchema } from '@types';
-import { getProviders } from 'next-auth/react';
 import { VTopNav } from '@blocks/client';
 
 interface ITopNavProps {
@@ -20,15 +19,23 @@ interface IAuthProviders {
   name?: string;
 }
 
-async function getProvidersData(): Promise<ISignInData> {
-  const providers = (await getProviders()) as unknown as IAuthProviders[];
-  return { providers: providers ?? [] };
+async function getSession() {
+  const response = await fetch('http://localhost:3001/api/auth/session')
+  const session = await response.json();
+  console.log({ session, response });
+  return session;
+}
+
+async function getCsrf() {
+  const response = await fetch('http://localhost:3001/api/auth/csrf')
+  const csrf = await response.json()
+  console.log({ csrf })
+  return csrf.csrfToken
 }
 
 export const CTopNav = async ({ user }: ITopNavProps) => {
-	const props: ISignInData = await getProvidersData();
-  const providers: IAuthProviders[] = props?.providers || [];
+  const session = await getSession();
   return <div>
-    <VTopNav providers={providers} user={user} />
+    <VTopNav user={session?.user} />
   </div>;
 };

@@ -1,7 +1,6 @@
 // signin-view.ts
 'use client';
 import { useContext, useEffect, useRef } from 'react';
-import { useSession, signOut } from 'next-auth/react';
 import { AuthContext, GlobalContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
@@ -30,23 +29,22 @@ export const VSignIn = ({ providers, user }: VSignInProps) => {
   const globalContext = useContext(GlobalContext);
   const { theme } = globalContext;
 
-  const { data: session } = useSession();
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
 
 
   useEffect(() => {
-    if (!isUserLoaded && session?.user && !initd.current) {
+    if (!isUserLoaded && user && !initd.current) {
       loadUser({
         authd: true,
-        name: session.user.name,
-        avatar: session.user.image,
-        email: session.user.email,
+        name: user.name,
+        avatar: user.image,
+        email: user.email,
       });
       initd.current = true;
     }
-  }, [session, isUserLoaded, loadUser]);
+  }, [isUserLoaded, loadUser]);
 
   const handleSignOut = async () => {
     unloadUser();
