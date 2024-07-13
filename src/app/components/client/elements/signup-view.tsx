@@ -54,7 +54,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
 
   /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email;
+  const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
     getCsrf().then((_csrf) => setCsrf(_csrf));

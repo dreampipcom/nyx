@@ -9,7 +9,12 @@ export const providers = [
 
 const methods = {
   signIn: () => {},
-  signOut: () => {},
+  signOut: () => {
+    const response = await fetch('http://localhost:3000/api/auth/singout');
+    const session = await response.json();
+    console.log("requesting", { response: JSON.stringify(response) });
+    return session;
+  },
   getCsrf: async () => {
     const response = await fetch('http://localhost:3000/api/auth/csrf');
     const csrf = await response.json();
