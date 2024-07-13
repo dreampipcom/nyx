@@ -69,7 +69,7 @@ export function HypnosPublicProvider({ children }: { children: React.ReactNode }
       console.log('Flux: --- hypnos_public context loaded ---');
       init.current = true;
     }
-  }, [JSON.stringify(HypnosPublicContext)]);
+  }, [JSON.stringify(hypnosPublicContext)]);
 
   if (!hypnosPublicState?.initd) return;
 
