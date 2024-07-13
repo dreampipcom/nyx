@@ -19,7 +19,7 @@ const methods = {
   getSession: async () => {
     const response = await fetch('http://localhost:3000/api/auth/session');
     const session = await response.json();
-    console.log({ session, response });
+    console.log("requesting", { response: JSON.stringify(response) });
     return session;
   },
 };

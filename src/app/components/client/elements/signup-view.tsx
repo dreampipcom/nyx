@@ -8,7 +8,7 @@ import { navigate } from '@gateway';
 import { UserSchema } from '@types';
 import { Button, TextInput } from "@dreampipcom/oneiros";
 import { clsx } from "clsx";
-import { Logo } from '@dreampipcom/oneiros';
+import { Logo, Typography } from '@dreampipcom/oneiros';
 
 interface IAuthProvider {
   id?: string;
@@ -28,7 +28,6 @@ async function doSignOut() {
 }
 
 async function doSignIn(id?: string, value?: SignInOptions) {
-  console.log({signIn})
   await signIn(id, value);
 }
 
@@ -36,7 +35,6 @@ async function doSignIn(id?: string, value?: SignInOptions) {
 export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const [csrf, setCsrf] = useState();
   const authContext = useContext(AuthContext);
-  // const { data:  = use;
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
@@ -50,7 +48,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   const signInUrl = '/api/auth/signin'
 
-  console.log({ providers, oauth, csrf })
+  // console.log({ providers, oauth, csrf })
 
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
@@ -82,7 +80,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <p>Welcome, {coercedName}. I hope you make yourself at home.</p>
+        <Typography className="py-a3">Welcome, {coercedName}. I hope you make yourself at home.</Typography>
         <Button onClick={handleSignOut}>Sign out</Button>
     </section>
   }

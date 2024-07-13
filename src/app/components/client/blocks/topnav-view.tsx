@@ -1,7 +1,8 @@
 // @block/topnav-view.tsx
 'use client';
 import type { UserSchema } from '@types';
-import { useContext, useRef, } from 'react';
+import { getSession } from '@auth'
+import { useContext, useRef, useEffect, useState } from 'react';
 import { AuthContext, GlobalContext } from '@state';
 import { ASwitchThemes } from '@actions';
 import { navigate } from '@gateway';
@@ -19,6 +20,7 @@ interface VTopNavProps {
 }
 
 export const VTopNav = ({ user }: VTopNavProps) => {
+  const [_user, setUser] = useState(user)
 	const authContext = useContext(AuthContext);
   const globalContext = useContext(GlobalContext);
 
@@ -27,6 +29,15 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 
   /* server/client isomorphism */
   const coercedName = name || user?.name || user?.email || "Young Padawan";
+
+  useEffect(() => {
+    console.log("client session", { _user })
+  }, [_user])
+
+  // !make it isomorphic again with cookies
+  useEffect(() => {
+    getSession().then((session) => setUser(session));
+  }, [])
 
   const [, switchTheme] = ASwitchThemes({});
 
@@ -49,7 +60,7 @@ export const VTopNav = ({ user }: VTopNavProps) => {
           hypnos
         </DPLink>
       </div>
-      <VSignIn className="col-span-5 sm:col-span-5 lg:col-span-1 md:col-span-1 md:col-start-7 lg:col-start-7" user={user} />
+      <VSignIn className="col-span-5 sm:col-span-5 lg:col-span-1 md:col-span-1 md:col-start-7 lg:col-start-7" user={_user} />
       <DPButton theme={theme} className="col-span-1 sm:col-span-1 lg:col-span-1 md:col-span-1 md:col-start-8 lg:col-start-8" icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
     </DPGrid>
   );
