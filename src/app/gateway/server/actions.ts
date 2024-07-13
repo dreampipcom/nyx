@@ -4,11 +4,11 @@
 import type { UserSchema } from '@types';
 import { getRMCharacters } from '@controller';
 import { decorateRMCharacters } from '@model';
-import { auth } from '@auth';
+import { getSession } from '@auth';
 
 /* to-do: move to RM directory */
 export async function loadChars() {
-  const session = await auth();
+  const session = await getSession();
   const email = session?.user?.email || '';
   const chars = (await getRMCharacters()).results;
   const decd = await decorateRMCharacters(chars, email);
