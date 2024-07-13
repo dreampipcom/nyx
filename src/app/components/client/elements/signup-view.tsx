@@ -1,6 +1,6 @@
 // signup-view.ts
 'use client';
-import { signIn, signOut } from "@auth";
+import { signIn, signOut, getCsrf } from "@auth";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
@@ -21,13 +21,6 @@ interface VSignUpProps {
   providers: IAuthProvider[];
   user?: UserSchema;
   csrf?: string;
-}
-
-async function getCsrf() {
-  const response = await fetch('http://localhost:3000/api/auth/csrf')
-  const csrf = await response.json()
-  console.log({ csrf })
-  return csrf.csrfToken
 }
 
 async function doSignOut() {

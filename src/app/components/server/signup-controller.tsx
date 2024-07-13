@@ -1,8 +1,8 @@
 // signup-controller.ts
 'use server';
+import { getCsrf, providers } from '@auth';
 import { cookies } from 'next/headers';
 import type { UserSchema } from '@types';
-import { getProviders, getCsrfToken } from 'next-auth/react';
 import { VSignUp } from '@components/client';
 
 
@@ -28,7 +28,7 @@ async function getProvidersData(): Promise<ISignInData> {
 }
 
 export const CSignUp = async ({ user }: ISignInProps) => {
-	const csrf = cookies().get('next-auth.csrf-token')?.value.split('|')[0]
+	const csrf = await getCsrf();
   const props: ISignInData = await getProvidersData()
   const providers: IAuthProviders[] = props?.providers || []
 
