@@ -43,13 +43,13 @@ const methods = {
   signIn: () => {},
   signOut: () => {},
   getCsrf: async () => {
-    const response = await fetch('http://localhost:3001/api/auth/csrf');
+    const response = await fetch('http://localhost:3000/api/auth/csrf');
     const csrf = await response.json();
     console.log({ csrf });
     return csrf.csrfToken;
   },
   getSession: async () => {
-    const response = await fetch('http://localhost:3001/api/auth/session');
+    const response = await fetch('http://localhost:3000/api/auth/session');
     const session = await response.json();
     console.log({ session, response });
     return session;
