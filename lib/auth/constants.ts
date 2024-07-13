@@ -9,7 +9,7 @@ export const providers = [
 
 const methods = {
   signIn: () => {},
-  signOut: () => {
+  signOut: async () => {
     const response = await fetch('http://localhost:3000/api/auth/singout');
     const session = await response.json();
     console.log("requesting", { response: JSON.stringify(response) });
