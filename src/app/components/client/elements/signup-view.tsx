@@ -70,6 +70,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   }, [isUserLoaded, loadUser]);
 
   const handleSignIn = async (id?: string, value?: SignInOptions) => {
+    location.reload()
     // await doSignIn(id, value);
   };
 

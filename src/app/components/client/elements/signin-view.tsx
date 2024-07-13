@@ -1,6 +1,7 @@
 // signin-view.ts
 'use client';
 import { useContext, useEffect, useRef } from 'react';
+import { signOut } from '@auth';
 import { AuthContext, GlobalContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
@@ -20,6 +21,7 @@ interface VSignInProps {
 
 async function doSignOut() {
   await signOut();
+  location.reload()
 }
 
 export const VSignIn = ({ providers, user }: VSignInProps) => {
