@@ -3,7 +3,6 @@
 'use client';
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
-import { SessionProvider } from 'next-auth/react';
 import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
 import { Globals } from '@dreampipcom/oneiros';
 
@@ -28,7 +27,6 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   if (!authState?.initd) return;
 
   return (
-    <SessionProvider basePath={base ? `${base}/api/auth` : '/api/auth'}>
       <AuthContext.Provider value={authState}>
         <GlobalContext.Provider value={globalState}>
           <Globals theme={globalState?.theme || 'dark'}>
@@ -36,7 +34,6 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
           </Globals>
         </GlobalContext.Provider>
       </AuthContext.Provider>
-    </SessionProvider>
   );
 }
 
