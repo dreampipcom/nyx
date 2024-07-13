@@ -65,7 +65,6 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   }, [session, isUserLoaded, loadUser]);
 
   const handleSignIn = async (id?: string, value?: SignInOptions) => {
-    console.log({ value })
     await doSignIn(id, value);
   };
 
