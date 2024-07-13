@@ -25,6 +25,7 @@ interface VSignUpProps {
 
 async function doSignOut() {
   await signOut();
+  location.reload();
 }
 
 async function doSignIn(id?: string, value?: SignInOptions) {
@@ -47,8 +48,6 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const defaultP = _providers[0]
 
   const signInUrl = '/api/auth/signin'
-
-  // console.log({ providers, oauth, csrf })
 
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 

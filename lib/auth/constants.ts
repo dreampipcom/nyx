@@ -21,21 +21,16 @@ const methods = {
       },
       body: JSON.stringify({ csrfToken: await methods.getCsrf() }),
     });
-    // const session = await response.json();
-    console.log('signout', { response: JSON.stringify(response) });
-    await navigate('/');
-    return { ok: true, status: 200 };
+    return response;
   },
   getCsrf: async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`);
     const csrf = await response.json();
-    // console.log({ csrf });
     return csrf.csrfToken;
   },
   getSession: async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`);
     const session = await response.json();
-    // console.log("requesting", { response: JSON.stringify(response) });
     return session;
   },
 };
