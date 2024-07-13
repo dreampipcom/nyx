@@ -13,7 +13,7 @@ const methods = {
   signIn: () => {},
   signOut: async () => {
     console.log('start signout');
-    const response = await fetch(`${process.env.API_HOST}/api/auth/signout`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/signout`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -27,13 +27,13 @@ const methods = {
     return { ok: true, status: 200 };
   },
   getCsrf: async () => {
-    const response = await fetch(`${process.env.API_HOST}/api/auth/csrf`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`);
     const csrf = await response.json();
     // console.log({ csrf });
     return csrf.csrfToken;
   },
   getSession: async () => {
-    const response = await fetch(`${process.env.API_HOST}/api/auth/session`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`);
     const session = await response.json();
     // console.log("requesting", { response: JSON.stringify(response) });
     return session;
