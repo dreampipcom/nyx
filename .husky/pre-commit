@@ -1,2 +1,7 @@
-# npm run format:fix
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run format:fix
 # npm run build
+git add .
+# git commit -m "husky(lint)"

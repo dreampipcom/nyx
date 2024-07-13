@@ -24,17 +24,21 @@ query {
 `;
 
 async function fetchGraphQL(query: string) {
-  return fetch(`https://rickandmortyapi.com/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      // Authorization: `Bearer ${preview
-      //   ? process.env.token
-      //   : process.env.token2
-      //   }`,
-    },
-    body: JSON.stringify({ query }),
-  }).then((response) => response.json());
+  try {
+    return fetch(`https://rickandmortyapi.com/graphql`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${preview
+        //   ? process.env.token
+        //   : process.env.token2
+        //   }`,
+      },
+      body: JSON.stringify({ query }),
+    }).then((response) => response.json());
+  } catch (e) {
+    return { data: { characters: [] } };
+  }
 }
 
 export const getCharacters: () => Promise<{

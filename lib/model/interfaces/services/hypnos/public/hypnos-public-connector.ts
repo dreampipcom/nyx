@@ -25,19 +25,23 @@ import type { ICard } from '@dreampipcom/oneiros';
 
 async function fetchREPL({ paramsStr }: any) {
   // to-do: might be worth hardcoding the api in case too many middleware requests are billed
-  const response = await fetch(`${process.env.API_HOST}/api/v1/public${paramsStr}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      // Authorization: `Bearer ${preview
-      //   ? process.env.token
-      //   : process.env.token2
-      //   }`,
-    },
-    // body: JSON.stringify({ query }),
-  });
-  const json = await response.json();
-  return json;
+  try {
+    const response = await fetch(`${process.env.API_HOST}/api/v1/public${paramsStr}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${preview
+        //   ? process.env.token
+        //   : process.env.token2
+        //   }`,
+      },
+      // body: JSON.stringify({ query }),
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    return { data: [] };
+  }
 }
 
 export const getPublicListings: ({ paramsStr }: any) => Promise<ICard[]> = async () => {
