@@ -1,5 +1,4 @@
 // constants.ts TS-Doc?
-import { navigate } from '@gateway';
 
 export const providers = [
   { id: 'email', name: 'Email', type: 'email' },
