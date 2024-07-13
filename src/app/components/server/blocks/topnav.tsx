@@ -22,7 +22,6 @@ interface IAuthProviders {
 
 export const CTopNav = async ({ user }: ITopNavProps) => {
   const session = await getSession();
-  console.log("server session", { session })
   return <div>
     <VTopNav user={session?.user} />
   </div>;
