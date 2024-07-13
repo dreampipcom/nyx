@@ -12,7 +12,6 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
   const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
   const init = useRef(false);
-  const base = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || '';
 
   useEffect(() => {
     if (!init.current && authContext && !authState?.setter) {
@@ -27,13 +26,13 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   if (!authState?.initd) return;
 
   return (
-      <AuthContext.Provider value={authState}>
-        <GlobalContext.Provider value={globalState}>
-          <Globals theme={globalState?.theme || 'dark'}>
-            <main className="min-h-screen">{children}</main>
-          </Globals>
-        </GlobalContext.Provider>
-      </AuthContext.Provider>
+    <AuthContext.Provider value={authState}>
+      <GlobalContext.Provider value={globalState}>
+        <Globals theme={globalState?.theme || 'dark'}>
+          <main className="min-h-screen">{children}</main>
+        </Globals>
+      </GlobalContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

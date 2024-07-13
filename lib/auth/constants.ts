@@ -4,7 +4,7 @@ export const providers = [
   { id: 'github', name: 'GitHub', type: 'oidc' },
   { id: 'google', name: 'Google', type: 'oidc' },
   { id: 'apple', name: 'Apple', type: 'oidc' },
-  { id: 'facebook', name: 'Facebook', type: 'oidc' }
+  { id: 'facebook', name: 'Facebook', type: 'oidc' },
 ];
 
 const methods = {
