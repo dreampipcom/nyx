@@ -2,28 +2,28 @@
 import { navigate } from '@gateway';
 
 export const providers = [
-  { id: 'email', name: 'Email', type: 'oidc' },
-  { id: 'github', name: 'GitHub', type: 'oidc' },
+  { id: 'email', name: 'Email', type: 'email' },
+  { id: 'github', name: 'GitHub', type: 'oauth' },
   { id: 'google', name: 'Google', type: 'oidc' },
   { id: 'apple', name: 'Apple', type: 'oidc' },
-  { id: 'facebook', name: 'Facebook', type: 'oidc' },
+  { id: 'facebook', name: 'Facebook', type: 'oauth' },
 ];
 
 const methods = {
   signIn: () => {},
   signOut: async () => {
-    console.log("start signout")
+    console.log('start signout');
     const response = await fetch('http://localhost:3000/api/auth/signout', {
-      method: "POST",
+      method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ csrfToken: await methods.getCsrf() })
+      body: JSON.stringify({ csrfToken: await methods.getCsrf() }),
     });
     // const session = await response.json();
-    console.log("signout", { response: JSON.stringify(response) });
-    await navigate('/')
+    console.log('signout', { response: JSON.stringify(response) });
+    await navigate('/');
     return { ok: true, status: 200 };
   },
   getCsrf: async () => {

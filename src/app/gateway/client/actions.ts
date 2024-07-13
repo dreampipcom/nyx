@@ -3,6 +3,6 @@
 import { redirect } from 'next/navigation';
 
 export async function navigate(url: string) {
-  console.log("redirecting")
+  console.log('redirecting');
   redirect(url);
 }

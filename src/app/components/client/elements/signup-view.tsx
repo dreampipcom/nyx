@@ -93,7 +93,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
         <div className="m-auto w-full flex flex-col items-center justify-center">
           <Logo  />
         </div>
-        <form action={signInUrl} method="post">
+        <form action={`${signInUrl}/email`} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
           <TextInput
@@ -112,21 +112,6 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
        </div>
     {providers.map((provider) => (
       <div className="py-a1"> 
-        {provider.type === "email" && (
-          <form action={`${signInUrl}/${provider.id}`} method="POST">
-            <input name="csrfToken" type="hidden" defaultValue={csrf} />
-            <TextInput
-              name="email"
-              id={`input-email-for-${provider.id}-provider`}
-              value={email}
-              label="Your email"
-            />
-            <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
-              Continue
-            </Button>
-          </form>
-        )}
-
         {(provider.type === "oauth" || provider.type === "oidc") && (
           <form action={`${signInUrl}/${provider.id}`} method="POST">
             <input type="hidden" name="csrfToken" value={csrf} />
