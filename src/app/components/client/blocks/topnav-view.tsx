@@ -4,7 +4,7 @@ import type { UserSchema } from '@types';
 import { getSession } from '@auth'
 import { useContext, useRef, useEffect, useState, useMemo } from 'react';
 import { AuthContext, GlobalContext } from '@state';
-import { ASwitchThemes } from '@actions';
+import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
 import { Link as DPLink, Button as DPButton, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
 import { VSignIn } from '@elements/client';
@@ -19,12 +19,15 @@ interface VTopNavProps {
 }
 
 export const VTopNav = ({ user }: VTopNavProps) => {
-  const [_user, setUser] = useState(user)
+  const [_user, setUser] = useState(user);
+  const [isUserLoaded, loadUser] = ALogIn({});
 	const authContext = useContext(AuthContext);
   const globalContext = useContext(GlobalContext);
 
   const { authd, name } = authContext;
   const { theme } = globalContext;
+
+  const initd = useRef(false);
 
   /* server/client isomorphism */
   const coercedName = useMemo(() => {
@@ -34,7 +37,19 @@ export const VTopNav = ({ user }: VTopNavProps) => {
   // !make it isomorphic again with cookies
   useEffect(() => {
     getSession().then((session) => setUser(session?.user));
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (!isUserLoaded && _user && !initd.current) {
+      loadUser({
+        authd: true,
+        name: user?.name || user?.email,
+        avatar: user?.image,
+        email: user?.email,
+      });
+      initd.current = true;
+    }
+  }, [isUserLoaded, loadUser]);
 
   const [, switchTheme] = ASwitchThemes({});
 
