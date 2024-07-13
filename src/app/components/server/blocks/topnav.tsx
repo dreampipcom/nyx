@@ -1,6 +1,7 @@
 // topnav.tsx
 'use server';
 import type { UserSchema } from '@types';
+import { getSession } from '@auth'
 import { VTopNav } from '@blocks/client';
 
 interface ITopNavProps {
