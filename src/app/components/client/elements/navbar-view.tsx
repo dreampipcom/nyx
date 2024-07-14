@@ -1,7 +1,6 @@
 // navbar-view.tsx
 'use client';
 import { useContext, useEffect, useRef } from 'react';
-import { useSession, signOut } from 'next-auth/react';
 import { AuthContext } from '@state';
 import {} from '@actions';
 import { navigate } from '@gateway';
@@ -13,7 +12,6 @@ interface VNavBar {
 
 export const VNavBar = () => {
   const authContext = useContext(AuthContext);
-  const { data: session } = useSession();
   const initd = useRef(false);
 
   const { authd, name } = authContext;
@@ -25,13 +23,7 @@ export const VNavBar = () => {
   }, []);
 
   const handleSignOut = async () => {
-    // unloadUser();
-    // await doSignOut();
   };
-
-  // if (!providers) return;
-
-  // if (typeof session === "undefined") return <span>Loading...</span>;
 
   if (authd)
     return (
@@ -45,6 +37,4 @@ export const VNavBar = () => {
         </div>
       </div>
     );
-
-  // return <button>Nav items !auth.d</button>;
 };

@@ -1,13 +1,13 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0 */
 // hypnos/public/actions.ts
 'use server';
-import type { UserSchema } from '@types';
+// import type { UserSchema } from '@types';
 import { getHypnosPublicListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
-import { getServerSession } from 'next-auth/next';
+import { getSession } from '@auth';
 
 export async function loadHypnosPublicListings() {
-  const session = await getServerSession();
+  const session = await getSession();
   const email = session?.user?.email || '';
   const chars = await getHypnosPublicListings({});
   const decd = await decorateHypnosPublicListings(chars, email);
@@ -37,7 +37,7 @@ export async function getUser() {
   // const email = session?.user?.email || '';
   // const user = await getUserMeta(email);
 
-  return { user: { email: 'lorem' } as UserSchema };
+  return { user: { email: 'lorem' } as any };
   // we might need to decorate users in the future,
   // reference decorateRMCharactes()
 }

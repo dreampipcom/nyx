@@ -3,7 +3,6 @@
 'use client';
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
-import { SessionProvider } from 'next-auth/react';
 import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
 import { Globals } from '@dreampipcom/oneiros';
 
@@ -13,7 +12,6 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
   const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
   const init = useRef(false);
-  const base = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || '';
 
   useEffect(() => {
     if (!init.current && authContext && !authState?.setter) {
@@ -28,15 +26,13 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   if (!authState?.initd) return;
 
   return (
-    <SessionProvider basePath={base ? `${base}/api/auth` : '/api/auth'}>
-      <AuthContext.Provider value={authState}>
-        <GlobalContext.Provider value={globalState}>
-          <Globals theme={globalState?.theme || 'dark'}>
-            <main className="min-h-screen">{children}</main>
-          </Globals>
-        </GlobalContext.Provider>
-      </AuthContext.Provider>
-    </SessionProvider>
+    <AuthContext.Provider value={authState}>
+      <GlobalContext.Provider value={globalState}>
+        <Globals theme={globalState?.theme || 'dark'}>
+          <main className="min-h-screen">{children}</main>
+        </Globals>
+      </GlobalContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

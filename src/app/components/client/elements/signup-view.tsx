@@ -1,14 +1,12 @@
 // signup-view.ts
 'use client';
+import { clsx } from "clsx";
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useSession, signOut, signIn, SignInOptions } from 'next-auth/react';
+import { signIn, signOut, getCsrf } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate } from '@gateway';
-import { UserSchema } from '@types';
-import { Button, TextInput } from "@dreampipcom/oneiros";
-import { clsx } from "clsx";
-import { Logo } from '@dreampipcom/oneiros';
+import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
 
 interface IAuthProvider {
   id?: string;
@@ -19,22 +17,23 @@ interface IAuthProvider {
 
 interface VSignUpProps {
   providers: IAuthProvider[];
-  user?: UserSchema;
+  user?: any;
   csrf?: string;
 }
 
 async function doSignOut() {
   await signOut();
+  location.reload();
 }
 
-async function doSignIn(id?: string, value?: SignInOptions) {
-  await signIn(id, value);
+async function doSignIn() {
+  await signIn();
 }
 
 
-export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
+export const VSignUp = ({ providers, user }: VSignUpProps) => {
+  const [csrf, setCsrf] = useState();
   const authContext = useContext(AuthContext);
-  const { data: session } = useSession();
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
@@ -46,26 +45,29 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
   const oauth = _providers.slice(1, providers.length)
   const defaultP = _providers[0]
 
+  const signInUrl = '/api/auth/signin'
+
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
 
   /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email;
+  const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
-    if (!isUserLoaded && session?.user && !initd.current) {
+    getCsrf().then((_csrf) => setCsrf(_csrf));
+    if (!isUserLoaded && user && !initd.current) {
       loadUser({
         authd: true,
-        name: session.user.name,
-        avatar: session.user.image,
-        email: session.user.email,
+        name: user?.name || user?.email,
+        avatar: user?.image,
+        email: user?.email,
       });
       initd.current = true;
     }
-  }, [session, isUserLoaded, loadUser]);
+  }, [isUserLoaded, loadUser]);
 
-  const handleSignIn = async (id?: string, value?: SignInOptions) => {
-    await doSignIn(id, value);
+  const handleSignIn = async () => {
+    // location.reload()
   };
 
   const handleSignOut = async () => {
@@ -75,7 +77,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <p>Welcome, {coercedName}. I hope you make yourself at home.</p>
+        <Typography className="py-a3">Welcome, {coercedName}. I hope you make yourself at home.</Typography>
         <Button onClick={handleSignOut}>Sign out</Button>
     </section>
   }
@@ -87,7 +89,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
         <div className="m-auto w-full flex flex-col items-center justify-center">
           <Logo  />
         </div>
-        <form action={defaultP.signinUrl} method="post">
+        <form action={`${signInUrl}/email`} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
           <TextInput
@@ -104,25 +106,10 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
           </Button>
         </form>
        </div>
-    {oauth.map((provider) => (
+    {providers.map((provider) => (
       <div className="py-a1"> 
-        {provider.type === "email" && (
-          <form action={defaultP.signinUrl} method="POST">
-            <input name="csrfToken" type="hidden" defaultValue={csrf} />
-            <TextInput
-              name="email"
-              id={`input-email-for-${provider.id}-provider`}
-              value={email}
-              label="Your email"
-            />
-            <Button id="submitButton" onClick={() => handleSignIn(provider.id)}>
-              Continue
-            </Button>
-          </form>
-        )}
-
-        {provider.type === "oauth" && (
-          <form action={provider.signinUrl} method="POST">
+        {(provider.type === "oauth" || provider.type === "oidc") && (
+          <form action={`${signInUrl}/${provider.id}`} method="POST">
             <input type="hidden" name="csrfToken" value={csrf} />
             {callbackUrl && (
               <input
@@ -132,7 +119,7 @@ export const VSignUp = ({ providers, user, csrf }: VSignUpProps) => {
               />
             )}
             <Button
-              onClick={() => signIn(provider.id)}
+              type="submit"
             >
               Continue with {provider.name}
             </Button>
