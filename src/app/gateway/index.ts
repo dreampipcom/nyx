@@ -6,5 +6,8 @@ export { navigate } from './client/actions';
 // server
 export { getUser, addToFavorites, loadChars, reloadChars, getChars } from './server/actions';
 
-// smokey-public
+// hyonos-public
 export { loadHypnosPublicListings } from './server/hypnos/public';
+
+// hyonos-private
+export { addToFavorites } from './server/hypnos/private';

@@ -1,25 +1,13 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0 */
-// hypnos/public/actions.ts
+// hypnos/private/actions.ts
 'use server';
 // import type { UserSchema } from '@types';
 import { getHypnosPublicListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';
 
-export async function loadHypnosPublicListings() {
-  const session = await getSession();
-  const email = session?.user?.email || '';
-  const chars = await getHypnosPublicListings({});
-  const decd = await decorateHypnosPublicListings(chars, email);
-  return decd;
-}
-
-export async function getListings() {
-  return await loadHypnosPublicListings();
-}
-
-export async function reloadHypnosPublicListings() {
-  await loadHypnosPublicListings();
+export async function addToFavorites() {
+  // await _addToFavorites({ email, cid, type: 'characters' });
   return { ok: true };
 }
 
