@@ -2,12 +2,13 @@
 // hypnos/private/actions.ts
 'use server';
 // import type { UserSchema } from '@types';
-import { getHypnosPublicListings } from '@controller';
+import { updateUserFavoriteListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';
 
 export async function addToFavorites() {
-  // await _addToFavorites({ email, cid, type: 'characters' });
+  await UpdateUserFavoriteListings();
+
   return { ok: true };
 }
 

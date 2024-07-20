@@ -11,3 +11,4 @@ export { DATABASE_STRING, DATABASE_USERS_STRING, DATABASE_ORGS_STRING } from './
 export { getCharacters as getRMCharacters } from './services/rickmorty/rm-connector';
 
 export { getPublicListings as getHypnosPublicListings } from './services/hypnos/public/hypnos-public-connector';
+export { updateUserFavoriteListings } from './services/hypnos/private/hypnos-private-user-connector';
