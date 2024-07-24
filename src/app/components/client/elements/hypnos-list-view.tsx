@@ -38,7 +38,7 @@ export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   const dispatchAddToFavorites = async (cid?: number) => {
     console.log("add",{ cid })
     const func = async (payload: IDPayload) => {
-      await addToFavorites();
+      await addToFavorites({ listings: [cid] });
       const op_2 = await loadHypnosPublicListings();
       loadListings({ characters: op_2 });
     };
@@ -78,7 +78,7 @@ export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   if (authd) {
     return (
       <article>
-        <DPCardGrid cards={currentListings} theme={theme} onClick={dispatchAddToFavorites} />
+        <DPCardGrid cards={currentListings} theme={theme} onLikeCard={dispatchAddToFavorites} />
       </article>
     );
   }

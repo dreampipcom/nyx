@@ -2,6 +2,7 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
 import type { ICard } from '@dreampipcom/oneiros';
+import { getSession } from '@auth';
 // const CHARS = `
 // query {
 //   characters() {
@@ -24,9 +25,10 @@ import type { ICard } from '@dreampipcom/oneiros';
 // }
 // `;
 
-async function fetchREPL({ paramsStr, method }: any) {
+async function fetchREPL({ paramsStr, method, listings }: any) {
   // to-do: might be worth hardcoding the api in case too many middleware requests are billed
   try {
+    const payload = { listings,  }
     const response = await fetch(`${process.env.API_HOST}/api/v1/user${paramsStr}`, {
       method,
       headers: {
@@ -36,17 +38,21 @@ async function fetchREPL({ paramsStr, method }: any) {
         //   : process.env.token2
         //   }`,
       },
-      // body: JSON.stringify({ query }),
+      body: JSON.stringify(payload),
+      credentials: 'include',
     });
+    console.log("connecting", { response, listings, user })
     const json = await response.json();
     return json;
   } catch (e) {
-    return { data: [] };
+    return { ok: false, status: 500, message: JSON.stringify(e), data: [] };
   }
 }
 
-export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]> = async () => {
-  const entries = await fetchREPL({ paramsStr: '', method: 'PATCH' });
+export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]> = async ({ listings }) => {
+  const user = await getSession()
+  const entries = await fetchREPL({ paramsStr: '', method: 'PATCH', listings });
+  console.log("func", { listings, user })
   const response = entries?.data;
   return response;
 };

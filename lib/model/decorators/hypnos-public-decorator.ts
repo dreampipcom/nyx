@@ -6,7 +6,7 @@ import type { ICard } from '@dreampipcom/oneiros';
 /* private */
 const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
   const decd: ICard = {
-    id: `list__card--${listing?.title?.es}`,
+    id: `${listing.id}`,
     className: '',
     title: `${listing?.title?.es}`,
     where: `${listing?.location?.name}`,
