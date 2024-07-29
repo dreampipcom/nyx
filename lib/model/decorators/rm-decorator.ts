@@ -2,7 +2,7 @@
 // rm-decorator.ts input: rm meta; output: decorated rm meta;
 'use server';
 import type { ICard } from '@dreampipcom/oneiros';
-import type { IDCharacter, INCharacter } from '@types';
+import type { INCharacter } from '@types';
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
