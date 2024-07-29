@@ -13,7 +13,7 @@ import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
 
 // to-do: character type annotations
 interface VCharactersListProps {
-  characters: INCharacter[];
+  characters: ICard[];
 }
 
 type VRMListProps = VCharactersListProps;
