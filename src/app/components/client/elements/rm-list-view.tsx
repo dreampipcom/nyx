@@ -1,5 +1,6 @@
 // list-view.tsx
 'use client';
+import type { ICard } from '@dreampipcom/oneiros';
 import type { INCharacter, IDPayload } from '@types';
 
 import { useContext, useEffect, useRef, useMemo } from 'react';
