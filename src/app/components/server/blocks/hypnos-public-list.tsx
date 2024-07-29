@@ -7,12 +7,6 @@ import { HypnosPublicProvider } from '@state';
 
 export const CHPNPList = async () => {
   const listings: ICard[] = await loadHypnosPublicListings();
-  const decoratedListings = listings.map((listing) => ({
-    ...listing,
-    onLike: async (obj) => {
-      await addToFavorites()
-    }
-  }))
 
   return (
     <HypnosPublicProvider>

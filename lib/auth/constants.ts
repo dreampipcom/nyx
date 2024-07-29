@@ -1,5 +1,4 @@
 // constants.ts TS-Doc?
-
 export const providers = [
   { id: 'email', name: 'Email', type: 'email' },
   { id: 'github', name: 'GitHub', type: 'oauth' },
@@ -36,13 +35,14 @@ const methods = {
   },
   getSession: async (params = {}) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/session`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'Cookie': params?.cookie
+          'Cookie': params?.cookies
         },
+        credentials: 'include',
       });
       const session = await response?.json();
       return session;

@@ -2,15 +2,16 @@
 // hypnos/public/actions.ts
 'use server';
 // import type { UserSchema } from '@types';
+import { cookies } from 'next/headers'
 import { getHypnosPublicListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';
 
 export async function loadHypnosPublicListings() {
-  const session = await getSession({});
-  const email = session?.user?.email || '';
+  const session = await getSession({ cookies: cookies().toString() });
+  const user = session?.user;
   const chars = await getHypnosPublicListings({});
-  const decd = await decorateHypnosPublicListings(chars, email);
+  const decd = await decorateHypnosPublicListings(chars, user);
   return decd;
 }
 

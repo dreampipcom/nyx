@@ -61,6 +61,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
         name: user?.name || user?.email,
         avatar: user?.image,
         email: user?.email,
+        user,
       });
       initd.current = true;
     }

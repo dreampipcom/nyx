@@ -7,7 +7,6 @@ import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';
 
 export async function addToFavorites({ listings }) {
-  console.log("action", { listings })
   await updateUserFavoriteListings({ listings });
 
   return { ok: true };

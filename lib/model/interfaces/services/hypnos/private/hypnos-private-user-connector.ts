@@ -50,8 +50,7 @@ async function fetchREPL({ paramsStr, method, listings, token }: any) {
 }
 
 export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]> = async ({ listings }) => {
-  const cookieStore = cookies()
-  const session = await getSession({ cookies: cookieStore.toString() })
+  const session = await getSession()
   const user = session?.user
   const entries = await fetchREPL({ paramsStr: '', method: 'POST', listings });
   const response = entries?.data;

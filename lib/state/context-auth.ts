@@ -6,6 +6,7 @@ import { createContext } from 'react';
 export const AuthContext = createContext<IAuthContext>({
   authd: false,
   name: '',
+  user: {},
   setter: undefined,
   history: [],
 });
