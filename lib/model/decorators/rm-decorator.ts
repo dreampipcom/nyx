@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/consistent-type-assertions:0 */
 // rm-decorator.ts input: rm meta; output: decorated rm meta;
 'use server';
+import type { ICard } from '@dreampipcom/oneiros';
 import type { IDCharacter, INCharacter } from '@types';
 
 /* private */
