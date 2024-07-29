@@ -3,14 +3,12 @@
 'use server';
 import type { ICard } from '@dreampipcom/oneiros';
 import type { INCharacter } from '@types';
-import { ObjectId } from 'bson';
-
-const id  = new ObjectId();
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
+  const id = `list__char--${character?.name}`
   const decd: ICard = {
-    id: id.toString(),
+    id,
     className: '',
     // onLike: () => {},
     title: `${character?.name}`,
@@ -21,7 +19,7 @@ const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
     rating: '3/5',
-    selected: uMeta?.favorites?.includes(character.id),
+    selected: uMeta?.favoritesStrings?.includes(id),
   } as Record<string, any> as ICard;
 
   return decd;
