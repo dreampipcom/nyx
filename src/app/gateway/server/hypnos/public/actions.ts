@@ -2,7 +2,7 @@
 // hypnos/public/actions.ts
 'use server';
 // import type { UserSchema } from '@types';
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 import { getHypnosPublicListings } from '@controller';
 import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';

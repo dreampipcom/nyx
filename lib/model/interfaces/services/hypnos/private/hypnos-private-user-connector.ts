@@ -2,8 +2,8 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
 import type { ICard } from '@dreampipcom/oneiros';
-import { getSession, getCsrf } from '@auth';
-import { cookies } from 'next/headers'
+
+import { cookies } from 'next/headers';
 // const CHARS = `
 // query {
 //   characters() {
@@ -26,18 +26,17 @@ import { cookies } from 'next/headers'
 // }
 // `;
 
-async function fetchREPL({ paramsStr, method, listings, token }: any) {
+async function fetchREPL({ paramsStr, method, listings }: any) {
   // to-do: might be worth hardcoding the api in case too many middleware requests are billed
   try {
-    const cookieStore = cookies()
-    const token = cookieStore.get('authjs.session-token').value
-    const payload = JSON.stringify({ csrfToken: await getCsrf(), listings })
+    const cookieStore = cookies();
+    const cookieString = cookieStore.toString();
+    const payload = JSON.stringify({ listings });
     const req = await fetch(`${process.env.API_HOST}/api/v1/user${paramsStr}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        cookies: cookieStore
+        cookies: cookieString,
       },
       body: payload,
       credentials: 'include',
@@ -50,9 +49,7 @@ async function fetchREPL({ paramsStr, method, listings, token }: any) {
 }
 
 export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]> = async ({ listings }) => {
-  const session = await getSession()
-  const user = session?.user
-  const entries = await fetchREPL({ paramsStr: '', method: 'POST', listings });
+  const entries = await fetchREPL({ paramsStr: '', method: 'PATCH', listings });
   const response = entries?.data;
   return response;
 };

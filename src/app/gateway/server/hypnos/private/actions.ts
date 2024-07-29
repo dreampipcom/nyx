@@ -3,9 +3,6 @@
 'use server';
 // import type { UserSchema } from '@types';
 import { updateUserFavoriteListings } from '@controller';
-import { decorateHypnosPublicListings } from '@model';
-import { getSession } from '@auth';
-
 export async function addToFavorites({ listings }) {
   await updateUserFavoriteListings({ listings });
 
