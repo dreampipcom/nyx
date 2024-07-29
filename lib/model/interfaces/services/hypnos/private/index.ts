@@ -1,2 +1,2 @@
 // index.ts
-export { updateUserFavoriteListings } from './hypnos-public-connector';
+export { updateUserFavoriteListings } from './hypnos-private-user-connector';
