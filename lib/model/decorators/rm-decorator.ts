@@ -5,7 +5,7 @@ import type { IDCharacter, INCharacter } from '@types';
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): IDCharacter => {
-  console.log({ character })
+  console.log({ character });
 
   const decd: ICard = {
     id: `list__char--${character?.name}`,
@@ -29,7 +29,6 @@ const decorateCharacter = (character: INCharacter, uMeta: any): IDCharacter => {
 export const decorateRMCharacters = async (characters: INCharacter[], uMeta: any): Promise<IDCharacter[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
   const decd: IDCharacter[] = characters.map((char) => decorateCharacter(char, uMeta));
-  console.log({ characters, uMeta, decd})
+  console.log({ characters, uMeta, decd });
   return decd;
 };
-
