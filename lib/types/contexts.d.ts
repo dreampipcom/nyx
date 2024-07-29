@@ -9,7 +9,7 @@ export interface History {
 }
 
 export interface INCharacter {
-  id: number;
+  id: string;
   name: string;
   status: string;
   image: string;
