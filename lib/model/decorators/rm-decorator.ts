@@ -5,7 +5,7 @@ import type { ICard } from '@dreampipcom/oneiros';
 import type { IDCharacter, INCharacter } from '@types';
 
 /* private */
-const decorateCharacter = (character: INCharacter, uMeta: any): IDCharacter => {
+const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
   const decd: ICard = {
     id: `list__char--${character?.name}`,
     className: '',
