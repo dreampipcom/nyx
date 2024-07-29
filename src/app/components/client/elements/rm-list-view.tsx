@@ -39,7 +39,7 @@ export const VRMList = ({ characters }: VRMListProps) => {
       const op_2 = await getChars();
       loadChars({ listings: op_2 });
     };
-    facChar({ email, cid }, func);
+    favChar({ email, cid }, func);
   };
 
   useEffect(() => {
