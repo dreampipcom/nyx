@@ -9,10 +9,10 @@ export interface UserDecoration {
   /* temp optional */
   username?: string;
   bio?: string;
-  organizations: DUserOrgAmbiRelation[];
-  rickmorty: {
-    favorites: {
-      characters: INCharacter['id'][];
+  organizations?: DUserOrgAmbiRelation[];
+  rickmorty?: {
+    favorites?: {
+      characters?: INCharacter['id'][];
     };
   };
 }
