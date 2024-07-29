@@ -25,7 +25,7 @@ const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
 };
 
 /* public */
-export const decorateRMCharacters = async (characters: INCharacter[], uMeta: any): Promise<IDCharacter[]> => {
+export const decorateRMCharacters = async (characters: INCharacter[], uMeta: any): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
   const decd: ICard[] = characters.map((char) => decorateCharacter(char, uMeta));
   console.log({ characters, uMeta, decd });
