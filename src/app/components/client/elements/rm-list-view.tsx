@@ -35,11 +35,11 @@ export const VRMList = ({ characters }: VRMListProps) => {
 
   const dispatchAddToFavorites = async (cid?: number) => {
     const func = async (payload: IDPayload) => {
-      await addToFavorites({});
+      await addToFavorites({ listings: [cid] });
       const op_2 = await getChars();
-      loadChars({ characters: op_2 });
+      loadChars({ listings: op_2 });
     };
-    favChar({ email, cid }, func);
+    facChar({ email, cid }, func);
   };
 
   useEffect(() => {
@@ -69,20 +69,12 @@ export const VRMList = ({ characters }: VRMListProps) => {
   }, []);
 
   const adaptedCharsToCards = useMemo(() => {
-    return chars?.map((char) => ({
-      id: `list__char--${char?.name}`,
-      className: '',
+    const res = chars?.map((char) => ({
+      ...char,
       onLike: () => {},
-      title: `${char?.name}`,
-      where: `${char?.location?.name}`,
-      when: `${char?.status}`,
-      image: `${char?.image}`,
-      price: '299€',
-      link: 'https://www.dreampip.com',
-      badgeLink: 'https://www.dreampip.com',
-      rating: '3/5',
-      selected: false,
     }))
+    console.log({ chars, res })
+    return res
   }, [chars]);
 
   if (!authd || !characters) return;

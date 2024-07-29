@@ -5,16 +5,31 @@ import type { IDCharacter, INCharacter } from '@types';
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): IDCharacter => {
-  const decd: IDCharacter = { ...character };
-  decd.favorite = undefined;
-  if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id)) decd.favorite = true;
-  else decd.favorite = false;
+  console.log({ character })
+
+  const decd: ICard = {
+    id: `list__char--${character?.name}`,
+    className: '',
+    // onLike: () => {},
+    title: `${character?.name}`,
+    where: `${character?.location?.name}`,
+    when: `${character?.status}`,
+    image: `${character?.image}`,
+    price: '299€',
+    link: 'https://www.dreampip.com',
+    badgeLink: 'https://www.dreampip.com',
+    rating: '3/5',
+    selected: uMeta?.favorites?.includes(character.id),
+  } as Record<string, any> as ICard;
+
   return decd;
 };
 
 /* public */
-export const decorateRMCharacters = async (characters: INCharacter[], uid: string): Promise<IDCharacter[]> => {
+export const decorateRMCharacters = async (characters: INCharacter[], uMeta: any): Promise<IDCharacter[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
-  const decd: IDCharacter[] = characters.map((char) => decorateCharacter(char, { email: uid }));
+  const decd: IDCharacter[] = characters.map((char) => decorateCharacter(char, uMeta));
+  console.log({ characters, uMeta, decd})
   return decd;
 };
+

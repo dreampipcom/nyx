@@ -2,16 +2,25 @@
 // actions.ts
 'use server';
 // import type { UserSchema } from '@types';
+import { cookies } from 'next/headers';
 import { getRMCharacters } from '@controller';
 import { decorateRMCharacters } from '@model';
 import { getSession } from '@auth';
 
 /* to-do: move to RM directory */
 export async function loadChars() {
-  const session = await getSession({});
-  const email = session?.user?.email || '';
+  const session = await getSession({ cookies: cookies().toString() });
+  const user = session?.user;
   const chars = (await getRMCharacters()).results;
-  const decd = await decorateRMCharacters(chars, email);
+  const decd = await decorateRMCharacters(chars, user);
+  return decd;
+}
+
+export async function loadHypnosPublicListings() {
+  const session = await getSession({ cookies: cookies().toString() });
+  const user = session?.user;
+  const chars = await getHypnosPublicListings({});
+  const decd = await decorateHypnosPublicListings(chars, user);
   return decd;
 }
 
