@@ -16,14 +16,6 @@ export async function loadChars() {
   return decd;
 }
 
-export async function loadHypnosPublicListings() {
-  const session = await getSession({ cookies: cookies().toString() });
-  const user = session?.user;
-  const chars = await getHypnosPublicListings({});
-  const decd = await decorateHypnosPublicListings(chars, user);
-  return decd;
-}
-
 export async function getChars() {
   return await loadChars();
 }
