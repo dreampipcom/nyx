@@ -3,8 +3,8 @@
 'use server';
 // import type { UserSchema } from '@types';
 import { updateUserFavoriteListings } from '@controller';
-export async function addToFavorites({ listings }: any) {
-  await updateUserFavoriteListings({ listings });
+export async function addToFavorites({ listings, type = 'id' }: any) {
+  await updateUserFavoriteListings({ listings, paramsStr: type === 'string' ? '?type=string' : '' });
 
   return { ok: true };
 }

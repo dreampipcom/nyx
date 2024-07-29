@@ -6,8 +6,9 @@ import type { INCharacter } from '@types';
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
+  const id = `list__char--${character?.name}`;
   const decd: ICard = {
-    id: `list__char--${character?.name}`,
+    id,
     className: '',
     // onLike: () => {},
     title: `${character?.name}`,
@@ -18,7 +19,7 @@ const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
     rating: '3/5',
-    selected: uMeta?.favorites?.includes(character.id),
+    selected: uMeta?.favoritesStrings?.includes(id),
   } as Record<string, any> as ICard;
 
   return decd;
@@ -28,6 +29,5 @@ const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
 export const decorateRMCharacters = async (characters: INCharacter[], uMeta: any): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
   const decd: ICard[] = characters.map((char) => decorateCharacter(char, uMeta));
-  console.log({ characters, uMeta, decd });
   return decd;
 };

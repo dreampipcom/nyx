@@ -36,9 +36,9 @@ export const VRMList = ({ characters }: VRMListProps) => {
 
   const dispatchAddToFavorites = async (cid?: number) => {
     const func = async (payload: IDPayload) => {
-      await addToFavorites({ listings: [cid] });
+      await addToFavorites({ listings: [cid], type: 'string' });
       const op_2 = await getChars();
-      loadChars({ listings: op_2 });
+      loadChars({ characters: op_2 });
     };
     favChar({ email, cid }, func);
   };
@@ -72,9 +72,8 @@ export const VRMList = ({ characters }: VRMListProps) => {
   const adaptedCharsToCards = useMemo(() => {
     const res = chars?.map((char) => ({
       ...char,
-      onLike: () => {},
+      // onLike: () => {},
     }))
-    console.log({ chars, res })
     return res
   }, [chars]);
 
@@ -85,7 +84,7 @@ export const VRMList = ({ characters }: VRMListProps) => {
   if (authd) {
     return (
       <article>
-        <DPCardGrid cards={adaptedCharsToCards} theme={theme} />
+        <DPCardGrid cards={adaptedCharsToCards} theme={theme} onLikeCard={dispatchAddToFavorites} />
       </article>
     );
   }
