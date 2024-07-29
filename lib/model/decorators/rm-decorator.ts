@@ -3,11 +3,14 @@
 'use server';
 import type { ICard } from '@dreampipcom/oneiros';
 import type { INCharacter } from '@types';
+import { ObjectId } from 'bson';
+
+const id  = new ObjectId();
 
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
   const decd: ICard = {
-    id: `list__char--${character?.name}`,
+    id: id.toString(),
     className: '',
     // onLike: () => {},
     title: `${character?.name}`,

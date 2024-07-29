@@ -72,9 +72,8 @@ export const VRMList = ({ characters }: VRMListProps) => {
   const adaptedCharsToCards = useMemo(() => {
     const res = chars?.map((char) => ({
       ...char,
-      onLike: () => {},
+      // onLike: () => {},
     }))
-    console.log({ chars, res })
     return res
   }, [chars]);
 
@@ -85,7 +84,7 @@ export const VRMList = ({ characters }: VRMListProps) => {
   if (authd) {
     return (
       <article>
-        <DPCardGrid cards={adaptedCharsToCards} theme={theme} />
+        <DPCardGrid cards={adaptedCharsToCards} theme={theme} onLikeCard={dispatchAddToFavorites} />
       </article>
     );
   }
