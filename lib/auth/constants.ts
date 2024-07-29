@@ -33,7 +33,7 @@ const methods = {
       console.error(e);
     }
   },
-  getSession: async (params = {}) => {
+  getSession: async (params = { cookies: '' }) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`, {
         method: 'GET',
