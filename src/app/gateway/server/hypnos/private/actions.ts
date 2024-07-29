@@ -4,7 +4,6 @@
 // import type { UserSchema } from '@types';
 import { updateUserFavoriteListings } from '@controller';
 export async function addToFavorites({ listings, type = "id" }: any) {
-  console.log("addtouserfav", { type, listings })
   await updateUserFavoriteListings({ listings, paramsStr: type === 'string' ? '?type=string' : '' });
 
   return { ok: true };
