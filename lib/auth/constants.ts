@@ -34,11 +34,17 @@ const methods = {
       console.error(e);
     }
   },
-  getSession: async () => {
+  getSession: async (params = {}) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`, {credentials: 'include'});
-      const session = await response.json();
-      console.log("session ", { response, body: response.body, session })
+      const response = await fetch(`http://localhost:3000/api/auth/session`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Cookie': params?.cookie
+        },
+      });
+      const session = await response?.json();
       return session;
     } catch (e) {
       console.error(e);

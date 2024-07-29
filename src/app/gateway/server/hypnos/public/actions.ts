@@ -7,7 +7,7 @@ import { decorateHypnosPublicListings } from '@model';
 import { getSession } from '@auth';
 
 export async function loadHypnosPublicListings() {
-  const session = await getSession();
+  const session = await getSession({});
   const email = session?.user?.email || '';
   const chars = await getHypnosPublicListings({});
   const decd = await decorateHypnosPublicListings(chars, email);

@@ -10,7 +10,6 @@ export const CHPNPList = async () => {
   const decoratedListings = listings.map((listing) => ({
     ...listing,
     onLike: async (obj) => {
-      console.log("clicked me", { obj })
       await addToFavorites()
     }
   }))

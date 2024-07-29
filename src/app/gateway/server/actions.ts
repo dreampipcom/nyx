@@ -8,7 +8,7 @@ import { getSession } from '@auth';
 
 /* to-do: move to RM directory */
 export async function loadChars() {
-  const session = await getSession();
+  const session = await getSession({});
   const email = session?.user?.email || '';
   const chars = (await getRMCharacters()).results;
   const decd = await decorateRMCharacters(chars, email);

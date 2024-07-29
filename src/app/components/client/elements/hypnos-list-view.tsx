@@ -36,7 +36,6 @@ export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   const { listings: currentListings }: { listings?: ICard[] } = hypnosPublicContext;
 
   const dispatchAddToFavorites = async (cid?: number) => {
-    console.log("add",{ cid })
     const func = async (payload: IDPayload) => {
       await addToFavorites({ listings: [cid] });
       const op_2 = await loadHypnosPublicListings();
