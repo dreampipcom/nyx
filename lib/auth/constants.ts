@@ -1,5 +1,4 @@
 // constants.ts TS-Doc?
-
 export const providers = [
   { id: 'email', name: 'Email', type: 'email' },
   { id: 'github', name: 'GitHub', type: 'oauth' },
@@ -27,17 +26,25 @@ const methods = {
   },
   getCsrf: async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`, { credentials: 'include' });
       const csrf = await response.json();
       return csrf.csrfToken;
     } catch (e) {
       console.error(e);
     }
   },
-  getSession: async () => {
+  getSession: async (params = { cookies: '' }) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`);
-      const session = await response.json();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Cookie: params?.cookies,
+        },
+        credentials: 'include',
+      });
+      const session = await response?.json();
       return session;
     } catch (e) {
       console.error(e);

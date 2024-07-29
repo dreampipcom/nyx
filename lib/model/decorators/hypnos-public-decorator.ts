@@ -6,7 +6,7 @@ import type { ICard } from '@dreampipcom/oneiros';
 /* private */
 const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
   const decd: ICard = {
-    id: `list__card--${listing?.title?.es}`,
+    id: `${listing.id}`,
     className: '',
     title: `${listing?.title?.es}`,
     where: `${listing?.location?.name}`,
@@ -16,18 +16,17 @@ const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
     rating: '3/5',
-    selected: false,
+    selected: uMeta?.favorites?.includes(listing.id),
   } as Record<string, any> as ICard;
   // decd.favorite = undefined;
   // if (uMeta?.rickmorty?.favorites?.characters?.includes(character?.id)) decd.favorite = true;
   // else decd.favorite = false;
-
   return decd;
 };
 
 /* public */
-export const decorateHypnosPublicListings = async (listings: Record<string, any>[], uid: string): Promise<ICard[]> => {
+export const decorateHypnosPublicListings = async (listings: Record<string, any>[], uMeta: any): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
-  const decd: ICard[] = listings?.map((card) => decorateListing(card, { email: uid }));
+  const decd: ICard[] = listings?.map((card) => decorateListing(card, uMeta));
   return decd;
 };

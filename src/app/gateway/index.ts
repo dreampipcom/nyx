@@ -4,7 +4,10 @@
 export { navigate } from './client/actions';
 
 // server
-export { getUser, addToFavorites, loadChars, reloadChars, getChars } from './server/actions';
+export { getUser, loadChars, reloadChars, getChars } from './server/actions';
 
-// smokey-public
+// hypnos-public
 export { loadHypnosPublicListings } from './server/hypnos/public';
+
+// hypnos-private
+export { addToFavorites } from './server/hypnos/private';

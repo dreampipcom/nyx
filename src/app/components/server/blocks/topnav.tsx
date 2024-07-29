@@ -3,6 +3,7 @@
 import type { UserSchema } from '@types';
 import { getSession } from '@auth';
 import { VTopNav } from '@blocks/client';
+import { cookies } from 'next/headers';
 
 interface ITopNavProps {
   user?: UserSchema | undefined;
@@ -21,7 +22,10 @@ interface IAuthProviders {
 }
 
 export const CTopNav = async ({ user }: ITopNavProps) => {
-  const session = await getSession();
+  const cookieStore = cookies().getAll();
+  const cookieStr = cookieStore.toString();
+
+  const session = await getSession({ cookies: cookieStr });
   return <div>
     <VTopNav user={session?.user} />
   </div>;

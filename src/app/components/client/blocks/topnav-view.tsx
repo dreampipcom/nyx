@@ -43,9 +43,10 @@ export const VTopNav = ({ user }: VTopNavProps) => {
     if (!isUserLoaded && _user && !initd.current) {
       loadUser({
         authd: true,
-        name: user?.name || user?.email,
-        avatar: user?.image,
-        email: user?.email,
+        name: _user?.name || _user?.email,
+        avatar: _user?.image,
+        email: _user?.email,
+        user: _user,
       });
       initd.current = true;
     }

@@ -9,7 +9,7 @@ export interface History {
 }
 
 export interface INCharacter {
-  id: number;
+  id: string;
   name: string;
   status: string;
   image: string;
@@ -31,7 +31,7 @@ export interface IAuthContext extends History {
   authd?: boolean;
   name?: string;
   email?: string;
-  meta?: UserSchema;
+  user?: UserSchema;
 }
 
 export interface IGlobalContext extends History {

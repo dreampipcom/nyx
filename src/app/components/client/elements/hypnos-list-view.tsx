@@ -22,7 +22,7 @@ type VHPNPListingProps = VListingListProps;
 export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   const hypnosPublicContext = useContext(HypnosPublicContext);
 
-  const { authd, email } = useContext(AuthContext);
+  const { authd, email, user } = useContext(AuthContext);
 
   const globalContext = useContext(GlobalContext);
   const { theme } = globalContext;
@@ -37,9 +37,9 @@ export const VHPNPList = ({ listings }: VHPNPListingProps) => {
 
   const dispatchAddToFavorites = async (cid?: number) => {
     const func = async (payload: IDPayload) => {
-      await addToFavorites();
+      await addToFavorites({ listings: [cid] });
       const op_2 = await loadHypnosPublicListings();
-      loadListings({ characters: op_2 });
+      loadListings({ listings: op_2 });
     };
     favListing({ email, cid }, func);
   };
@@ -77,7 +77,7 @@ export const VHPNPList = ({ listings }: VHPNPListingProps) => {
   if (authd) {
     return (
       <article>
-        <DPCardGrid cards={currentListings} theme={theme} />
+        <DPCardGrid cards={currentListings} theme={theme} onLikeCard={dispatchAddToFavorites} />
       </article>
     );
   }
