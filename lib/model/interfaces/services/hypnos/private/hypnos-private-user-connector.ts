@@ -48,7 +48,10 @@ async function fetchREPL({ paramsStr, method, listings }: any) {
   }
 }
 
-export const updateUserFavoriteListings: () => Promise<ICard[]> = async ({ listings, paramsStr = '' }) => {
+export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]> = async ({
+  listings,
+  paramsStr = '',
+}: any) => {
   const entries = await fetchREPL({ paramsStr, method: 'PATCH', listings });
   const response = entries?.data;
   return response;
