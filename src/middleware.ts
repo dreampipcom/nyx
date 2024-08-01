@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
       path: '/',
       secure: true,
     });
-    // console.log({ pkce, response, to: request.nextUrl.pathname });
+    console.log({ pkce, response, to: request.nextUrl.pathname });
   }
 
   return NextResponse.rewrite(
