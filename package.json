@@ -18,7 +18,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@dreampipcom/oneiros": "0.0.10",
+    "@dreampipcom/oneiros": "0.0.12",
     "@sentry/nextjs": "7.118.0",
     "next": "14.2.4",
     "react": "18",
