@@ -6,7 +6,7 @@ import { useContext, useRef, useEffect, useState, useMemo } from 'react';
 import { AuthContext, GlobalContext } from '@state';
 import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
-import { Button as DPButton, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
+import { AudioPlayer, Button as DPButton, EGridVariant, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
 import { VSignIn, InternalLink } from '@elements/client';
 
 interface IAuthProvider {
@@ -62,7 +62,7 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 
   return (
     <DPGrid bleed={EBleedVariant.RESPONSIVE} theme={theme}>
-      <div className="col-span-6 md:col-span-2">
+      <div className="col-start-0 col-span-6 md:col-span-2">
         <DPTypo variant={TypographyVariant.SMALL}>
         	Welcome, {coercedName}
         </DPTypo>
@@ -73,8 +73,13 @@ export const VTopNav = ({ user }: VTopNavProps) => {
           hypnos
         </InternalLink>
       </div>
-      <VSignIn className="col-span-5 sm:col-span-5 lg:col-span-1 md:col-span-1 md:col-start-7 lg:col-start-7" user={_user} />
-      <DPButton theme={theme} className="col-span-1 sm:col-span-1 lg:col-span-1 md:col-span-1 md:col-start-8 lg:col-start-8" icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
+      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-9 lg:col-start-10 lg:col-span-2" user={_user} />
+      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-4 md:col-start-12 lg:col-span-4 lg:col-start-12">
+        <div className="flex w-full sm:justify-end">
+          <AudioPlayer prompt="" theme={theme} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
+        </div>
+      </DPGrid>
     </DPGrid>
   );
 };
