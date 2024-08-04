@@ -8,10 +8,10 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  const pkce = request.cookies.get('next-auth.pkce.code_verifier')
+  const pkce = request.cookies.get('next-auth.pkce.code_verifier');
 
   if (pkce?.value) {
-    response.cookies.set("next-auth.pkce.code_verifier", pkce.value, {
+    response.cookies.set('next-auth.pkce.code_verifier', pkce.value, {
       httpOnly: true,
       sameSite: 'none',
       path: '/',
@@ -24,6 +24,6 @@ export function middleware(request: NextRequest) {
     new URL(
       `${process.env.REMOTE_DEV ? process.env.API_HOST_DEV : process.env.API_HOST}${request.nextUrl.pathname}${request.nextUrl.search}`,
     ),
-    response
+    response,
   );
 }
