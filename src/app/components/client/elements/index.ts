@@ -5,4 +5,5 @@ export { VUserSettings } from './usersettings-view';
 export { VSignIn } from './signin-view';
 export { VSignUp } from './signup-view';
 export { VRMList } from './rm-list-view';
+export { DPLinkDec as InternalLink } from './link-decorator';
 export { VHPNPList } from './hypnos-list-view';
