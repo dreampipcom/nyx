@@ -14,11 +14,11 @@ import { CalendarView } from "@dreampipcom/oneiros";
 // to-do: character type annotations
 interface VCalendarProps {
   listings: ICard[];
-  favListing?: (conf?: any) => void;
-  fetchListings?: (conf?: any) => void;
-  loadListings?: (conf?: any) => void;
-  decListings?: (conf?: any) => void;
-  unloadListings?: (conf?: any) => void;
+  favListing?: (conf?: any) => any;
+  fetchListings?: (conf?: any) => any;
+  loadListings?: (conf?: any) => any;
+  decListings?: (conf?: any) => any;
+  unloadListings?: (conf?: any) => any;
   favoriteType?: string;
   listingContext?: any;
 }
