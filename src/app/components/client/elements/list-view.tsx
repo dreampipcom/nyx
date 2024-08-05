@@ -12,15 +12,15 @@ import { navigate, addToFavorites } from '@gateway';
 import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
 
 // to-do: character type annotations
-interface VListingListProps {
+interface VCalendarProps {
   listings: ICard[];
-  favListing?: () => void;
-  fetchListings?: () => void;
-  loadListings?: () => void;
-  decListings?: () => void;
-  unloadListings?: () => void;
+  favListing: (conf?: any) => any;
+  fetchListings: (conf?: any) => any;
+  loadListings: (conf?: any) => any;
+  decListings: (conf?: any) => any;
+  unloadListings: (conf?: any) => any;
   favoriteType?: string;
-  listingContext?: any;
+  listingContext: any;
 }
 
 type VHPNPListingProps = VListingListProps;
