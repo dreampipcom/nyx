@@ -66,10 +66,10 @@ export const VTopNav = ({ user }: VTopNavProps) => {
         <DPTypo variant={TypographyVariant.SMALL}>
         	Welcome, {coercedName}
         </DPTypo>
-        <InternalLink href="/services/rickmorty">
+        <InternalLink className="block" href="/services/rickmorty">
           Rick Morty
         </InternalLink>
-        <InternalLink href="/services/hypnos">
+        <InternalLink className="block" href="/services/hypnos">
           hypnos
         </InternalLink>
       </div>

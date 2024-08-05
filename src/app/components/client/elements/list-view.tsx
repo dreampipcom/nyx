@@ -48,7 +48,6 @@ export const VHPNPList = ({ listings, fetchListings, favListing, loadListings, d
   const dispatchAddToFavorites = async (cid?: number) => {
     const func = async (payload: IDPayload) => {
       const res = await addToFavorites({ listings: [cid], type: favoriteType });
-      console.log({ res })
       const op_2 = await fetchListings();
       _loadListings({ listings: op_2 });
     };

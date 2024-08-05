@@ -7,77 +7,87 @@ import { useContext, useEffect, useRef, useMemo } from 'react';
 
 import { clsx } from 'clsx';
 import Image from 'next/image';
-import { HypnosPublicContext, AuthContext, GlobalContext } from '@state';
-import { ALoadPublicListings, AUnloadPublicListings, ADecoratePublicListings, AAddToFavoritePublicListings } from '@actions';
-import { navigate, addToFavorites, loadHypnosPublicListings } from '@gateway';
-import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
+import { AuthContext, GlobalContext } from '@state';
+import { navigate, addToFavorites } from '@gateway';
+import { CalendarView } from "@dreampipcom/oneiros";
 
 // to-do: character type annotations
-interface VListingListProps {
+interface VCalendarProps {
   listings: ICard[];
+  addToFavorites?: () => void;
+  fetchListings?: () => void;
+  loadListings?: () => void;
+  decListings?: () => void;
+  unloadListings?: () => void;
+  favoriteType?: string;
+  listingContext?: any;
 }
 
-type VHPNPCalendarProps = VListingListProps;
+type VHPNPCalendarProps = VCalendarProps;
 
-export const VHPNPCalendar = ({ listings }: VHPNPCalendarProps) => {
-  const hypnosPublicContext = useContext(HypnosPublicContext);
+export const VHPNPCalendar = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, isListingsLoaded, listingContext, favoriteType }: VHPNPCalendarProps) => {
+  const [_isListingsLoaded, _loadListings] = loadListings({});
+  const [, _decListings] = decListings({});
+  const [, _unloadListings] = unloadListings({});
+  const [, _favListing] = favListing({});
+
+  const _listingContext = useContext(listingContext);
 
   const { authd, email, user } = useContext(AuthContext);
 
   const globalContext = useContext(GlobalContext);
   const { theme } = globalContext;
 
-  const [isListingsLoaded, loadListings] = ALoadPublicListings({});
-  const [, decListings] = ADecoratePublicListings({});
-  const [, unloadListings] = AUnloadPublicListings({});
-  const [, favListing] = AAddToFavoritePublicListings({});
   const initd = useRef(false);
 
-  const { listings: currentListings }: { listings?: ICard[] } = hypnosPublicContext;
+  if (!listingContext) return;
+
+  const { listings: currentListings }: { listings?: ICard[] } = _listingContext;
+
 
   const dispatchAddToFavorites = async (cid?: number) => {
     const func = async (payload: IDPayload) => {
-      await addToFavorites({ listings: [cid] });
-      const op_2 = await loadHypnosPublicListings();
-      loadListings({ listings: op_2 });
+      const res = await addToFavorites({ listings: [cid], type: favoriteType });
+      const op_2 = await fetchListings();
+      _loadListings({ listings: op_2 });
     };
-    favListing({ email, cid }, func);
+    _favListing({ email, cid }, func);
   };
 
   useEffect(() => {
-    if (authd && listings && !isListingsLoaded && !initd.current) {
-      loadListings({
+    if (authd && listings && !_isListingsLoaded && !initd.current) {
+      _loadListings({
         listings: listings as ICard[],
       });
       initd.current = true;
     }
-  }, [listings, isListingsLoaded, loadListings, authd]);
+  }, [listings, _isListingsLoaded, _loadListings, authd]);
 
   useEffect(() => {
-    if (authd && isListingsLoaded) {
-      decListings({ action: {} });
+    if (authd && _isListingsLoaded) {
+      _decListings({ action: {} });
 
       return () => {
         // to-do decorate clean up
       };
     }
-  }, [isListingsLoaded, authd]);
+  }, [_isListingsLoaded, authd]);
 
   useEffect(() => {
-    if (!isListingsLoaded) return;
+    if (!_isListingsLoaded) return;
     return () => {
-      unloadListings();
+      _unloadListings();
     };
   }, []);
 
   if (!authd || !listings) return;
 
-  if (!isListingsLoaded && !listings) return <span>Loading...</span>;
+  if (!_isListingsLoaded && !listings) return <span>Loading...</span>;
 
   if (authd) {
     return (
       <article>
-        <DPCardGrid cards={currentListings} theme={theme} onLikeCard={dispatchAddToFavorites} />
+        <CalendarView cards={currentListings} theme={theme} />
       </article>
     );
   }
