@@ -4,16 +4,16 @@
 
 export async function fetchWithTimeout(resource, options = {}) {
   const { timeout = 3000 } = options;
-  
+
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
   const promise = await fetch(resource, {
     ...options,
-    signal: controller.signal  
+    signal: controller.signal,
   });
 
-  const response = promise
+  const response = promise;
   clearTimeout(id);
 
   return response;
