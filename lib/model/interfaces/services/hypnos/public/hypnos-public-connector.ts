@@ -1,6 +1,7 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
 import type { ICard } from '@dreampipcom/oneiros';
+import { fetchWithTimeout } from '../../../helpers';
 // const CHARS = `
 // query {
 //   characters() {
@@ -26,7 +27,7 @@ import type { ICard } from '@dreampipcom/oneiros';
 async function fetchREPL({ paramsStr }: any) {
   // to-do: might be worth hardcoding the api in case too many middleware requests are billed
   try {
-    const response = await fetch(`${process.env.API_HOST}/api/v1/public${paramsStr}`, {
+    const response = await fetchWithTimeout(`${process.env.API_HOST}/api/v1/public${paramsStr}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
