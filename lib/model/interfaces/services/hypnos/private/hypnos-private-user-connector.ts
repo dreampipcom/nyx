@@ -2,8 +2,8 @@
 // rm-connector.ts
 // to-do: use prisma for graph type
 import type { ICard } from '@dreampipcom/oneiros';
-
 import { cookies } from 'next/headers';
+import { fetchWithTimeout } from '../../../helpers';
 // const CHARS = `
 // query {
 //   characters() {
@@ -32,7 +32,7 @@ async function fetchREPL({ paramsStr, method, listings }: any) {
     const cookieStore = cookies();
     const cookieString = cookieStore.toString();
     const payload = JSON.stringify({ listings });
-    const req = await fetch(`${process.env.API_HOST}/api/v1/user${paramsStr}`, {
+    const req = await fetchWithTimeout(`${process.env.API_HOST}/api/v1/user${paramsStr}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
