@@ -73,10 +73,13 @@ export const VTopNav = ({ user }: VTopNavProps) => {
           hypnos
         </InternalLink>
       </div>
-      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-9 lg:col-start-10 lg:col-span-2" user={_user} />
-      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-4 md:col-start-12 lg:col-span-4 lg:col-start-12">
+      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-6 lg:col-start-8 lg:col-span-2" user={_user} />
+      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-6 md:col-start-12 lg:col-span-6 lg:col-start-12">
         <div className="flex w-full sm:justify-end">
           <AudioPlayer prompt="" theme={theme} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['card']} onClick={() => navigate(document.location.href.replace(/(map|calendar)/, 'list'))} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['map']} onClick={() => navigate(document.location.href.replace(/(list|calendar)/, 'map'))} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['calendar']} onClick={() => navigate(document.location.href.replace(/(list|map)/, 'calendar'))} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
         </div>
       </DPGrid>
