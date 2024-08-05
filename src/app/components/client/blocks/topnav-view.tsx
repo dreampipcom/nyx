@@ -76,7 +76,7 @@ export const VTopNav = ({ user }: VTopNavProps) => {
       <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-9 lg:col-start-10 lg:col-span-2" user={_user} />
       <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-4 md:col-start-12 lg:col-span-4 lg:col-start-12">
         <div className="flex w-full sm:justify-end">
-          <AudioPlayer autoPlay={false} prompt="" theme={theme} />
+          <AudioPlayer prompt="" theme={theme} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
         </div>
       </DPGrid>
