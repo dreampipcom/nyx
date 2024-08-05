@@ -14,7 +14,7 @@ import { MapView } from "@dreampipcom/oneiros";
 // to-do: character type annotations
 interface VMapProps {
   listings: ICard[];
-  addToFavorites?: () => void;
+  favListing?: () => void;
   fetchListings?: () => void;
   loadListings?: () => void;
   decListings?: () => void;

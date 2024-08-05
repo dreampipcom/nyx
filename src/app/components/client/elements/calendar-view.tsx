@@ -14,7 +14,7 @@ import { CalendarView } from "@dreampipcom/oneiros";
 // to-do: character type annotations
 interface VCalendarProps {
   listings: ICard[];
-  addToFavorites?: () => void;
+  favListing?: () => void;
   fetchListings?: () => void;
   loadListings?: () => void;
   decListings?: () => void;

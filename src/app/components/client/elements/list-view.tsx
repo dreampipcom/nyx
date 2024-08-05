@@ -14,7 +14,7 @@ import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
 // to-do: character type annotations
 interface VListingListProps {
   listings: ICard[];
-  addToFavorites?: () => void;
+  favListing?: () => void;
   fetchListings?: () => void;
   loadListings?: () => void;
   decListings?: () => void;
