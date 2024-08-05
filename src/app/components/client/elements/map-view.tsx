@@ -1,5 +1,5 @@
 // hypnos-list-view.tsx
-// @ts-ignore
+// @ts-nocheck
 'use client';
 import type { ICard } from '@dreampipcom/oneiros';
 import type { IDPayload } from '@types';
@@ -13,7 +13,7 @@ import { navigate, addToFavorites } from '@gateway';
 import { MapView } from "@dreampipcom/oneiros";
 
 // to-do: character type annotations
-interface VCalendarProps {
+interface VMapProps {
   listings: ICard[];
   favListing: (conf?: any) => any;
   fetchListings: (conf?: any) => any;
