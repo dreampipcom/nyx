@@ -14,15 +14,15 @@ const nextConfig = {
   async redirects() {
     return [
       {
-          source: '/services/hypnos',
-          destination: '/services/hypnos/list',
-          permanent: false
+        source: '/services/hypnos',
+        destination: '/services/hypnos/list',
+        permanent: false,
       },
       {
-          source: '/services/rickmorty',
-          destination: '/services/rickmorty/list',
-          permanent: false
-      }
+        source: '/services/rickmorty',
+        destination: '/services/rickmorty/list',
+        permanent: false,
+      },
     ];
   },
 };

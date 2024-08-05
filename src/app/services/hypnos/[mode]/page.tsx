@@ -2,7 +2,7 @@
 import { DPPublicListings } from '@blocks/server';
 
 export default function Home({ params }) {
-  const mode  = params.mode || "list"
+  const mode = params.mode || 'list';
   return (
     <main>
       <section>

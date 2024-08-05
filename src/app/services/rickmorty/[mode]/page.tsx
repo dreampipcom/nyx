@@ -2,11 +2,11 @@
 import { DPRMList } from '@blocks/server';
 
 export default function Home({ params }) {
-  const mode  = params.mode || "list"
+  const mode = params.mode || 'list';
   return (
     <main>
       <section>
-        <DPRMList />
+        <DPRMList mode={mode} />
       </section>
     </main>
   );
