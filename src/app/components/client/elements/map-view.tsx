@@ -25,7 +25,7 @@ interface VMapProps {
 
 type VHPNPMapProps = VMapProps;
 
-export const VHPNPMap = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, isListingsLoaded, listingContext, favoriteType }: VHPNPMapProps) => {
+export const VHPNPMap = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, listingContext, favoriteType }: VHPNPMapProps) => {
   const [_isListingsLoaded, _loadListings] = loadListings({});
   const [, _decListings] = decListings({});
   const [, _unloadListings] = unloadListings({});

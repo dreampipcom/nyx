@@ -25,7 +25,7 @@ interface VListingListProps {
 
 type VHPNPListingProps = VListingListProps;
 
-export const VHPNPList = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, isListingsLoaded, listingContext, favoriteType }: VHPNPListingProps) => {
+export const VHPNPList = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, listingContext, favoriteType }: VHPNPListingProps) => {
   const [_isListingsLoaded, _loadListings] = loadListings({});
   const [, _decListings] = decListings({});
   const [, _unloadListings] = unloadListings({});
