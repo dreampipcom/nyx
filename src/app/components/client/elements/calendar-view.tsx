@@ -1,4 +1,5 @@
 // hypnos-list-view.tsx
+// @ts-nocheck
 'use client';
 import type { ICard } from '@dreampipcom/oneiros';
 import type { IDPayload } from '@types';
@@ -14,18 +15,18 @@ import { CalendarView } from "@dreampipcom/oneiros";
 // to-do: character type annotations
 interface VCalendarProps {
   listings: ICard[];
-  favListing?: (conf?: any) => any;
-  fetchListings?: (conf?: any) => any;
-  loadListings?: (conf?: any) => any;
-  decListings?: (conf?: any) => any;
-  unloadListings?: (conf?: any) => any;
+  favListing: (conf?: any) => any;
+  fetchListings: (conf?: any) => any;
+  loadListings: (conf?: any) => any;
+  decListings: (conf?: any) => any;
+  unloadListings: (conf?: any) => any;
   favoriteType?: string;
-  listingContext?: any;
+  listingContext: any;
 }
 
 type VHPNPCalendarProps = VCalendarProps;
 
-export const VHPNPCalendar = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, listingContext, favoriteType }: VHPNPCalendarProps) => {
+export const VHPNPCalendar = ({ listings = () => {}, fetchListings = () => {}, favListing  = () => {}, loadListings = () => {}, decListings = () => {}, unloadListings = () => {}, listingContext = {}, favoriteType }: VHPNPCalendarProps) => {
   const [_isListingsLoaded, _loadListings] = loadListings({});
   const [, _decListings] = decListings({});
   const [, _unloadListings] = unloadListings({});

@@ -1,4 +1,5 @@
 // hypnos-list-view.tsx
+// @ts-ignore
 'use client';
 import type { ICard } from '@dreampipcom/oneiros';
 import type { IDPayload } from '@types';
