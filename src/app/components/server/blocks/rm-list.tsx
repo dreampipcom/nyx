@@ -2,7 +2,7 @@
 'use server';
 import type { ICard } from '@dreampipcom/oneiros';
 import { ListView } from '@elements/client';
-import { loadChars, addToFavorites } from '@gateway';
+import { loadChars, getChars } from '@gateway';
 import { RickMortyProvider, RMContext } from '@state';
 import { ALoadChars, AUnloadChars, ADecorateChars, AAddToFavoriteChars} from '@actions';
 
@@ -11,7 +11,7 @@ export const CRMList = async () => {
 
   return (
     <RickMortyProvider>
-      <ListView listings={characters} fetchListings={loadChars} loadListings={ALoadChars} decListings={ADecorateChars} unloadListings={AUnloadChars} listingContext={RMContext} addToFavorites={AAddToFavoriteChars} />
+      <ListView listings={characters} favoriteType="string" fetchListings={getChars} loadListings={ALoadChars} decListings={ADecorateChars} unloadListings={AUnloadChars} listingContext={RMContext} favListing={AAddToFavoriteChars} />
     </RickMortyProvider>
   );
 };

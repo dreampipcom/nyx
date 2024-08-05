@@ -5,7 +5,7 @@ import { createContext } from 'react';
 
 export const RMContext = createContext<IRMContext>({
   initd: false,
-  characters: [],
+  listings: [],
   setter: undefined,
   history: [],
 });

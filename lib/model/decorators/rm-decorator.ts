@@ -7,6 +7,7 @@ import type { INCharacter } from '@types';
 /* private */
 const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
   const id = `list__char--${character?.name}`;
+  console.log({ character, uMeta })
   const decd: ICard = {
     id,
     className: '',

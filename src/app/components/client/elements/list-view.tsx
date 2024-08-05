@@ -8,7 +8,7 @@ import { useContext, useEffect, useRef, useMemo } from 'react';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 import { AuthContext, GlobalContext } from '@state';
-import { navigate } from '@gateway';
+import { navigate, addToFavorites } from '@gateway';
 import { CardGrid as DPCardGrid } from "@dreampipcom/oneiros";
 
 // to-do: character type annotations
@@ -19,16 +19,17 @@ interface VListingListProps {
   loadListings?: () => void;
   decListings?: () => void;
   unloadListings?: () => void;
+  favoriteType?: string;
   listingContext?: any;
 }
 
 type VHPNPListingProps = VListingListProps;
 
-export const VHPNPList = ({ listings, fetchListings, addToFavorites, loadListings, decListings, unloadListings, isListingsLoaded, listingContext }: VHPNPListingProps) => {
+export const VHPNPList = ({ listings, fetchListings, favListing, loadListings, decListings, unloadListings, isListingsLoaded, listingContext, favoriteType }: VHPNPListingProps) => {
   const [_isListingsLoaded, _loadListings] = loadListings({});
   const [, _decListings] = decListings({});
   const [, _unloadListings] = unloadListings({});
-  const [, favListing] = addToFavorites({});
+  const [, _favListing] = favListing({});
 
   const _listingContext = useContext(listingContext);
 
@@ -37,21 +38,22 @@ export const VHPNPList = ({ listings, fetchListings, addToFavorites, loadListing
   const globalContext = useContext(GlobalContext);
   const { theme } = globalContext;
 
-  const dispatchAddToFavorites = async (cid?: number) => {
-    const func = async (payload: IDPayload) => {
-      await addToFavorites({ listings: [cid] });
-      const op_2 = await fetchListings();
-      _loadListings({ listings: op_2 });
-    };
-    favListing({ email, cid }, func);
-  };
-
-
   const initd = useRef(false);
 
   if (!listingContext) return;
 
   const { listings: currentListings }: { listings?: ICard[] } = _listingContext;
+
+
+  const dispatchAddToFavorites = async (cid?: number) => {
+    const func = async (payload: IDPayload) => {
+      const res = await addToFavorites({ listings: [cid], type: favoriteType });
+      console.log({ res })
+      const op_2 = await fetchListings();
+      _loadListings({ listings: op_2 });
+    };
+    _favListing({ email, cid }, func);
+  };
 
   useEffect(() => {
     if (authd && listings && !_isListingsLoaded && !initd.current) {
