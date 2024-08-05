@@ -2,7 +2,7 @@
 // to-do: let's make an @helpers alias!
 // import { NexusDB } from "@controller"
 
-export async function fetchWithTimeout(resource: string, options = {}) {
+export async function fetchWithTimeout(resource: string, options: any) {
   const { timeout = 3000 } = options;
 
   const controller = new AbortController();
