@@ -12,7 +12,18 @@ const nextConfig = {
     ],
   },
   async redirects() {
-    return [];
+    return [
+      {
+        source: '/services/hypnos',
+        destination: '/services/hypnos/list',
+        permanent: false,
+      },
+      {
+        source: '/services/rickmorty',
+        destination: '/services/rickmorty/list',
+        permanent: false,
+      },
+    ];
   },
 };
 
