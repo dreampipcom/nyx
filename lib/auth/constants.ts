@@ -11,7 +11,7 @@ const methods = {
   signIn: () => {},
   signOut: async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/signout`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/signout`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -25,9 +25,16 @@ const methods = {
     }
   },
   getCsrf: async () => {
+    console.log('GETTING CSTF');
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/csrf`, { credentials: 'include' });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/csrf`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
       const csrf = await response.json();
+      console.log({ response, csrf });
       return csrf.csrfToken;
     } catch (e) {
       console.error(e);
@@ -35,11 +42,10 @@ const methods = {
   },
   getSession: async (params = { cookies: '' }) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/auth/session`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/session`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
           Cookie: params?.cookies,
         },
         credentials: 'include',

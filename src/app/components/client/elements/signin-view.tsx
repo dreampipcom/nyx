@@ -45,5 +45,5 @@ export const VSignIn = ({ user }: VSignInProps) => {
       </div>
     );
 
-  return <DPButton onClick={() => navigate('/api/auth/signin')}>Sign in</DPButton>;
+  return <DPButton onClick={() => navigate('/api/v1/auth/signin')}>Sign in</DPButton>;
 };
