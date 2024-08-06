@@ -54,7 +54,10 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
-    getCsrf().then((_csrf) => setCsrf(_csrf));
+      getCsrf().then((_csrf) => setCsrf(_csrf));
+  }, [csrf]);
+
+  useEffect(() => {
     if (!isUserLoaded && user && !initd.current) {
       loadUser({
         authd: true,
