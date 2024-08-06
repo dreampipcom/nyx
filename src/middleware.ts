@@ -6,9 +6,23 @@ export const config = {
   matcher: ['/api/:path*'],
 };
 
+const headers: Record<string, any> = {
+  // 'Access-Control-Allow-Origin': process.env.MAIN_URL || 'https://alpha.dreampip.com',
+  // 'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300',
+  // DEV-DEBUG:
+  // 'content-type': 'application/json',
+  'Access-Control-Allow-Origin': 'http://localhost:2999',
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Headers': '*'
+};
+
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const pkce = request.cookies.get('next-auth.pkce.code_verifier');
+
+  Object.keys(headers).forEach((key: string) => {
+    response.headers.set(key, headers[key]);
+  });
 
   if (pkce?.value) {
     response.cookies.set('next-auth.pkce.code_verifier', pkce.value, {
