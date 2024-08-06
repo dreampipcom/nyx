@@ -55,7 +55,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   useEffect(() => {
     if(!csrf) getCsrf().then((_csrf) => setCsrf(_csrf));
-  }, [csrf])
+  }, [csrf]);
 
   useEffect(() => {
     if (!isUserLoaded && user && !initd.current) {
