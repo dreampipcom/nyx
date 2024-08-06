@@ -11,7 +11,7 @@ const headers: Record<string, any> = {
   // 'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300',
   // DEV-DEBUG:
   // 'content-type': 'application/json',
-  'Access-Control-Allow-Origin': 'http://localhost:2999',
+  'Access-Control-Allow-Origin': 'https://beta.dreampip.com',
   'Access-Control-Allow-Credentials': 'true',
   'Access-Control-Allow-Headers': '*'
 };

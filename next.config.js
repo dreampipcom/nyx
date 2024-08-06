@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
 const nextConfig = {
-  assetPrefix: 'http://localhost:3000',
+  assetPrefix: 'https://nyx.dreampip.com',
   transpilePackages: ['next-auth'],
   images: {
     remotePatterns: [
