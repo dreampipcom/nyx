@@ -13,7 +13,7 @@ const headers: Record<string, any> = {
   // 'content-type': 'application/json',
   'Access-Control-Allow-Origin': 'https://beta.dreampip.com',
   'Access-Control-Allow-Credentials': 'true',
-  'Access-Control-Allow-Headers': '*'
+  'Access-Control-Allow-Headers': '*',
 };
 
 export function middleware(request: NextRequest) {
