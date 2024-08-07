@@ -58,7 +58,6 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
         const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
           if (!_csrf) {
             getCsrf().then((__csrf) => {
-              console.log("GETCSRF")
               setCsrf(__csrf?.split("|")[0] || "");
             })
           } else {
