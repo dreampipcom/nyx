@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { signIn, signOut, getCsrf } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
-import { navigate, setCookie } from '@gateway';
+import { navigate, setCookie, getCookie } from '@gateway';
 import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
 
 interface IAuthProvider {
@@ -32,7 +32,7 @@ async function doSignIn() {
 
 
 export const VSignUp = ({ providers, user }: VSignUpProps) => {
-  const [csrf, setCsrf] = useState();
+  const [csrf, setCsrf] = useState("");
   const authContext = useContext(AuthContext);
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
@@ -45,7 +45,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const oauth = _providers.slice(1, providers.length)
   const defaultP = _providers[0]
 
-  const signInUrl = '/api/auth/signin'
+  const signInUrl = '/api/v1/auth/signin'
 
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
@@ -54,10 +54,11 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
-      getCsrf().then((_csrf) => {
-        setCsrf(_csrf);
-        setCookie({ name: '__Host-authjs.csrf-token', value: _csrf });
-      });
+      if(!csrf) {
+        const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
+          setCsrf(_csrf?.value || "");
+        });
+     }
   }, [csrf]);
 
   useEffect(() => {
