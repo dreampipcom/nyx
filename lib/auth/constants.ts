@@ -49,6 +49,7 @@ const methods = {
           Cookie: params?.cookies,
         },
         credentials: 'include',
+        cache: 'no-store',
       });
       const session = await response?.json();
       return session;

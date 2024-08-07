@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { signIn, signOut, getCsrf } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
-import { navigate } from '@gateway';
+import { navigate, setCookie } from '@gateway';
 import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
 
 interface IAuthProvider {
@@ -54,7 +54,12 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
-    if(!csrf) getCsrf().then((_csrf) => setCsrf(_csrf));
+      if(!csrf) {
+        getCsrf().then((_csrf) => {
+          setCsrf(_csrf);
+          setCookie({ name: '__Host-authjs.csrf-token', value: _csrf });
+        });
+     }
   }, [csrf]);
 
   useEffect(() => {
