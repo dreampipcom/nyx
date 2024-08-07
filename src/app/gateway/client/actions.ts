@@ -9,5 +9,5 @@ export async function navigate(url: string) {
 
 export async function setCookie({ name, value }: { name: string; value: string }) {
   // Set cookie
-  cookies().set(name, value);
+  cookies().set(name, value, { secure: true });
 }
