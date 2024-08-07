@@ -32,7 +32,7 @@ async function doSignIn() {
 
 
 export const VSignUp = ({ providers, user }: VSignUpProps) => {
-  const [csrf, setCsrf] = useState();
+  const [csrf, setCsrf] = useState("");
   const authContext = useContext(AuthContext);
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
