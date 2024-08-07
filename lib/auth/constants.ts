@@ -32,6 +32,7 @@ const methods = {
         headers: {
           Accept: 'application/json',
         },
+        credentials: 'include',
       });
       const csrf = await response.json();
       console.log({ response, csrf });

@@ -36,7 +36,9 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 
   // !make it isomorphic again with cookies
   useEffect(() => {
-    getSession().then((session) => setUser(session?.user));
+    getSession().then((session) => {
+      setUser(session?.user)
+    });
   }, []);
 
   useEffect(() => {
