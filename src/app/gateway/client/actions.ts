@@ -9,11 +9,11 @@ export async function navigate(url: string) {
 
 export async function setCookie({ name, value }: { name: string; value: string }) {
   // Set cookie
-  const cookiesStore = cookies()
+  const cookiesStore = cookies();
   const currentCookies = cookiesStore.getAll();
-  console.log({ currentCookies })
+  console.log({ currentCookies });
   cookiesStore.set(name, value, { secure: true });
-  console.log({ nextCookies: currentCookies })
+  console.log({ nextCookies: currentCookies });
 }
 
 export async function getCookie({ name }: { name: string }) {
