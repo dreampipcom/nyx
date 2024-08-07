@@ -4,6 +4,7 @@
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
+import { useLocalStorage } from '@hooks';
 import { Globals } from '@dreampipcom/oneiros';
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
@@ -13,11 +14,18 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
   const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
   const init = useRef(false);
 
+  const [storedGlobal, setStoredGlobal] = useLocalStorage('globalSettings', { theme: 'dark' });
+
+  const handleGlobalSettingUpdate = (next: any) => {
+    setGlobalState(next);
+    setStoredGlobal({ theme: next?.theme });
+  };
+
   useEffect(() => {
     if (!init.current && authContext && !authState?.setter) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
-      setGlobalState({ ...globalState, setter: setGlobalState, theme: 'dark', initd: true });
+      setGlobalState({ ...storedGlobal, setter: handleGlobalSettingUpdate, initd: true });
       console.log('Flux: --- global context loaded ---');
       init.current = true;
     }

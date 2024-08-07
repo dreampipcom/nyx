@@ -42,7 +42,7 @@ export interface IGlobalContext extends History {
 // to-do: characters type annotations
 export interface IRMContext extends History {
   initd?: boolean;
-  characters?: INCharacter[];
+  listings?: INCharacter[];
 }
 
 export interface IHypnosPublicContext extends History {

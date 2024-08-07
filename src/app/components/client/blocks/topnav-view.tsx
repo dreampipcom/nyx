@@ -6,8 +6,8 @@ import { useContext, useRef, useEffect, useState, useMemo } from 'react';
 import { AuthContext, GlobalContext } from '@state';
 import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
-import { Link as DPLink, Button as DPButton, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
-import { VSignIn } from '@elements/client';
+import { AudioPlayer, Button as DPButton, EGridVariant, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
+import { VSignIn, InternalLink } from '@elements/client';
 
 interface IAuthProvider {
   id?: string;
@@ -36,7 +36,9 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 
   // !make it isomorphic again with cookies
   useEffect(() => {
-    getSession().then((session) => setUser(session?.user));
+    getSession().then((session) => {
+      setUser(session?.user)
+    });
   }, []);
 
   useEffect(() => {
@@ -62,19 +64,27 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 
   return (
     <DPGrid bleed={EBleedVariant.RESPONSIVE} theme={theme}>
-      <div className="col-span-6 md:col-span-2">
+      <div className="col-start-0 col-span-6 md:col-span-2">
         <DPTypo variant={TypographyVariant.SMALL}>
         	Welcome, {coercedName}
         </DPTypo>
-        <DPLink href="/services/rickmorty">
+        <InternalLink className="block" href="/services/rickmorty">
           Rick Morty
-        </DPLink>
-        <DPLink href="/services/hypnos">
+        </InternalLink>
+        <InternalLink className="block" href="/services/hypnos">
           hypnos
-        </DPLink>
+        </InternalLink>
       </div>
-      <VSignIn className="col-span-5 sm:col-span-5 lg:col-span-1 md:col-span-1 md:col-start-7 lg:col-start-7" user={_user} />
-      <DPButton theme={theme} className="col-span-1 sm:col-span-1 lg:col-span-1 md:col-span-1 md:col-start-8 lg:col-start-8" icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
+      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-6 lg:col-start-8 lg:col-span-2" user={_user} />
+      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-6 md:col-start-12 lg:col-span-6 lg:col-start-12">
+        <div className="flex w-full sm:justify-end">
+          <AudioPlayer prompt="" theme={theme} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['card']} onClick={() => navigate(document.location.href.replace(/(map|calendar)/, 'list'))} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['map']} onClick={() => navigate(document.location.href.replace(/(list|calendar)/, 'map'))} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['calendar']} onClick={() => navigate(document.location.href.replace(/(list|map)/, 'calendar'))} />
+          <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['lightbulb']} onClick={handleThemeSwitch} />
+        </div>
+      </DPGrid>
     </DPGrid>
   );
 };
