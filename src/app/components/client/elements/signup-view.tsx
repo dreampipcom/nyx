@@ -56,12 +56,8 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   useEffect(() => {
       if(!csrf) {
         const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
-          setCsrf(_csrf.value);
-        })
-        // getCsrf().then((_csrf) => {
-        //   setCsrf(_csrf);
-        //   setCookie({ name: 'authjs.csrf-token', value: _csrf });
-        // });
+          setCsrf(_csrf?.value);
+        });
      }
   }, [csrf]);
 
