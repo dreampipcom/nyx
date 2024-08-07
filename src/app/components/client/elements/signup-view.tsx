@@ -45,7 +45,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const oauth = _providers.slice(1, providers.length)
   const defaultP = _providers[0]
 
-  const signInUrl = '/api/auth/signin'
+  const signInUrl = '/api/v1/auth/signin'
 
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
@@ -54,11 +54,12 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
   const coercedName = name || user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
-      getCsrf().then((_csrf) => {
-        setCsrf(_csrf);
-        setCookie({ name: '__Host-authjs.csrf-token', value: _csrf });
-        console.log("setter", { _csrf })
-      });
+      if(!csrf) {
+        getCsrf().then((_csrf) => {
+          setCsrf(_csrf);
+          setCookie({ name: '__Host-authjs.csrf-token', value: _csrf });
+        });
+     }
   }, [csrf]);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
 const nextConfig = {
-  basePath: process.env.NEXUS_BASE_PATH,
+  assetPrefix: process.env.NEXT_PUBLIC_NEXUS_HOST || 'https://nyx.dreampip.com',
   transpilePackages: ['next-auth'],
   images: {
     remotePatterns: [
@@ -23,6 +23,11 @@ const nextConfig = {
         destination: '/services/rickmorty/list',
         permanent: false,
       },
+      // {
+      //   source: '/signin',
+      //   destination: '/dash/signin',
+      //   permanent: false,
+      // },
     ];
   },
 };
