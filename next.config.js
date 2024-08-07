@@ -14,13 +14,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/services/hypnos',
-        destination: '/services/hypnos/list',
+        source: '/dash/services/hypnos',
+        destination: '/dash/services/hypnos/list',
         permanent: false,
       },
       {
-        source: '/services/rickmorty',
-        destination: '/services/rickmorty/list',
+        source: '/dash/services/rickmorty',
+        destination: '/dash/services/rickmorty/list',
         permanent: false,
       },
       // {
