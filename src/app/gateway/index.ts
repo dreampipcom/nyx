@@ -1,7 +1,7 @@
 // index.ts
 
 // client
-export { navigate } from './client/actions';
+export { navigate, setCookie } from './client/actions';
 
 // server
 export { getUser, loadChars, reloadChars, getChars } from './server/actions';
