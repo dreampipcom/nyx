@@ -7,7 +7,7 @@ export async function navigate(url: string) {
   redirect(url);
 }
 
-export async function setCookie({ name, value }) {
+export async function setCookie({ name, value }: { name: string; value: string }) {
   // Set cookie
   cookies().set(name, value);
 }
