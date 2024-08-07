@@ -25,7 +25,6 @@ const methods = {
     }
   },
   getCsrf: async () => {
-    console.log('GETTING CSTF');
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/csrf`, {
         method: 'GET',
@@ -35,7 +34,6 @@ const methods = {
         credentials: 'include',
       });
       const csrf = await response.json();
-      console.log({ response, csrf });
       return csrf.csrfToken;
     } catch (e) {
       console.error(e);
