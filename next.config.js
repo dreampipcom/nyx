@@ -14,10 +14,8 @@ const nextConfig = {
   experimental: {
     serverActions: {
       allowedOrigins: [
-        'https://dev.nyx.dreampip.com',
-        'https://nyx.dreampip.com',
-        'https://beta.dreampip.com',
-        'https://www.dreampip.com',
+        'dreampip.com',
+        '*.dreampip.com',
       ],
     },
   },
