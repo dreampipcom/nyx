@@ -13,7 +13,8 @@ npm run dev
 
 Documentation: TBD
 
-Staging Environment: https://alpha.dreampip.com
+Dev Environment: https://dev.nyx.dreampip.com
+Prod Environment: https://nyx.dreampip.com
 
 License: HPL3-ECO-AND-ANC 2021—Present
 

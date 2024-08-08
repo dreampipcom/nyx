@@ -11,7 +11,7 @@ const methods = {
   signIn: () => {},
   signOut: async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/signout`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_URL}/api/v1/auth/signout`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -26,7 +26,7 @@ const methods = {
   },
   getCsrf: async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/csrf`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_URL}/api/v1/auth/csrf`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -41,7 +41,7 @@ const methods = {
   },
   getSession: async (params = { cookies: '' }) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXUS_HOST}/api/v1/auth/session`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MAIN_URL}/api/v1/auth/session`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
