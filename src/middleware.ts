@@ -23,7 +23,7 @@ const headers: Record<string, any> = {
 };
 
 export function middleware(request: NextRequest) {
-  const origin = request.headers.get('x-forwarded-host');
+  const origin = request.headers.get('x-forwarded-host') || process.env.MAIN_URL;
   if (origin !== process.env.MAIN_URL) {
     headers['Access-Control-Allow-Origin'] = allowedOrigins[origin] || 'https://www.dreampip.com';
   }
