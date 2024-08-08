@@ -6,6 +6,13 @@ export const config = {
   matcher: ['/api/:path*'],
 };
 
+const allowedOrigins = {
+  [process.env.MAIN_URL]: process.env.MAIN_URL,
+  [process.env.NEXUS_HOST]: process.env.NEXUS_HOST,
+  [process.env.API_HOST]: process.env.API_HOST,
+}
+
+
 const headers: Record<string, any> = {
   'Access-Control-Allow-Origin': process.env.MAIN_URL || 'https://www.dreampip.com',
   'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300',
@@ -17,6 +24,11 @@ const headers: Record<string, any> = {
 };
 
 export function middleware(request: NextRequest) {
+  const origin = request.headers.get('x-forwarded-host')
+  if(origin !== process.env.MAIN_URL) {
+    headers['Access-Control-Allow-Origin'] = allowedOrigins[origin] || 'https://www.dreampip.com'
+  }
+
   const response = NextResponse.next();
   const pkce = request.cookies.get('next-auth.pkce.code_verifier');
 
