@@ -7,9 +7,9 @@ export const config = {
 };
 
 const allowedOrigins = {
-  [process.env.MAIN_URL]: process.env.MAIN_URL,
-  [process.env.NEXUS_HOST]: process.env.NEXUS_HOST,
-  [process.env.API_HOST]: process.env.API_HOST,
+  [`${process.env.MAIN_URL}`]: process.env.MAIN_URL,
+  [`${process.env.NEXUS_HOST}`]: process.env.NEXUS_HOST,
+  [`${process.env.API_HOST}`]: process.env.API_HOST,
 }
 
 
