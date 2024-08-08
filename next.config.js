@@ -13,7 +13,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: [process.env.NEXUS_HOST, process.env.MAIN_URL, process.env.API_HOST],
+      allowedOrigins: ["https://dev.nyx.dreampip.com", "https://nyx.dreampip.com", "https://beta.dreampip.com", "https://www.dreampip.com"],
     },
   },
   async redirects() {
