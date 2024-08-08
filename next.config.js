@@ -11,6 +11,11 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [process.env.NEXUS_HOST, process.env.MAIN_URL, process.env.API_HOST],
+    },
+  },
   async redirects() {
     return [
       {
