@@ -13,10 +13,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: [
-        'dreampip.com',
-        '*.dreampip.com',
-      ],
+      allowedOrigins: ['dreampip.com', '*.dreampip.com'],
     },
   },
   async redirects() {
