@@ -7,7 +7,7 @@ export const config = {
 };
 
 const headers: Record<string, any> = {
-  'Access-Control-Allow-Origin': process.env.NEXUS_HOST || 'https://www.dreampip.com',
+  'Access-Control-Allow-Origin': process.env.MAIN_URL || 'https://www.dreampip.com',
   'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300',
   // DEV-DEBUG:
   // 'content-type': 'application/json',
