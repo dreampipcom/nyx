@@ -1,5 +1,6 @@
+// @middleware
+import type { NextRequest } from 'next/server';
 import { authMiddleware } from './middlewares/authMiddleware';
-// import { i18nMiddleware } from './middlewares/i18nMiddleware';
 import { i18nDetectMiddleware } from './middlewares/i18nDetectMiddleware';
 
 export const middlewares = [authMiddleware, i18nDetectMiddleware];
