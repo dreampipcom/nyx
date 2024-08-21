@@ -16,7 +16,7 @@ export function RootProviders({ children, locale }: { children: React.ReactNode;
   const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext, locale });
   const init = useRef(false);
 
-  const [storedGlobal, setStoredGlobal] = useLocalStorage('globalSettings', { theme: 'dark' });
+  const [storedGlobal, setStoredGlobal] = useLocalStorage('globalSettings', { theme: 'dark', locale });
 
   const handleGlobalSettingUpdate = (next: any) => {
     setGlobalState(next);

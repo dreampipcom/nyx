@@ -4,7 +4,7 @@
 export { navigate, setCookie, getCookie } from './client/actions';
 
 // server
-export { getUser, loadChars, reloadChars, getChars } from './server/actions';
+export { getUser, loadChars, reloadChars, getChars, getUserLocale, setUserLocale } from './server/actions';
 
 // hypnos-public
 export { loadHypnosPublicListings } from './server/hypnos/public';

@@ -2,6 +2,7 @@
 'use server';
 import type { UserSchema } from '@types';
 import { getSession } from '@auth';
+import { getGlobalDictionary } from '@dict'
 import { VTopNav } from '@blocks/client';
 import { cookies } from 'next/headers';
 
@@ -21,7 +22,7 @@ interface IAuthProviders {
   name?: string;
 }
 
-export const CTopNav = async ({ user }: ITopNavProps) => {
+export const CTopNav = async ({ user, params }: ITopNavProps) => {
   const cookieStore = cookies().getAll();
   const cookieStr = cookieStore.toString();
 
