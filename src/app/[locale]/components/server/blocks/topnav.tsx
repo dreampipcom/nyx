@@ -2,7 +2,6 @@
 'use server';
 import type { UserSchema } from '@types';
 import { getSession } from '@auth';
-import { getGlobalDictionary } from '@dict'
 import { VTopNav } from '@blocks/client';
 import { cookies } from 'next/headers';
 

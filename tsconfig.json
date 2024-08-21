@@ -29,7 +29,6 @@
       "@blocks/server/*": ["./src/app/[locale]/components/server/blocks/*"],
       "@constants/server": ["./lib/constants/server"],
       "@constants/client": ["./lib/constants/client"],
-      "@dict": ["./lib/dictionaries"],
       "@elements/client": ["./src/app/[locale]/components/client/elements"],
       "@elements/client/*": ["./src/app/[locale]/components/client/elements/*"],
       "@model": ["./lib/model"],
