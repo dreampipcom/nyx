@@ -85,9 +85,9 @@ export function middleware(request: NextRequest) {
     const headers = request.headers.get('accept-language');
 
     if (!headers) return NextResponse.rewrite(newUrl);
-    const savedLocale = request.cookies.get('NEXT_LOCALE');
-    const newlocale = savedLocale?.value || acceptLanguage.get(headers).toLocaleLowerCase() || 'en';
-    newUrl.pathname = newUrl.pathname.replace('/default', localeMap[newlocale] || newlocale);
+    const savedLocale = request?.cookies?.get('NEXT_LOCALE');
+    const newlocale = savedLocale?.value || acceptLanguage?.get(headers)?.toLocaleLowerCase() || 'en';
+    newUrl.pathname = newUrl?.pathname?.replace('/default', localeMap[newlocale] || newlocale);
 
     return NextResponse.redirect(newUrl);
   }
