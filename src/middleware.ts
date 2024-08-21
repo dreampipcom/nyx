@@ -14,7 +14,14 @@ export const config = {
   ],
 };
 
+const blocklist = [
+  '_next'
+]
+
 export default async function middleware(request: NextRequest) {
+  if (blocklist.some((pattern) => request?.nextUrl?.pathname?.includes(pattern))) {
+    return NextResponse.next()
+  }
   // if a response is returned, return it otherwise call `next()`
   for (const fn of middlewares) {
     const response = await fn(request);
