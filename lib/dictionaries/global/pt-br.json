@@ -1,7 +1,7 @@
 {
   "NavBar": { "welcome": "Bem-vindo" },
   "SignIn": {
-  	"welcome": "Bem-vindo",
+    "welcome": "Bem-vindo",
     "continue": "Continuar",
     "continue with": "Continuar com",
     "sign in": "Entrar",

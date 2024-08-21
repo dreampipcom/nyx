@@ -5,12 +5,10 @@ export const metadata: Metadata = {
   description: 'Your journey starts here. DreamPip is fintech for compassion.',
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode; }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
