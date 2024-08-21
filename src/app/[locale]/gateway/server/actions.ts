@@ -50,7 +50,6 @@ const defaultLocale = 'default'
 
 export async function getUserLocale() {
   const headersList = headers()
-  console.log({ headersList: headersList.get('x-dp-locale') })
   return headersList.get('x-dp-locale') || cookies().get(COOKIE_NAME)?.value || defaultLocale;
 }
 

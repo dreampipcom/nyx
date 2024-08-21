@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { DPTopNav } from '@blocks/server';
 import { RootProviders } from '@state';
-// import {NextIntlClientProvider} from 'next-intl';
-import {getLocale} from 'next-intl/server';
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale, getMessages} from 'next-intl/server';
 import {getUserLocale} from '@gateway';
 import './globals.css';
 
@@ -16,7 +16,7 @@ export default async function RootLayout({ children, params }: { children: React
   const { locale: orig } = params;
   const locale = orig === 'default' ? 'en' : orig;
 
-  // const messages = await getMessages();
+  const messages = await getMessages();
   const libLocale = await getLocale();
   console.log({ locale, libLocale })
 
@@ -24,10 +24,10 @@ export default async function RootLayout({ children, params }: { children: React
     <html lang="en">
       <body>
         <RootProviders locale={locale}>
-          {/*<NextIntlClientProvider>*/}
+          <NextIntlClientProvider messages={messages}>
           <DPTopNav />
           {children}
-          {/*</NextIntlClientProvider>*/}
+          </NextIntlClientProvider>
         </RootProviders>
       </body>
     </html>
