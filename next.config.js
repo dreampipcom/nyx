@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin('./src/app/[locale]/i18n.ts');
+
 const nextConfig = {
-  assetPrefix: process.env.NEXUS_HOST || 'https://nyx.dreampip.com',
+  assetPrefix:
+    (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production'
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXUS_HOST) || 'https://nyx.dreampip.com',
   transpilePackages: ['next-auth'],
   images: {
     remotePatterns: [
@@ -19,25 +25,35 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/dash/services/hypnos',
-        destination: '/dash/services/hypnos/list',
+        source: '/dash/services/:service',
+        destination: '/dash/services/:service/list',
         permanent: false,
       },
       {
-        source: '/dash/services/rickmorty',
-        destination: '/dash/services/rickmorty/list',
+        source: '/:locale/dash/services/:service',
+        destination: '/:locale/dash/services/:service/list',
         permanent: false,
       },
-      // {
-      //   source: '/signin',
-      //   destination: '/dash/signin',
-      //   permanent: false,
-      // },
+      {
+        source: '/',
+        destination: '/default/dash/signin',
+        permanent: false,
+      },
+      {
+        source: '/dash',
+        destination: '/default/dash/signin',
+        permanent: false,
+      },
+      {
+        source: '/dash/:path*',
+        destination: '/default/dash/:path*',
+        permanent: false,
+      },
     ];
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);
 
 module.exports = withSentryConfig(
   module.exports,

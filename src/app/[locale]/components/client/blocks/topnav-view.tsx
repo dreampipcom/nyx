@@ -1,13 +1,15 @@
 // @block/topnav-view.tsx
 'use client';
 import type { UserSchema } from '@types';
-import { getSession } from '@auth'
+import { getSession } from '@auth';
 import { useContext, useRef, useEffect, useState, useMemo } from 'react';
 import { AuthContext, GlobalContext } from '@state';
 import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
 import { AudioPlayer, Button as DPButton, EGridVariant, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
 import { VSignIn, InternalLink } from '@elements/client';
+import { useTranslations } from 'next-intl';
+
 
 interface IAuthProvider {
   id?: string;
@@ -24,8 +26,10 @@ export const VTopNav = ({ user }: VTopNavProps) => {
 	const authContext = useContext(AuthContext);
   const globalContext = useContext(GlobalContext);
 
+  const t = useTranslations('NavBar');
+
   const { authd, name } = authContext;
-  const { theme } = globalContext;
+  const { theme, locale } = globalContext;
 
   const initd = useRef(false);
 
@@ -66,7 +70,7 @@ export const VTopNav = ({ user }: VTopNavProps) => {
     <DPGrid bleed={EBleedVariant.RESPONSIVE} theme={theme}>
       <div className="col-start-0 col-span-6 md:col-span-2">
         <DPTypo variant={TypographyVariant.SMALL}>
-        	Welcome, {coercedName}
+        	{t('welcome')}, {coercedName}
         </DPTypo>
         <InternalLink className="block" href="/services/rickmorty">
           Rick Morty

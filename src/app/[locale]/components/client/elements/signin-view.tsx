@@ -1,6 +1,7 @@
 // signin-view.ts
 'use client';
 import { useContext, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { signOut } from '@auth';
 import { AuthContext, GlobalContext } from '@state';
 import { ALogOut } from '@actions';
@@ -32,6 +33,8 @@ export const VSignIn = ({ user }: VSignInProps) => {
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
 
+  const t = useTranslations('SignIn');
+
 
   const handleSignOut = async () => {
     unloadUser();
@@ -41,9 +44,11 @@ export const VSignIn = ({ user }: VSignInProps) => {
   if (user || authd)
     return (
       <div>
-        <DPButton onClick={handleSignOut} theme={theme}>Sign out</DPButton>
+        <DPButton onClick={handleSignOut} theme={theme}>{t('sign out')}</DPButton>
       </div>
     );
 
-  return <DPButton onClick={() => navigate('/api/v1/auth/signin')}>Sign in</DPButton>;
+  return <DPButton onClick={() => {
+    navigate('/dash/signin');
+  }}>{t('sign in')}</DPButton>;
 };

@@ -2,6 +2,7 @@
 'use client';
 import { clsx } from "clsx";
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { signIn, signOut, getCsrf } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
@@ -47,6 +48,8 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   const signInUrl = '/api/v1/auth/signin'
 
+  const t = useTranslations('SignIn');
+
   const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
 
 
@@ -91,8 +94,8 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <Typography className="py-a3">Welcome, {coercedName}. I hope you make yourself at home.</Typography>
-        <Button onClick={handleSignOut}>Sign out</Button>
+        <Typography className="py-a3">{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
+        <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
   }
 
@@ -111,12 +114,12 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e)}
-            label="Your email"
+            label={t("your email")}
             className="pb-a1"
             placeholder="jack@doe.com"
           />
           <Button id="submitButton" type="submit">
-            Continue
+            {t('continue')}
           </Button>
         </form>
        </div>
@@ -135,7 +138,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             <Button
               type="submit"
             >
-              Continue with {provider.name}
+              {t('continue with')} {provider.name}
             </Button>
           </form>
         )}

@@ -1,0 +1,21 @@
+{
+  "Dashboard": {
+    "title": "DreamPip — Панель",
+    "description": "Ваше путешествие начинается здесь. DreamPip - финтех для сострадания."
+  },
+  "NavBar": {
+    "welcome": "Добро пожаловать"
+  },
+  "SignIn": {
+    "welcome": "Добро пожаловать",
+    "continue": "Продолжить",
+    "continue with": "Продолжить с",
+    "sign in": "Войти",
+    "sign out": "Выйти",
+    "your email": "Ваш электронный адрес",
+    "i hope you make yourself at home": "Я надеюсь, что вы почувствуете себя как дома"
+  },
+  "CardGrid": {
+    "staff picks": "Выбор персонала"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "Dashboard": {
+    "title": "DreamPip — Nástěnka",
+    "description": "Vaše cesta začíná zde. DreamPip je fintech pro soucit."
+  },
+  "NavBar": {
+    "welcome": "Vítejte"
+  },
+  "SignIn": {
+    "welcome": "Vítejte",
+    "continue": "Pokračovat",
+    "continue with": "Pokračovat s",
+    "sign in": "Přihlásit",
+    "sign out": "Odhlásit",
+    "your email": "Váš e-mail",
+    "i hope you make yourself at home": "Doufám, že se uvidíš jako doma"
+  },
+  "CardGrid": {
+    "staff picks": "Výběr zaměstnanců"
+  }
+}
