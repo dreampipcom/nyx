@@ -1,5 +1,8 @@
 {
-	"Dashboard": { 		"title": "DreamPip — ダッシュボード", 		"description": "あなたの旅はここから始まります。DreamPipは共感のためのフィンテックです。" 	,
+  "Dashboard": {
+    "title": "DreamPip — ダッシュボード",
+    "description": "あなたの旅はここから始まります。DreamPipは共感のためのフィンテックです。"
+  },
   "NavBar": {
     "welcome": "ようこそ"
   },
