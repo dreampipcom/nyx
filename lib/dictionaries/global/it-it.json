@@ -1,0 +1,15 @@
+{
+  "NavBar": {
+    "welcome": "Benvenuto"
+  },
+  "SignIn": {
+    "continue": "Prosegue",
+    "continue with": "Prosegue con",
+    "sign in": "Accedi",
+    "sign out": "Scollega",
+    "your email": "La sua mail"
+  },
+  "CardGrid": {
+    "staff picks": "Preferiti dello Staff"
+  }
+}

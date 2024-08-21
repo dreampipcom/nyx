@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin('./src/app/[locale]/i18n.ts');
+
 const nextConfig = {
   assetPrefix: process.env.NEXUS_HOST || 'https://nyx.dreampip.com',
   transpilePackages: ['next-auth'],
@@ -37,7 +40,7 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);
 
 module.exports = withSentryConfig(
   module.exports,

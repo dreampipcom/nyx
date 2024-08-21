@@ -1,0 +1,11 @@
+{
+  "NavBar": { "welcome": "Bem-vindo" },
+  "SignIn": {
+    "continue": "Continuar",
+    "continue with": "Continuar com",
+    "sign in": "Entrar",
+    "sign out": "Sair",
+    "your email": "Seu email"
+  },
+  "CardGrid": { "staff picks": "Escolhas da Equipe" }
+}

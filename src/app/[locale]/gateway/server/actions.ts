@@ -2,7 +2,7 @@
 // actions.ts
 'use server';
 // import type { UserSchema } from '@types';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { getRMCharacters } from '@controller';
 import { decorateRMCharacters } from '@model';
 import { getSession } from '@auth';
@@ -42,4 +42,16 @@ export async function getUser() {
   return { user: { email: 'lorem' } };
   // we might need to decorate users in the future,
   // reference decorateRMCharactes()
+}
+
+const COOKIE_NAME = 'NEXT_LOCALE';
+const defaultLocale = 'default';
+
+export async function getUserLocale() {
+  const headersList = headers();
+  return headersList.get('x-dp-locale') || cookies().get(COOKIE_NAME)?.value || defaultLocale;
+}
+
+export async function setUserLocale(locale: string) {
+  cookies().set(COOKIE_NAME, locale);
 }

@@ -1,0 +1,15 @@
+{
+  "NavBar": {
+    "welcome": "Bine ai venit"
+  },
+  "SignIn": {
+    "continue": "Continuați",
+    "continue with": "Continuați cu",
+    "sign in": "Conectați-vă",
+    "sign out": "Deconectați-vă",
+    "your email": "Adresa ta de email"
+  },
+  "CardGrid": {
+    "staff picks": "Alegerile personalului"
+  }
+}
