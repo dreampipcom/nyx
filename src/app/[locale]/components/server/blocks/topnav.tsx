@@ -22,7 +22,7 @@ interface IAuthProviders {
   name?: string;
 }
 
-export const CTopNav = async ({ user, params }: ITopNavProps) => {
+export const CTopNav = async ({ user }: ITopNavProps) => {
   const cookieStore = cookies().getAll();
   const cookieStr = cookieStore.toString();
 
