@@ -25,13 +25,13 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/dash/services/hypnos',
-        destination: '/dash/services/hypnos/list',
+        source: '/dash/services/:service',
+        destination: '/dash/services/:service/list',
         permanent: false,
       },
       {
-        source: '/dash/services/rickmorty',
-        destination: '/dash/services/rickmorty/list',
+        source: '/:locale/dash/services/:service',
+        destination: '/:locale/dash/services/:service/list',
         permanent: false,
       },
       {
