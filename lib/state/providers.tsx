@@ -3,22 +3,28 @@
 'use client';
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
-import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
-import { useLocalStorage } from '@hooks';
+import { useRouter } from 'next/navigation';
+
 import { Globals } from '@dreampipcom/oneiros';
 
+import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
+import { useLocalStorage } from '@hooks';
+
 export function RootProviders({ children }: { children: React.ReactNode }) {
+  const routerData = useRouter()
+  const { locale: orig, pathname } = routerData
+  const locale = orig === "default" ? "en" : orig
   const authContext = useContext<IAuthContext>(AuthContext);
   const globalContext = useContext<IGlobalContext>(GlobalContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
-  const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
+  const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext, locale });
   const init = useRef(false);
 
   const [storedGlobal, setStoredGlobal] = useLocalStorage('globalSettings', { theme: 'dark' });
 
   const handleGlobalSettingUpdate = (next: any) => {
     setGlobalState(next);
-    setStoredGlobal({ theme: next?.theme });
+    setStoredGlobal({ theme: next?.theme, locale });
   };
 
   useEffect(() => {
@@ -26,7 +32,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
       setGlobalState({ ...storedGlobal, setter: handleGlobalSettingUpdate, initd: true });
-      console.log('Flux: --- global context loaded ---');
+      console.log('Flux: --- global context loaded ---', { globalState, routerData });
       init.current = true;
     }
   }, [JSON.stringify(authContext), JSON.stringify(globalContext)]);

@@ -16,11 +16,11 @@ const nextConfig = {
       allowedOrigins: ['dreampip.com', '*.dreampip.com'],
     },
   },
-  i18n: {
-        locales: ["en", "pt-br", "it-it", "de-de", "fr-fr", "es-es", "ro", "pl-pl", "cs-cz", "sv-se", "et-ee", "ja-jp", "ru-ru", "default"],
-        defaultLocale: "default",
-        localeDetection: true,
-  },
+  // i18n: {
+  //       locales: ["en", "pt-br", "it-it", "de-de", "fr-fr", "es-es", "ro", "pl-pl", "cs-cz", "sv-se", "et-ee", "ja-jp", "ru-ru", "default"],
+  //       defaultLocale: "default",
+  //       localeDetection: true,
+  // },
   async redirects() {
     return [
       {
