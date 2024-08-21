@@ -86,7 +86,7 @@ export function middleware(request: NextRequest) {
 
     if (!headers) return NextResponse.rewrite(newUrl);
     const savedLocale = request?.cookies?.get('NEXT_LOCALE');
-    const newlocale = savedLocale?.value || acceptLanguage?.get(headers)?.toLocaleLowerCase() || 'en';
+    const newlocale = savedLocale?.value || acceptLanguage?.get(headers)?.toLocaleLowerCase() || 'en' as keyof localeMap;
     newUrl.pathname = newUrl?.pathname?.replace('/default', localeMap[newlocale] || newlocale);
 
     return NextResponse.redirect(newUrl);
