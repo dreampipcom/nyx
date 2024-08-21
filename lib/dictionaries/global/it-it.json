@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Pannello di controllo",
+    "description": "Il tuo viaggio inizia qui. DreamPip è un'azienda fintech per la compassione."
+  },
   "NavBar": {
     "welcome": "Benvenuto"
   },

@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Tablou de bord",
+    "description": "Călătoria ta începe aici. DreamPip este fintech pentru compasiune."
+  },
   "NavBar": {
     "welcome": "Bine ai venit"
   },

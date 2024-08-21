@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Panel de control",
+    "description": "Tu viaje comienza aquí. DreamPip es fintech para la compasión."
+  },
   "NavBar": {
     "welcome": "Bienvenido"
   },

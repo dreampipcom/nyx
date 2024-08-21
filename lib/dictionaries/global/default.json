@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Dashboard",
+    "description": "Your journey starts here. DreamPip is fintech for compassion."
+  },
   "NavBar": {
     "welcome": "Welcome"
   },

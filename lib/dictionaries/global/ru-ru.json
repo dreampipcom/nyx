@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Панель",
+    "description": "Ваше путешествие начинается здесь. DreamPip - финтех для сострадания."
+  },
   "NavBar": {
     "welcome": "Добро пожаловать"
   },

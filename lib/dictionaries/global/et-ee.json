@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Juhtpaneel",
+    "description": "Teie teekond algab siin. DreamPip on finantstehnoloogia kaastunde jaoks."
+  },
   "NavBar": {
     "welcome": "Tere tulemast"
   },

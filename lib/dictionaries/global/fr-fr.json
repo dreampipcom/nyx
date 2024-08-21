@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Tableau de bord",
+    "description": "Votre voyage commence ici. DreamPip est de la fintech pour la compassion."
+  },
   "NavBar": {
     "welcome": "Bienvenue"
   },

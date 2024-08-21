@@ -1,4 +1,5 @@
 {
+	"Dashboard": { 		"title": "DreamPip — Instrumentpanel", 		"description": "Din resa börjar här. DreamPip är fintech för medkänsla." 	,
   "NavBar": {
     "welcome": "Välkommen"
   },

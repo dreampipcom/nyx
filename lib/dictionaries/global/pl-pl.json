@@ -1,4 +1,8 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Panel",
+    "description": "Twoja podróż zaczyna się tutaj. DreamPip to finanse technologiczne dla współczucia."
+  },
   "NavBar": {
     "welcome": "Witaj"
   },
