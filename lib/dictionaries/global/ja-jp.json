@@ -5,7 +5,8 @@
 	"SignIn": {
 		"continue": "Continue",
 		"continue with": "Continue with",
-		"sign in": "Sign in"
+		"sign in": "Sign in",
+		"sign out": "Sign out"
 	},
 	"CardGrid": {
 		"staff picks": "Staff Picks"
