@@ -9,7 +9,7 @@ import { Globals } from '@dreampipcom/oneiros';
 import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
 import { useLocalStorage } from '@hooks';
 
-export function RootProviders({ children, locale }: { children: React.ReactNode }) {
+export function RootProviders({ children, locale }: { children: React.ReactNode, locale: string }) {
   const authContext = useContext<IAuthContext>(AuthContext);
   const globalContext = useContext<IGlobalContext>(GlobalContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
