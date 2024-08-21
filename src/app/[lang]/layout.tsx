@@ -8,11 +8,14 @@ export const metadata: Metadata = {
   description: process.env.PATTERNS_DESCRIPTION,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children, params }: { children: React.ReactNode; params: any }) {
+  const { lang: orig } = params;
+  const locale = orig === 'default' ? 'en' : orig;
+
   return (
     <html lang="en">
       <body>
-        <RootProviders>
+        <RootProviders locale={locale}>
           <DPTopNav />
           {children}
         </RootProviders>

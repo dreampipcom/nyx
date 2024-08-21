@@ -37,6 +37,7 @@ export interface IAuthContext extends History {
 export interface IGlobalContext extends History {
   initd?: boolean;
   theme?: 'light' | 'dark';
+  locale?: string;
 }
 
 // to-do: characters type annotations

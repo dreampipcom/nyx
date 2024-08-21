@@ -3,22 +3,24 @@
 'use client';
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
-import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
-import { useLocalStorage } from '@hooks';
+
 import { Globals } from '@dreampipcom/oneiros';
 
-export function RootProviders({ children }: { children: React.ReactNode }) {
+import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
+import { useLocalStorage } from '@hooks';
+
+export function RootProviders({ children, locale }: { children: React.ReactNode; locale: string }) {
   const authContext = useContext<IAuthContext>(AuthContext);
   const globalContext = useContext<IGlobalContext>(GlobalContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
-  const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext });
+  const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext, locale });
   const init = useRef(false);
 
   const [storedGlobal, setStoredGlobal] = useLocalStorage('globalSettings', { theme: 'dark' });
 
   const handleGlobalSettingUpdate = (next: any) => {
     setGlobalState(next);
-    setStoredGlobal({ theme: next?.theme });
+    setStoredGlobal({ theme: next?.theme, locale });
   };
 
   useEffect(() => {

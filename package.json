@@ -34,6 +34,7 @@
     "@types/react-dom": "18",
     "@types/uuid": "9.0.8",
     "@typescript-eslint/eslint-plugin": "6.19.0",
+    "accept-language": "^3.0.20",
     "autoprefixer": "^10.4.19",
     "bson": "^6.8.0",
     "clsx": "2.1.0",
