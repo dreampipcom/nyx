@@ -4,7 +4,10 @@ const createNextIntlPlugin = require('next-intl/plugin');
 const withNextIntl = createNextIntlPlugin('./src/app/[locale]/i18n.ts');
 
 const nextConfig = {
-  assetPrefix: process.env.NEXUS_HOST || 'https://nyx.dreampip.com',
+  assetPrefix:
+    (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production'
+      ? process.env.VERCEL_URL
+      : process.env.NEXUS_HOST) || 'https://nyx.dreampip.com',
   transpilePackages: ['next-auth'],
   images: {
     remotePatterns: [
