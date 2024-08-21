@@ -52,6 +52,6 @@ export async function getUserLocale() {
   return headersList.get('x-dp-locale') || cookies().get(COOKIE_NAME)?.value || defaultLocale;
 }
 
-export async function setUserLocale(locale: Locale) {
+export async function setUserLocale(locale: string) {
   cookies().set(COOKIE_NAME, locale);
 }
