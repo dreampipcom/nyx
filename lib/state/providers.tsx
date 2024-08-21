@@ -28,7 +28,7 @@ export function RootProviders({ children, locale }: { children: React.ReactNode 
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
       setGlobalState({ ...storedGlobal, setter: handleGlobalSettingUpdate, initd: true });
-      console.log('Flux: --- global context loaded ---', { globalState, locale });
+      console.log('Flux: --- global context loaded ---');
       init.current = true;
     }
   }, [JSON.stringify(authContext), JSON.stringify(globalContext)]);
