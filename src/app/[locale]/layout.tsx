@@ -6,8 +6,8 @@ import { getLocale, getMessages } from 'next-intl/server';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: process.env.PATTERNS_TITLE,
-  description: process.env.PATTERNS_DESCRIPTION,
+  title: 'DreamPip — Dashboard',
+  description: 'Your journey starts here. DreamPip is fintech for compassion.',
 };
 
 export default async function RootLayout({ children, params }: { children: React.ReactNode; params: any }) {

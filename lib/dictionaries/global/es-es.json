@@ -3,11 +3,13 @@
     "welcome": "Bienvenido"
   },
   "SignIn": {
+  	"welcome": "Bienvenido",
     "continue": "Continuar",
     "continue with": "Continuar con",
     "sign in": "Iniciar sesión",
     "sign out": "Cerrar sesión",
-    "your email": "Tu correo electrónico"
+    "your email": "Tu correo electrónico",
+    "i hope you make yourself at home": "Espero que te sientas como en casa"
   },
   "CardGrid": {
     "staff picks": "Selecciones del personal"

@@ -31,11 +31,21 @@ const nextConfig = {
         destination: '/dash/services/rickmorty/list',
         permanent: false,
       },
-      // {
-      //   source: '/signin',
-      //   destination: '/dash/signin',
-      //   permanent: false,
-      // },
+      {
+        source: '/',
+        destination: '/default/dash/signin',
+        permanent: false,
+      },
+      {
+        source: '/dash',
+        destination: '/default/dash/signin',
+        permanent: false,
+      },
+      {
+        source: '/dash/:path*',
+        destination: '/default/dash/:path*',
+        permanent: false,
+      },
     ];
   },
 };

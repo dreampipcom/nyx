@@ -19,7 +19,7 @@ const headers: Record<string, any> = {
 };
 
 export const authMiddleware = async (request: NextRequest) => {
-  console.log('--- ran: API MIDDLEWARE ---');
+  console.log('--- ran: API MIDDLEWARE ---', request.nextUrl.href);
   // API COOKIES
   if (request.nextUrl.pathname.startsWith('/api')) {
     const origin = request.headers.get('x-forwarded-host') || '';

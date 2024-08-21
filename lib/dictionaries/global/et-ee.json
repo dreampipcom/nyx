@@ -3,11 +3,13 @@
     "welcome": "Tere tulemast"
   },
   "SignIn": {
+  	"welcome": "Tere tulemast",
     "continue": "Jätka",
     "continue with": "Jätka",
     "sign in": "Logi sisse",
     "sign out": "Logi välja",
-    "your email": "Sinu e-post"
+    "your email": "Sinu e-post",
+    "i hope you make yourself at home": "Loodan, et tunned end koduselt"
   },
   "CardGrid": {
     "staff picks": "Töötajate valikud"
