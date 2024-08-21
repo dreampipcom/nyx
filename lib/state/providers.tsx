@@ -3,17 +3,13 @@
 'use client';
 import type { IAuthContext, IGlobalContext, IRMContext, IHypnosPublicContext } from '@types';
 import { useContext, useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { Globals } from '@dreampipcom/oneiros';
 
 import { AuthContext, GlobalContext, RMContext, HypnosPublicContext } from '@state';
 import { useLocalStorage } from '@hooks';
 
-export function RootProviders({ children }: { children: React.ReactNode }) {
-  const routerData = useRouter()
-  const { locale: orig, pathname } = routerData
-  const locale = orig === "default" ? "en" : orig
+export function RootProviders({ children, locale }: { children: React.ReactNode }) {
   const authContext = useContext<IAuthContext>(AuthContext);
   const globalContext = useContext<IGlobalContext>(GlobalContext);
   const [authState, setAuthState] = useState<IAuthContext>({ ...authContext });
@@ -32,7 +28,7 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
       setAuthState({ ...authState, setter: setAuthState, initd: true });
       console.log('Flux: --- auth context loaded ---');
       setGlobalState({ ...storedGlobal, setter: handleGlobalSettingUpdate, initd: true });
-      console.log('Flux: --- global context loaded ---', { globalState, routerData });
+      console.log('Flux: --- global context loaded ---', { globalState, locale });
       init.current = true;
     }
   }, [JSON.stringify(authContext), JSON.stringify(globalContext)]);
