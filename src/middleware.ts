@@ -5,7 +5,7 @@ import { i18nDetectMiddleware } from './middlewares/i18nDetectMiddleware';
 export const middlewares = [authMiddleware, i18nDetectMiddleware];
 
 export const config = {
-  matcher: ['/api/:path*', '/default/dash/:path*', '/(it-it|en)/:path*'],
+  matcher: ['/api/:path*', '/(default|cs-cz|de-de|en|es-es|et-ee|fr-fr|it-it|ja-jp|pl-pl|ro|ru-ru|sv-se)/:path*'],
 };
 
 export default async function middleware(request: NextRequest) {
