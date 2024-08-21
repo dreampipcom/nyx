@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "Tere tulemast"
-	},
-	"SignIn": {
-		"continue": "Jätka",
-		"continue with": "Jätka",
-		"sign in": "Logi sisse",
-		"sign out": "Logi välja",
-		"your email": "Sinu e-post"
-	},
-	"CardGrid": {
-		"staff picks": "Töötajate valikud"
-	}
+  "NavBar": {
+    "welcome": "Tere tulemast"
+  },
+  "SignIn": {
+    "continue": "Jätka",
+    "continue with": "Jätka",
+    "sign in": "Logi sisse",
+    "sign out": "Logi välja",
+    "your email": "Sinu e-post"
+  },
+  "CardGrid": {
+    "staff picks": "Töötajate valikud"
+  }
 }

@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "Vítejte"
-	},
-	"SignIn": {
-		"continue": "Pokračovat",
-		"continue with": "Pokračovat s",
-		"sign in": "Přihlásit",
-		"sign out": "Odhlásit",
-		"your email": "Váš e-mail"
-	},
-	"CardGrid": {
-		"staff picks": "Výběr zaměstnanců"
-	}
+  "NavBar": {
+    "welcome": "Vítejte"
+  },
+  "SignIn": {
+    "continue": "Pokračovat",
+    "continue with": "Pokračovat s",
+    "sign in": "Přihlásit",
+    "sign out": "Odhlásit",
+    "your email": "Váš e-mail"
+  },
+  "CardGrid": {
+    "staff picks": "Výběr zaměstnanců"
+  }
 }

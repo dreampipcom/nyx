@@ -1,7 +1,6 @@
 // middleware.ts
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { CustomMiddleware } from './chain';
 
 const allowedOrigins = {
   [`${process.env.MAIN_URL}`]: process.env.MAIN_URL,
@@ -20,7 +19,7 @@ const headers: Record<string, any> = {
 };
 
 export const authMiddleware = async (request: NextRequest) => {
-	console.log("API MIDDLEWARE")
+  console.log('--- ran: API MIDDLEWARE ---');
   // API COOKIES
   if (request.nextUrl.pathname.startsWith('/api')) {
     const origin = request.headers.get('x-forwarded-host') || '';
@@ -51,5 +50,5 @@ export const authMiddleware = async (request: NextRequest) => {
       response,
     );
   }
-  return
-}
+  return;
+};

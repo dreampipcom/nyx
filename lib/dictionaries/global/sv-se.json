@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "Välkommen"
-	},
-	"SignIn": {
-		"continue": "Fortsätt",
-		"continue with": "Fortsätt med",
-		"sign in": "Logga in",
-		"sign out": "Logga ut",
-		"your email": "Din e-post"
-	},
-	"CardGrid": {
-		"staff picks": "Personals val"
-	}
+  "NavBar": {
+    "welcome": "Välkommen"
+  },
+  "SignIn": {
+    "continue": "Fortsätt",
+    "continue with": "Fortsätt med",
+    "sign in": "Logga in",
+    "sign out": "Logga ut",
+    "your email": "Din e-post"
+  },
+  "CardGrid": {
+    "staff picks": "Personals val"
+  }
 }

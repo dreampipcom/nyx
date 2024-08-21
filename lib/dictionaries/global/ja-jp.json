@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "ようこそ"
-	},
-	"SignIn": {
-		"continue": "続行",
-		"continue with": "続行する",
-		"sign in": "サインイン",
-		"sign out": "ログアウト",
-		"your email": "あなたのメール"
-	},
-	"CardGrid": {
-		"staff picks": "スタッフおすすめ"
-	}
+  "NavBar": {
+    "welcome": "ようこそ"
+  },
+  "SignIn": {
+    "continue": "続行",
+    "continue with": "続行する",
+    "sign in": "サインイン",
+    "sign out": "ログアウト",
+    "your email": "あなたのメール"
+  },
+  "CardGrid": {
+    "staff picks": "スタッフおすすめ"
+  }
 }

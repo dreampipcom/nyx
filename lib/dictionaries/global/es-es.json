@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "Bienvenido"
-	},
-	"SignIn": {
-		"continue": "Continuar",
-		"continue with": "Continuar con",
-		"sign in": "Iniciar sesión",
-		"sign out": "Cerrar sesión",
-		"your email": "Tu correo electrónico"
-	},
-	"CardGrid": {
-		"staff picks": "Selecciones del personal"
-	}
+  "NavBar": {
+    "welcome": "Bienvenido"
+  },
+  "SignIn": {
+    "continue": "Continuar",
+    "continue with": "Continuar con",
+    "sign in": "Iniciar sesión",
+    "sign out": "Cerrar sesión",
+    "your email": "Tu correo electrónico"
+  },
+  "CardGrid": {
+    "staff picks": "Selecciones del personal"
+  }
 }

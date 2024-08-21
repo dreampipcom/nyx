@@ -44,12 +44,11 @@ export async function getUser() {
   // reference decorateRMCharactes()
 }
 
-
 const COOKIE_NAME = 'NEXT_LOCALE';
-const defaultLocale = 'default'
+const defaultLocale = 'default';
 
 export async function getUserLocale() {
-  const headersList = headers()
+  const headersList = headers();
   return headersList.get('x-dp-locale') || cookies().get(COOKIE_NAME)?.value || defaultLocale;
 }
 

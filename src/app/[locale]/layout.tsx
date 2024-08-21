@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import { DPTopNav } from '@blocks/server';
 import { RootProviders } from '@state';
-import {NextIntlClientProvider} from 'next-intl';
-import {getLocale, getMessages} from 'next-intl/server';
-import {getUserLocale} from '@gateway';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import './globals.css';
-
 
 export const metadata: Metadata = {
   title: process.env.PATTERNS_TITLE,
@@ -18,15 +16,14 @@ export default async function RootLayout({ children, params }: { children: React
 
   const messages = await getMessages();
   const libLocale = await getLocale();
-  console.log({ locale, libLocale })
 
   return (
     <html lang="en">
       <body>
-        <RootProviders locale={locale}>
+        <RootProviders locale={locale || libLocale}>
           <NextIntlClientProvider messages={messages}>
-          <DPTopNav />
-          {children}
+            <DPTopNav />
+            {children}
           </NextIntlClientProvider>
         </RootProviders>
       </body>

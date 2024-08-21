@@ -1,15 +1,15 @@
 {
-	"NavBar": {
-		"welcome": "Добро пожаловать"
-	},
-	"SignIn": {
-		"continue": "Продолжить",
-		"continue with": "Продолжить с",
-		"sign in": "Войти",
-		"sign out": "Выйти",
-		"your email": "Ваш электронный адрес"
-	},
-	"CardGrid": {
-		"staff picks": "Выбор персонала"
-	}
+  "NavBar": {
+    "welcome": "Добро пожаловать"
+  },
+  "SignIn": {
+    "continue": "Продолжить",
+    "continue with": "Продолжить с",
+    "sign in": "Войти",
+    "sign out": "Выйти",
+    "your email": "Ваш электронный адрес"
+  },
+  "CardGrid": {
+    "staff picks": "Выбор персонала"
+  }
 }

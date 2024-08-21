@@ -1,20 +1,13 @@
-import {notFound} from 'next/navigation';
-import {getRequestConfig} from 'next-intl/server';
-import { LOCALES } from '@constants/server';
-import { getUserLocale , setUserLocale } from '@gateway';
+import { getRequestConfig } from 'next-intl/server';
+import { getUserLocale } from '@gateway';
 
-// Can be imported from a shared config
-const locales = LOCALES;
- 
-export default getRequestConfig(async ({ param }) => {
+export default getRequestConfig(async () => {
   const userLocale = await getUserLocale();
 
-  const _locale = userLocale || "en"
+  const locale = userLocale || 'en';
 
-  console.log({ userLocale, _locale, param })
- 
   return {
-  	locale: _locale,
-    messages: (await import(`../../../lib/dictionaries/global/${_locale}.json`)).default
+    locale,
+    messages: (await import(`../../../lib/dictionaries/global/${locale}.json`)).default,
   };
 });
