@@ -1,13 +1,19 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — ダッシュボード",
+    "description": "あなたの旅はここから始まります。DreamPipは共感のためのフィンテックです。"
+  },
   "NavBar": {
     "welcome": "ようこそ"
   },
   "SignIn": {
+    "welcome": "ようこそ",
     "continue": "続行",
     "continue with": "続行する",
     "sign in": "サインイン",
     "sign out": "ログアウト",
-    "your email": "あなたのメール"
+    "your email": "あなたのメール",
+    "i hope you make yourself at home": "くつろいでくださいね"
   },
   "CardGrid": {
     "staff picks": "スタッフおすすめ"

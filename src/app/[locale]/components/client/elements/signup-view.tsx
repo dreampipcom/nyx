@@ -94,8 +94,8 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <Typography className="py-a3">Welcome, {coercedName}. I hope you make yourself at home.</Typography>
-        <Button onClick={handleSignOut}>Sign out</Button>
+        <Typography className="py-a3">{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
+        <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
   }
 

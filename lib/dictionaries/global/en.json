@@ -1,12 +1,18 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Dashboard",
+    "description": "Your journey starts here. DreamPip is fintech for compassion."
+  },
   "NavBar": {
     "welcome": "Welcome"
   },
   "SignIn": {
+    "welcome": "Welcome",
     "continue": "Continue",
     "continue with": "Continue with",
     "sign in": "Sign in",
-    "sign out": "Sign out"
+    "sign out": "Sign out",
+    "i hope you make yourself at home": "I hope you make yourself at home"
   },
   "CardGrid": {
     "staff picks": "Staff Picks"

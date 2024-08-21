@@ -1,13 +1,19 @@
 {
+  "Dashboard": {
+    "title": "DreamPip — Tablou de bord",
+    "description": "Călătoria ta începe aici. DreamPip este fintech pentru compasiune."
+  },
   "NavBar": {
     "welcome": "Bine ai venit"
   },
   "SignIn": {
+    "welcome": "Bine ai venit",
     "continue": "Continuați",
     "continue with": "Continuați cu",
     "sign in": "Conectați-vă",
     "sign out": "Deconectați-vă",
-    "your email": "Adresa ta de email"
+    "your email": "Adresa ta de email",
+    "i hope you make yourself at home": "Sper că te simți ca acasă"
   },
   "CardGrid": {
     "staff picks": "Alegerile personalului"

@@ -25,7 +25,7 @@ const supportedLocales = [
 acceptLanguage.languages(supportedLocales);
 
 export const i18nDetectMiddleware = async (request: NextRequest) => {
-  console.log('--- ran: I18N DETECT MIDDLEWARE ---');
+  console.log('--- ran: I18N DETECT MIDDLEWARE ---', request.nextUrl.href);
   // LOCALIZATION
   if (
     !/\.(.*)$/.test(request.nextUrl.pathname) &&
