@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children, params }: { children: React.ReactNode }) {
-  const { lang: orig } = params
-  const locale = orig === "default" ? "en" : orig
+  const { lang: orig } = params;
+  const locale = orig === 'default' ? 'en' : orig;
 
   return (
     <html lang="en">

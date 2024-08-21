@@ -1,19 +1,27 @@
 // middleware.ts
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import acceptLanguage from "accept-language";
-import { localeMap, LOCALES } from "@constants/server";
+import acceptLanguage from 'accept-language';
+import { localeMap, LOCALES } from '@constants/server';
 
-const supportedLocales = ["en", "it-IT", "pt-BR", "it", "pt", "ro", "ru", "pl-PL", "de", "fr", "ja-JP", "sv-SE", "et-EE", "cs-CZ"];
+const supportedLocales = [
+  'en',
+  'it-IT',
+  'pt-BR',
+  'it',
+  'pt',
+  'ro',
+  'ru',
+  'pl-PL',
+  'de',
+  'fr',
+  'ja-JP',
+  'sv-SE',
+  'et-EE',
+  'cs-CZ',
+];
 
 acceptLanguage.languages(supportedLocales);
-
-const getLocale = (request) => {
-    console.log({ request })
-    const headers = request.headers.get("accept-language")
-    const savedLocale = request.cookies.get('NEXT_LOCALE')
-    const newlocale = savedLocale?.value || acceptLanguage.get(headers).toLocaleLowerCase() || "en";
-}
 
 export const config = {
   matcher: ['/api/:path*', '/default/dash/:path*'],
@@ -66,24 +74,21 @@ export function middleware(request: NextRequest) {
       response,
     );
   }
-  
 
   // LOCALIZATION
   if (
-        !/\.(.*)$/.test(request.nextUrl.pathname) &&
-        (LOCALES.every((locale) => !request.nextUrl.href.includes(locale)) || request.nextUrl.pathname.startsWith('/default'))
-    ) {
-        const newUrl = request.nextUrl.clone();
-        const headers = request.headers.get("accept-language")
+    !/\.(.*)$/.test(request.nextUrl.pathname) &&
+    (LOCALES.every((locale) => !request.nextUrl.href.includes(locale)) ||
+      request.nextUrl.pathname.startsWith('/default'))
+  ) {
+    const newUrl = request.nextUrl.clone();
+    const headers = request.headers.get('accept-language');
 
-        if (!headers) return NextResponse.rewrite(newUrl)
-        const savedLocale = request.cookies.get('NEXT_LOCALE')
-        const newlocale = savedLocale?.value || acceptLanguage.get(headers).toLocaleLowerCase() || "en";
-        newUrl.pathname = newUrl.pathname.replace('/default', localeMap[newlocale] || newlocale)
+    if (!headers) return NextResponse.rewrite(newUrl);
+    const savedLocale = request.cookies.get('NEXT_LOCALE');
+    const newlocale = savedLocale?.value || acceptLanguage.get(headers).toLocaleLowerCase() || 'en';
+    newUrl.pathname = newUrl.pathname.replace('/default', localeMap[newlocale] || newlocale);
 
-        return NextResponse.redirect(newUrl);
-    }
-
-
-
+    return NextResponse.redirect(newUrl);
+  }
 }
