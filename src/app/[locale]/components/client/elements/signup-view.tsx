@@ -114,7 +114,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e)}
-            label="Your email"
+            label={t("your email")}
             className="pb-a1"
             placeholder="jack@doe.com"
           />
