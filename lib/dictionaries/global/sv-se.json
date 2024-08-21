@@ -1,15 +1,15 @@
 {
 	"NavBar": {
-		"welcome": "Welcome"
+		"welcome": "Välkommen"
 	},
 	"SignIn": {
-		"continue": "Continue",
-		"continue with": "Continue with",
-		"sign in": "Sign in",
-		"sign out": "Sign out",
-		"your email": "Your email"
+		"continue": "Fortsätt",
+		"continue with": "Fortsätt med",
+		"sign in": "Logga in",
+		"sign out": "Logga ut",
+		"your email": "Din e-post"
 	},
 	"CardGrid": {
-		"staff picks": "Staff Picks"
+		"staff picks": "Personals val"
 	}
 }

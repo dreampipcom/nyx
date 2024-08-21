@@ -1,15 +1,1 @@
-{
-	"NavBar": {
-		"welcome": "Welcome"
-	},
-	"SignIn": {
-		"continue": "Continue",
-		"continue with": "Continue with",
-		"sign in": "Sign in",
-		"sign out": "Sign out",
-		"your email": "Your email"
-	},
-	"CardGrid": {
-		"staff picks": "Staff Picks"
-	}
-}
+{ 	"NavBar": { 		"welcome": "Bem-vindo" 	}, 	"SignIn": { 		"continue": "Continuar", 		"continue with": "Continuar com", 		"sign in": "Entrar", 		"sign out": "Sair", 		"your email": "Seu email" 	}, 	"CardGrid": { 		"staff picks": "Escolhas da Equipe" 	} }
