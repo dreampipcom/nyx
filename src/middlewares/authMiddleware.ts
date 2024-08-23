@@ -28,14 +28,14 @@ export const authMiddleware = async (request: NextRequest) => {
     }
 
     const response = NextResponse.next();
-    const pkce = request.cookies.get('next-auth.pkce.code_verifier');
+    const pkce = request.cookies.get('authjs.pkce.code_verifier');
 
     Object.keys(headers).forEach((key: string) => {
       response.headers.set(key, headers[key]);
     });
 
     if (pkce?.value) {
-      response.cookies.set('next-auth.pkce.code_verifier', pkce.value, {
+      response.cookies.set('authjs.pkce.code_verifier', pkce.value, {
         httpOnly: true,
         sameSite: 'none',
         path: '/',
