@@ -41,7 +41,6 @@ export const authMiddleware = async (request: NextRequest) => {
         path: '/',
         secure: true,
       });
-      console.log({ pkce, response, to: request.nextUrl.pathname });
     }
     return NextResponse.rewrite(
       new URL(

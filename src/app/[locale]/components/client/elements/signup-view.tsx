@@ -132,7 +132,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
               <input
                 type="hidden"
                 name="callbackUrl"
-                value={"/"}
+                value={"/dash"}
               />
             )}
             <Button
