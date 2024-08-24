@@ -61,10 +61,14 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
         const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
           if (!_csrf) {
             getCsrf().then((__csrf) => {
-              setCsrf(__csrf?.split("|")[0] || "");
+              const nextValue = __csrf?.split("|")[0];
+              setCsrf(nextValue  || "");
+              setCookie({  name: 'authjs.csrf-token', value: nextValue });
             })
           } else {
-            setCsrf(_csrf?.value?.split("|")[0] || "");
+            const nextValue = _csrf?.value?.split("|")[0];
+            setCsrf(nextValue || "");
+            setCookie({  name: 'authjs.csrf-token', value: nextValue });
           }
         });
      }
