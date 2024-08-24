@@ -63,12 +63,10 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             getCsrf().then((__csrf) => {
               const nextValue = __csrf?.split("|")[0];
               setCsrf(nextValue  || "");
-              setCookie({  name: 'authjs.csrf-token', value: nextValue });
+              setCookie({  name: 'authjs.csrf-token', value: __csrf });
             })
           } else {
-            const nextValue = _csrf?.value?.split("|")[0];
             setCsrf(nextValue || "");
-            setCookie({  name: 'authjs.csrf-token', value: nextValue });
           }
         });
      }
