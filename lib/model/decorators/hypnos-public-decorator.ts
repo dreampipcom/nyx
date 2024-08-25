@@ -4,11 +4,12 @@
 import type { ICard } from '@dreampipcom/oneiros';
 
 /* private */
-const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
+const decorateListing = (listing: Record<string, any>, uMeta: any, locale: string): ICard => {
   const decd: ICard = {
     id: `${listing.id}`,
     className: '',
-    title: `${listing?.title?.es}`,
+    title: `${listing?.title?[locale || "en"]}`,
+    description: `${listing?.description?[locale || "en"]}`,
     where: `${listing?.location?.name}`,
     latlng: `${listing?.location?.geo}`,
     when: `${listing?.scheduledFor}`,
