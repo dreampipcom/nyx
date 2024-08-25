@@ -10,12 +10,13 @@ const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
     className: '',
     title: `${listing?.title?.es}`,
     where: `${listing?.location?.name}`,
-    when: `${new Date().toLocaleString()}`,
-    image: `https://placehold.co/600x400`,
-    price: `10 KRN`,
+    latlng: `${listing?.location?.name}`,
+    when: `${listing?.scheduledFor}`,
+    image: listing?.images[0] || `https://placehold.co/600x400`,
+    price: `${listing?.value}`,
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
-    rating: '3/5',
+    rating: `${Math.floor(Math.random() * 10)}/10`,
     selected: uMeta?.favorites?.includes(listing.id),
   } as Record<string, any> as ICard;
   // decd.favorite = undefined;
