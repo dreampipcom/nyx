@@ -18,6 +18,6 @@ export async function getCookie({ name }: { name: string }) {
   // const cookiesStore = cookies()
   // const currentCookies = cookiesStore.getAll();
   // console.log({ currentCookies })
-  return cookies().get(name);
+  return cookies().get(name)?.value;
   // console.log({ nextCookies: currentCookies })
 }
