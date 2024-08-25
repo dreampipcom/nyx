@@ -67,8 +67,8 @@ export const VTopNav = ({ user }: VTopNavProps) => {
   }
 
   return (
-    <DPGrid bleed={EBleedVariant.RESPONSIVE} theme={theme}>
-      <div className="col-start-0 col-span-6 md:col-span-2">
+    <DPGrid variant={EGridVariant.TWELVE_COLUMNS} bleed={EBleedVariant.RESPONSIVE} theme={theme}>
+      <div className="flex flex-col col-start-0 col-span-3 md:col-span-2">
         <DPTypo variant={TypographyVariant.SMALL}>
         	{t('welcome')}, {coercedName}
         </DPTypo>
@@ -79,9 +79,9 @@ export const VTopNav = ({ user }: VTopNavProps) => {
           hypnos
         </InternalLink>
       </div>
-      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-6 lg:col-start-8 lg:col-span-2" user={_user} />
-      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-6 md:col-start-12 lg:col-span-6 lg:col-start-12">
-        <div className="flex w-full sm:justify-end">
+      <VSignIn className="col-span-12 col-start-0 md:col-span-3 md:col-start-4 lg:justify-self-end lg:col-start-7 lg:col-span-2" user={_user} />
+      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-12 col-start-0 md:justify-self-end md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
+        <div className="flex w-full">
           <AudioPlayer prompt="" theme={theme} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['card']} onClick={() => navigate(document.location.href.replace(/(map|calendar)/, 'list'))} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['map']} onClick={() => navigate(document.location.href.replace(/(list|calendar)/, 'map'))} />

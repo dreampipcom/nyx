@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@dreampipcom/oneiros/dist/style.css';
+@import '../../../node_modules/@dreampipcom/oneiros/dist/esm/style.css';
 
 * {
   box-sizing: border-box;

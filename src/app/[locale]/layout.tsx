@@ -3,6 +3,7 @@ import { DPTopNav } from '@blocks/server';
 import { RootProviders } from '@state';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
+// import "@dreampipcom/oneiros/styles"
 import './globals.css';
 
 export async function generateMetadata(): Promise<Metadata> {

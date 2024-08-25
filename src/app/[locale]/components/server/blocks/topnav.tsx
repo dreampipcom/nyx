@@ -4,6 +4,7 @@ import type { UserSchema } from '@types';
 import { getSession } from '@auth';
 import { VTopNav } from '@blocks/client';
 import { cookies } from 'next/headers';
+import { getUserServices } from '@gateway';
 
 interface ITopNavProps {
   user?: UserSchema | undefined;
