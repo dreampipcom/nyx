@@ -9,10 +9,6 @@ export async function addToFavorites({ listings, type = 'id' }: any) {
   return { ok: true };
 }
 
-/* to-do: 
-understand server components pragma better 
-so i can split into multiple files */
-
 export async function getUser() {
   // const session = await getServerSession(finalAuth);
   // const email = session?.user?.email || '';
