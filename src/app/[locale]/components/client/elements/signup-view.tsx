@@ -58,7 +58,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   useEffect(() => {
       if(!csrf) {
-        const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
+        const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf: string) => {
           if (!_csrf) {
             getCsrf().then((__csrf) => {
               const nextValue = __csrf?.split("|")[0];
