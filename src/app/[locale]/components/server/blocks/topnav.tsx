@@ -25,9 +25,11 @@ interface IAuthProviders {
 export const CTopNav = async ({ user }: ITopNavProps) => {
   const cookieStore = cookies().getAll();
   const cookieStr = cookieStore.toString();
+  const services = (await getUserServices())?.data?.services || [];
 
   const session = await getSession({ cookies: cookieStr });
+
   return <div>
-    <VTopNav user={session?.user} />
+    <VTopNav user={session?.user} services={services} />
   </div>;
 };

@@ -10,14 +10,14 @@ export async function addToFavorites({ listings, type = 'id' }: any) {
   return { ok: true };
 }
 
-export async function getUserServices({ user }: any) {
-  const services = await getUserHypnosServices({ user });
+export async function getUserServices() {
+  const services = await getUserHypnosServices({});
 
   return { ok: true, data: { services } };
 }
 
-export async function getUserAbilities({ user }: any) {
-  const abilities = await getUserHypnosAbilities({ user });
+export async function getUserAbilities() {
+  const abilities = await getUserHypnosAbilities({});
 
   return { ok: true, data: { abilities } };
 }

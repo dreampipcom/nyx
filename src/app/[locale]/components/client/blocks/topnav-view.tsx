@@ -8,7 +8,7 @@ import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
 import { AudioPlayer, Button as DPButton, EGridVariant, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
 import { VSignIn, InternalLink } from '@elements/client';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 
 interface IAuthProvider {
@@ -18,18 +18,43 @@ interface IAuthProvider {
 
 interface VTopNavProps {
   user?: any;
+  services?: string[];
 }
 
-export const VTopNav = ({ user }: VTopNavProps) => {
+export const VTopNav = ({ user, services }: VTopNavProps) => {
   const [_user, setUser] = useState(user);
   const [isUserLoaded, loadUser] = ALogIn({});
 	const authContext = useContext(AuthContext);
   const globalContext = useContext(GlobalContext);
 
+
   const t = useTranslations('NavBar');
+  const _locale = useLocale();
 
   const { authd, name } = authContext;
   const { theme, locale } = globalContext;
+
+  const coercedLocale = _locale || locale
+
+  // to-do: IMPROVE THIS
+  // https://www.notion.so/angeloreale/Nyx-Improve-locale-parsing-for-services-d02ab83262be4c19987119c30a530480?pvs=4
+  const parsedServices = useMemo(() =>
+    services.filter((service) => {
+    return !!service.slug && !service.slug.includes("mock")
+  }).map((service) => {
+    const localeSplit = coercedLocale?.split('-')
+    if(localeSplit?.length > 0) {
+      return {
+        ...service,
+        name: service.name[localeSplit[0]] || service.name[localeSplit[1]]
+      }
+    } else {
+      return {
+        ...service,
+        name: service.name['en']
+      }
+    }
+  }), [locale])
 
   const initd = useRef(false);
 
@@ -72,12 +97,11 @@ export const VTopNav = ({ user }: VTopNavProps) => {
         <DPTypo variant={TypographyVariant.SMALL}>
         	{t('welcome')}, {coercedName}
         </DPTypo>
-        <InternalLink className="block" href="/services/rickmorty">
-          Rick Morty
-        </InternalLink>
-        <InternalLink className="block" href="/services/hypnos">
-          hypnos
-        </InternalLink>
+        { parsedServices.map((service) => (
+          <InternalLink className="block" href={`/services/${service.slug}`}>
+            {service.name}
+          </InternalLink>
+        ))}
       </div>
       <VSignIn className="col-span-12 col-start-0 md:col-span-3 md:col-start-4 lg:justify-self-end lg:col-start-7 lg:col-span-2" user={_user} />
       <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-12 col-start-0 md:justify-self-end md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
