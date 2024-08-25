@@ -3,7 +3,7 @@
 import { clsx } from "clsx";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { signIn, signOut, getCsrf } from "@auth";
+import { signIn, signOut, getCsrf, getSession } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate, setCookie, getCookie } from '@gateway';
@@ -63,7 +63,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
             getCsrf().then((__csrf) => {
               const nextValue = __csrf?.split("|")[0];
               setCsrf(nextValue  || "");
-              setCookie({  name: 'authjs.csrf-token', value: __csrf });
+              getSession();
             })
           } else {
             const nextValue = _csrf?.split("|")[0];
