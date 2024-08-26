@@ -42,7 +42,7 @@ export default async function RootLayout({ children, params }: { children: React
 
   // to-do: IMPROVE THIS
   // https://www.notion.so/angeloreale/Nyx-Improve-locale-parsing-for-services-d02ab83262be4c19987119c30a530480?pvs=4
-  const parseData = (dataset) =>
+  const parseData = (dataset: any) =>
     dataset
       .filter((entry) => {
         return !!entry.slug && !entry.slug.includes('mock');
