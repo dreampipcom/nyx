@@ -4,7 +4,7 @@
 import type { ICard } from '@dreampipcom/oneiros';
 
 /* private */
-const decorateListing = (listing: Record<string, any>, uMeta: any, locale: string): ICard => {
+const decorateListing = (listing: Record<string, any>, uMeta: any, locale?: string): ICard => {
   const decd: ICard = {
     id: `${listing.id}`,
     className: '',
@@ -27,8 +27,12 @@ const decorateListing = (listing: Record<string, any>, uMeta: any, locale: strin
 };
 
 /* public */
-export const decorateHypnosPublicListings = async (listings: Record<string, any>[], uMeta: any): Promise<ICard[]> => {
+export const decorateHypnosPublicListings = async (
+  listings: Record<string, any>[],
+  uMeta: any,
+  locale?: string,
+): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
-  const decd: ICard[] = listings?.map((card) => decorateListing(card, uMeta));
+  const decd: ICard[] = listings?.map((card) => decorateListing(card, uMeta, locale));
   return decd;
 };
