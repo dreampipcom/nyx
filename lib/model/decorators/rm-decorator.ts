@@ -14,11 +14,11 @@ const decorateCharacter = (character: INCharacter, uMeta: any): ICard => {
     title: `${character?.name}`,
     where: `${character?.location?.name}`,
     when: `${character?.status}`,
-    image: `${character?.image}`,
-    price: '299€',
+    images: [`${character?.image}`],
+    price: '299£',
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
-    rating: '3/5',
+    rating: `${Math.floor(Math.random() * 10)}/10`,
     selected: uMeta?.favoritesStrings?.includes(id),
   } as Record<string, any> as ICard;
 

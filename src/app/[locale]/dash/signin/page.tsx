@@ -6,6 +6,7 @@ import styles from '@styles/page.module.css';
 
 export default async function SignUp() {
   const csrf = await getCsrf();
+
   return (
     <main className={styles.main}>
       <article>

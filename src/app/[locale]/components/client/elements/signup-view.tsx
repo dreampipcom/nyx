@@ -32,14 +32,13 @@ async function doSignIn() {
 }
 
 
-export const VSignUp = ({ providers, user }: VSignUpProps) => {
+export const VSignUp = ({ providers }: VSignUpProps) => {
   const [csrf, setCsrf] = useState("");
   const authContext = useContext(AuthContext);
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
   const prov = providers
-  const { authd, name } = authContext;
   const [email, setEmail] = useState<string>("");
 
   const _providers = Object.values(providers)
@@ -50,11 +49,11 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   const t = useTranslations('SignIn');
 
-  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/";
 
+  const { authd, user } = authContext;
 
-  /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email || "Young Padawan";
+  const coercedName = user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
       if(!csrf) {
