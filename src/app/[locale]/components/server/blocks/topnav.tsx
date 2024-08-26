@@ -5,7 +5,8 @@ import { VTopNav } from '@blocks/client';
 
 
 interface ITopNavProps {
-  user?: UserSchema | undefined;
+  user?: any;
+  services?: any;
 }
 
 interface ISignInData {
