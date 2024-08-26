@@ -7,7 +7,7 @@ import { VSignUp } from '@components/client';
 
 
 interface ISignInProps {
-  user?: UserSchema;
+  user?: any;
 }
 
 interface ISignInData {
