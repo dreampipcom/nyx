@@ -32,6 +32,9 @@ export interface IAuthContext extends History {
   name?: string;
   email?: string;
   user?: UserSchema;
+  services?: any;
+  abilities?: any;
+  locale?: string;
 }
 
 export interface IGlobalContext extends History {
