@@ -34,27 +34,7 @@ export const VTopNav = ({ user, services }: VTopNavProps) => {
   const { authd, name } = authContext;
   const { theme, locale } = globalContext;
 
-  const coercedLocale = _locale || locale
-
-  // to-do: IMPROVE THIS
-  // https://www.notion.so/angeloreale/Nyx-Improve-locale-parsing-for-services-d02ab83262be4c19987119c30a530480?pvs=4
-  const parsedServices = useMemo(() =>
-    services.filter((service) => {
-    return !!service.slug && !service.slug.includes("mock")
-  }).map((service) => {
-    const localeSplit = coercedLocale?.split('-')
-    if(localeSplit?.length > 0) {
-      return {
-        ...service,
-        name: service.name[localeSplit[0]] || service.name[localeSplit[1]]
-      }
-    } else {
-      return {
-        ...service,
-        name: service.name['en']
-      }
-    }
-  }), [locale])
+  const coercedLocale = _locale || locale;
 
   const initd = useRef(false);
 
@@ -97,7 +77,7 @@ export const VTopNav = ({ user, services }: VTopNavProps) => {
         <DPTypo variant={TypographyVariant.SMALL}>
         	{t('welcome')}, {coercedName}
         </DPTypo>
-        { parsedServices.map((service) => (
+        { services.map((service) => (
           <InternalLink className="block" href={`/services/${service.slug}`}>
             {service.name}
           </InternalLink>

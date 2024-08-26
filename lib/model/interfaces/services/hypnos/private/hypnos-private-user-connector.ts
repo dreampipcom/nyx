@@ -58,7 +58,6 @@ export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]
 };
 
 export const getUserHypnosServices: ({ paramsStr }: any) => Promise<ICard[]> = async ({ paramsStr = '' }: any) => {
-  console.log('calilng api');
   const action = 'get-own-services';
   const entries = await fetchREPL({ paramsStr, method: 'POST', action });
   const response = entries?.data;

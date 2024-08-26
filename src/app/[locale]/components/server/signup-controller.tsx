@@ -24,5 +24,5 @@ interface IAuthProviders {
 
 export const CSignUp = async ({ user }: ISignInProps) => {
 	const csrf = await getCsrf();
-  return <VSignUp providers={providers} csrf={csrf} />
+  return <VSignUp providers={providers} csrf={csrf} user={user} />
 }
