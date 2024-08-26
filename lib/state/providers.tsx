@@ -24,7 +24,7 @@ export function RootProviders({
 }) {
   const authContext = useContext<IAuthContext>(AuthContext);
   const globalContext = useContext<IGlobalContext>(GlobalContext);
-  const [authState, setAuthState] = useState<IAuthContext>({ ...authContext, user, locale, services, abilities });
+  const [authState, setAuthState] = useState<IAuthContext>({ ...authContext, user, services, abilities });
   const [globalState, setGlobalState] = useState<IGlobalContext>({ ...globalContext, locale });
   const init = useRef(false);
 
