@@ -44,10 +44,10 @@ export default async function RootLayout({ children, params }: { children: React
   // https://www.notion.so/angeloreale/Nyx-Improve-locale-parsing-for-services-d02ab83262be4c19987119c30a530480?pvs=4
   const parseData = (dataset: any) =>
     dataset
-      .filter((entry) => {
+      .filter((entry: any) => {
         return !!entry.slug && !entry.slug.includes('mock');
       })
-      .map((entry) => {
+      .map((entry: any) => {
         const localeSplit = coercedLocale?.split('-');
         if (localeSplit?.length > 0) {
           return {

@@ -53,7 +53,6 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
 
   const { authd, user } = authContext;
 
-  /* server/client isomorphism */
   const coercedName = user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
