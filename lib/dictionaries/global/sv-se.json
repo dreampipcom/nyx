@@ -1,0 +1,21 @@
+{
+  "Dashboard": {
+    "title": "DreamPip — Instrumentpanel",
+    "description": "Din resa börjar här. DreamPip är fintech för medkänsla."
+  },
+  "NavBar": {
+    "welcome": "Välkommen"
+  },
+  "SignIn": {
+    "welcome": "Välkommen",
+    "continue": "Fortsätt",
+    "continue with": "Fortsätt med",
+    "sign in": "Logga in",
+    "sign out": "Logga ut",
+    "your email": "Din e-post",
+    "i hope you make yourself at home": "Jag hoppas att du känner dig som hemma"
+  },
+  "CardGrid": {
+    "staff picks": "Personals val"
+  }
+}

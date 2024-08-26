@@ -1,43 +1,28 @@
-// middleware.ts
+// @middleware
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { authMiddleware } from './middlewares/authMiddleware';
+import { i18nDetectMiddleware } from './middlewares/i18nDetectMiddleware';
+
+export const middlewares = [authMiddleware, i18nDetectMiddleware];
 
 export const config = {
-  matcher: ['/api/:path*'],
+  matcher: ['/api/:path*', '/(default|cs-cz|de-de|en|es-es|et-ee|fr-fr|it-it|ja-jp|pl-pl|ro|ru-ru|sv-se)/:path*'],
 };
 
-const headers: Record<string, any> = {
-  'Access-Control-Allow-Origin': process.env.MAIN_URL || 'https://www.dreampip.com',
-  'Cache-Control': 'maxage=0, s-maxage=300, stale-while-revalidate=300',
-  // DEV-DEBUG:
-  // 'content-type': 'application/json',
-  // 'Access-Control-Allow-Origin': 'http://localhost:2999',
-  'Access-Control-Allow-Credentials': 'true',
-  'Access-Control-Allow-Headers': 'baggage, sentry-trace',
-};
+const blocklist = ['_next'];
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const pkce = request.cookies.get('next-auth.pkce.code_verifier');
-
-  Object.keys(headers).forEach((key: string) => {
-    response.headers.set(key, headers[key]);
-  });
-
-  if (pkce?.value) {
-    response.cookies.set('next-auth.pkce.code_verifier', pkce.value, {
-      httpOnly: true,
-      sameSite: 'none',
-      path: '/',
-      secure: true,
-    });
-    console.log({ pkce, response, to: request.nextUrl.pathname });
+export default async function middleware(request: NextRequest) {
+  const url = request?.nextUrl?.pathname;
+  if (blocklist.some((pattern) => url?.includes(pattern))) {
+    console.log('--- PATTERN BOCKED: ---', url);
+    return NextResponse.next();
+  }
+  // if a response is returned, return it otherwise call `next()`
+  for (const fn of middlewares) {
+    const response = await fn(request);
+    if (response) return response;
   }
 
-  return NextResponse.rewrite(
-    new URL(
-      `${process.env.REMOTE_DEV ? process.env.API_HOST_DEV : process.env.API_HOST}${request.nextUrl.pathname}${request.nextUrl.search}`,
-    ),
-    response,
-  );
+  return NextResponse.next();
 }

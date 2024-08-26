@@ -1,0 +1,21 @@
+{
+  "Dashboard": {
+    "title": "DreamPip — Panel",
+    "description": "Twoja podróż zaczyna się tutaj. DreamPip to finanse technologiczne dla współczucia."
+  },
+  "NavBar": {
+    "welcome": "Witaj"
+  },
+  "SignIn": {
+    "welcome": "Witaj",
+    "continue": "Kontynuuj",
+    "continue with": "Kontynuuj z",
+    "sign in": "Zaloguj się",
+    "sign out": "Wyloguj się",
+    "your email": "Twój adres email",
+    "i hope you make yourself at home": "Mam nadzieję, że będziesz się czuł jak u siebie w domu"
+  },
+  "CardGrid": {
+    "staff picks": "Wybór pracowników"
+  }
+}

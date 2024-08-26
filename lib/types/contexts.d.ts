@@ -1,6 +1,5 @@
 // contexts.d.ts
 // import type { ICard } from '@dreampipcom/oneiros';
-import type { UserSchema } from '@types';
 import type { Dispatch, SetStateAction } from 'react';
 
 export interface History {
@@ -31,12 +30,15 @@ export interface IAuthContext extends History {
   authd?: boolean;
   name?: string;
   email?: string;
-  user?: UserSchema;
+  user?: any;
+  services?: any;
+  abilities?: any;
 }
 
 export interface IGlobalContext extends History {
   initd?: boolean;
   theme?: 'light' | 'dark';
+  locale?: string;
 }
 
 // to-do: characters type annotations

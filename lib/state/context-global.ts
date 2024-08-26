@@ -5,6 +5,7 @@ import { createContext } from 'react';
 
 export const GlobalContext = createContext<IGlobalContext>({
   theme: 'light',
+  locale: 'en',
   setter: undefined,
   history: [],
 });

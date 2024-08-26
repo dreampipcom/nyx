@@ -4,18 +4,20 @@
 import type { ICard } from '@dreampipcom/oneiros';
 
 /* private */
-const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
+const decorateListing = (listing: Record<string, any>, uMeta: any, locale?: string): ICard => {
   const decd: ICard = {
     id: `${listing.id}`,
     className: '',
-    title: `${listing?.title?.es}`,
+    title: `${listing?.title[locale || 'en']}`,
+    description: `${listing?.description[locale || 'en']}`,
     where: `${listing?.location?.name}`,
-    when: `${new Date().toLocaleString()}`,
-    image: `https://placehold.co/600x400`,
-    price: `10 KRN`,
+    latlng: `${listing?.location?.geo}`,
+    when: `${listing?.scheduledFor}`,
+    images: listing?.images || [`https://placehold.co/600x400`],
+    price: `${listing?.value} KRN`,
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
-    rating: '3/5',
+    rating: `${Math.floor(Math.random() * 10)}/10`,
     selected: uMeta?.favorites?.includes(listing.id),
   } as Record<string, any> as ICard;
   // decd.favorite = undefined;
@@ -25,8 +27,12 @@ const decorateListing = (listing: Record<string, any>, uMeta: any): ICard => {
 };
 
 /* public */
-export const decorateHypnosPublicListings = async (listings: Record<string, any>[], uMeta: any): Promise<ICard[]> => {
+export const decorateHypnosPublicListings = async (
+  listings: Record<string, any>[],
+  uMeta: any,
+  locale?: string,
+): Promise<ICard[]> => {
   // const uMeta: UserSchema = await getUserMeta({ email: uid });
-  const decd: ICard[] = listings?.map((card) => decorateListing(card, uMeta));
+  const decd: ICard[] = listings?.map((card) => decorateListing(card, uMeta, locale));
   return decd;
 };

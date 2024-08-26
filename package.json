@@ -18,7 +18,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@dreampipcom/oneiros": "0.0.17",
+    "@dreampipcom/oneiros": "0.0.25",
     "@sentry/nextjs": "7.118.0",
     "next": "14.2.5",
     "react": "18",
@@ -34,6 +34,7 @@
     "@types/react-dom": "18",
     "@types/uuid": "9.0.8",
     "@typescript-eslint/eslint-plugin": "6.19.0",
+    "accept-language": "^3.0.20",
     "autoprefixer": "^10.4.19",
     "bson": "^6.8.0",
     "clsx": "2.1.0",
@@ -42,6 +43,7 @@
     "eslint-config-next": "14.0.4",
     "husky": "9.0.11",
     "lodash": "4.17.21",
+    "next-intl": "^3.17.4",
     "postcss": "^8.4.38",
     "prettier": "3.2.4",
     "server-only": "0.0.1",

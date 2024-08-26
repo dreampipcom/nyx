@@ -26,12 +26,12 @@ import { fetchWithTimeout } from '../../../helpers';
 // }
 // `;
 
-async function fetchREPL({ paramsStr, method, listings }: any) {
+async function fetchREPL({ paramsStr, method, listings, action }: any) {
   // to-do: might be worth hardcoding the api in case too many middleware requests are billed
   try {
     const cookieStore = cookies();
     const cookieString = cookieStore.toString();
-    const payload = JSON.stringify({ listings });
+    const payload = JSON.stringify({ listings, action });
     const req = await fetchWithTimeout(`${process.env.API_HOST}/api/v1/user${paramsStr}`, {
       method,
       headers: {
@@ -53,6 +53,20 @@ export const updateUserFavoriteListings: ({ paramsStr }: any) => Promise<ICard[]
   paramsStr = '',
 }: any) => {
   const entries = await fetchREPL({ paramsStr, method: 'PATCH', listings });
+  const response = entries?.data;
+  return response;
+};
+
+export const getUserHypnosServices: ({ paramsStr }: any) => Promise<ICard[]> = async ({ paramsStr = '' }: any) => {
+  const action = 'get-own-services';
+  const entries = await fetchREPL({ paramsStr, method: 'POST', action });
+  const response = entries?.data;
+  return response;
+};
+
+export const getUserHypnosAbilities: ({ paramsStr }: any) => Promise<ICard[]> = async ({ paramsStr = '' }: any) => {
+  const action = 'get-own-abilities';
+  const entries = await fetchREPL({ paramsStr, method: 'POST', action });
   const response = entries?.data;
   return response;
 };
