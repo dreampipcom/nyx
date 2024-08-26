@@ -77,7 +77,7 @@ export const VTopNav = ({ user, services }: VTopNavProps) => {
         <DPTypo variant={TypographyVariant.SMALL}>
         	{t('welcome')}, {coercedName}
         </DPTypo>
-        { services.map((service) => (
+        { services?.map((service) => (
           <InternalLink className="block" href={`/services/${service.slug}`}>
             {service.name}
           </InternalLink>
