@@ -14,7 +14,7 @@ const decorateListing = (listing: Record<string, any>, uMeta: any, locale?: stri
     latlng: `${listing?.location?.geo}`,
     when: `${listing?.scheduledFor}`,
     images: listing?.images || [`https://placehold.co/600x400`],
-    price: `${listing?.value} KRN`,
+    value: `${listing?.value} KRN`,
     link: 'https://www.dreampip.com',
     badgeLink: 'https://www.dreampip.com',
     rating: `${Math.floor(Math.random() * 10)}/10`,
