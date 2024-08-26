@@ -3,7 +3,7 @@
 import { clsx } from "clsx";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { signIn, signOut, getCsrf } from "@auth";
+import { signIn, signOut, getCsrf, getSession } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate, setCookie, getCookie } from '@gateway';
@@ -32,14 +32,13 @@ async function doSignIn() {
 }
 
 
-export const VSignUp = ({ providers, user }: VSignUpProps) => {
+export const VSignUp = ({ providers }: VSignUpProps) => {
   const [csrf, setCsrf] = useState("");
   const authContext = useContext(AuthContext);
   const [isUserLoaded, loadUser] = ALogIn({});
   const [, unloadUser] = ALogOut({});
   const initd = useRef(false);
   const prov = providers
-  const { authd, name } = authContext;
   const [email, setEmail] = useState<string>("");
 
   const _providers = Object.values(providers)
@@ -50,21 +49,24 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
 
   const t = useTranslations('SignIn');
 
-  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/"
+  const callbackUrl = process.env.NEXT_PUBLIC_NEXUS_BASE_PATH || "/";
 
+  const { authd, user } = authContext;
 
-  /* server/client isomorphism */
-  const coercedName = name || user?.name || user?.email || "Young Padawan";
+  const coercedName = user?.name || user?.email || "Young Padawan";
 
   useEffect(() => {
       if(!csrf) {
-        const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf) => {
+        const cookie = getCookie({ name: 'authjs.csrf-token' }).then((_csrf?: string) => {
           if (!_csrf) {
             getCsrf().then((__csrf) => {
-              setCsrf(__csrf?.split("|")[0] || "");
+              const nextValue = __csrf?.split("|")[0];
+              setCsrf(nextValue  || "");
+              getSession();
             })
           } else {
-            setCsrf(_csrf?.value?.split("|")[0] || "");
+            const nextValue = _csrf?.split("|")[0];
+            setCsrf(nextValue || "");
           }
         });
      }
@@ -132,7 +134,7 @@ export const VSignUp = ({ providers, user }: VSignUpProps) => {
               <input
                 type="hidden"
                 name="callbackUrl"
-                value={"/"}
+                value={"/dash"}
               />
             )}
             <Button

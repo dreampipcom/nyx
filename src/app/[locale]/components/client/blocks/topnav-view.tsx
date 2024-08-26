@@ -8,7 +8,7 @@ import { ASwitchThemes, ALogIn } from '@actions';
 import { navigate } from '@gateway';
 import { AudioPlayer, Button as DPButton, EGridVariant, Grid as DPGrid, EBleedVariant, Typography as DPTypo, TypographyVariant, ESystemIcon } from "@dreampipcom/oneiros";
 import { VSignIn, InternalLink } from '@elements/client';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 
 interface IAuthProvider {
@@ -18,18 +18,23 @@ interface IAuthProvider {
 
 interface VTopNavProps {
   user?: any;
+  services?: any;
 }
 
-export const VTopNav = ({ user }: VTopNavProps) => {
+export const VTopNav = ({ user, services }: VTopNavProps) => {
   const [_user, setUser] = useState(user);
   const [isUserLoaded, loadUser] = ALogIn({});
 	const authContext = useContext(AuthContext);
   const globalContext = useContext(GlobalContext);
 
+
   const t = useTranslations('NavBar');
+  const _locale = useLocale();
 
   const { authd, name } = authContext;
   const { theme, locale } = globalContext;
+
+  const coercedLocale = _locale || locale;
 
   const initd = useRef(false);
 
@@ -67,21 +72,20 @@ export const VTopNav = ({ user }: VTopNavProps) => {
   }
 
   return (
-    <DPGrid bleed={EBleedVariant.RESPONSIVE} theme={theme}>
-      <div className="col-start-0 col-span-6 md:col-span-2">
+    <DPGrid variant={EGridVariant.TWELVE_COLUMNS} bleed={EBleedVariant.RESPONSIVE} theme={theme}>
+      <div className="flex flex-col col-start-0 col-span-3 md:col-span-2">
         <DPTypo variant={TypographyVariant.SMALL}>
         	{t('welcome')}, {coercedName}
         </DPTypo>
-        <InternalLink className="block" href="/services/rickmorty">
-          Rick Morty
-        </InternalLink>
-        <InternalLink className="block" href="/services/hypnos">
-          hypnos
-        </InternalLink>
+        { services?.map((service: any) => (
+          <InternalLink className="block" href={`/services/${service.slug}`}>
+            {service.name}
+          </InternalLink>
+        ))}
       </div>
-      <VSignIn className="col-span-full col-start-0 md:col-span-3 md:col-start-6 lg:col-start-8 lg:col-span-2" user={_user} />
-      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-full col-start-0 md:col-span-6 md:col-start-12 lg:col-span-6 lg:col-start-12">
-        <div className="flex w-full sm:justify-end">
+      <VSignIn className="col-span-12 col-start-0 md:col-span-3 md:col-start-4 lg:justify-self-end lg:col-start-7 lg:col-span-2" user={_user} />
+      <DPGrid full bleed={EBleedVariant.ZERO} variant={EGridVariant.TWELVE_COLUMNS} className="col-span-12 col-start-0 md:justify-self-end md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
+        <div className="flex w-full">
           <AudioPlayer prompt="" theme={theme} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['card']} onClick={() => navigate(document.location.href.replace(/(map|calendar)/, 'list'))} />
           <DPButton className="ml-a1" theme={theme} icon={ESystemIcon['map']} onClick={() => navigate(document.location.href.replace(/(list|calendar)/, 'map'))} />

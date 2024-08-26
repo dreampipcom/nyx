@@ -10,4 +10,4 @@ export { getUser, loadChars, reloadChars, getChars, getUserLocale, setUserLocale
 export { loadHypnosPublicListings } from './server/hypnos/public';
 
 // hypnos-private
-export { addToFavorites } from './server/hypnos/private';
+export { getUserServices, getUserAbilities, addToFavorites } from './server/hypnos/private';

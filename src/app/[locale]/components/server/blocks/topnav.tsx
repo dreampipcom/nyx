@@ -1,12 +1,12 @@
 // topnav.tsx
 'use server';
 import type { UserSchema } from '@types';
-import { getSession } from '@auth';
 import { VTopNav } from '@blocks/client';
-import { cookies } from 'next/headers';
+
 
 interface ITopNavProps {
-  user?: UserSchema | undefined;
+  user?: any;
+  services?: any;
 }
 
 interface ISignInData {
@@ -21,12 +21,8 @@ interface IAuthProviders {
   name?: string;
 }
 
-export const CTopNav = async ({ user }: ITopNavProps) => {
-  const cookieStore = cookies().getAll();
-  const cookieStr = cookieStore.toString();
-
-  const session = await getSession({ cookies: cookieStr });
+export const CTopNav = async ({ user, services }: ITopNavProps) => {
   return <div>
-    <VTopNav user={session?.user} />
+    <VTopNav user={user} services={services} />
   </div>;
 };
