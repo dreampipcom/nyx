@@ -52,7 +52,7 @@ export default async function RootLayout({ children, params }: { children: React
         if (localeSplit?.length > 0) {
           return {
             ...entry,
-            name: entry.name[localeSplit[0]] || entry.name[localeSplit[1]],
+            name: entry.name[localeSplit[1]] || entry.name[localeSplit[0]],
           };
         } else {
           return {
