@@ -5,14 +5,14 @@ import type { ICard } from '@dreampipcom/oneiros';
 
 /* private */
 const decorateListing = (listing: Record<string, any>, uMeta: any, locale?: string): ICard => {
-  const coerceString = (localeString: any) => {
-    return listing?.description[locale?.split('-')[1]] || listing?.description[locale?.split('-')[0]];
+  const coerceStringLocale = (localeString: any) => {
+    return localeString[locale?.split('-')[1]] || localeString[locale?.split('-')[0]];
   };
   const decd: ICard = {
     id: `${listing.id}`,
     className: '',
-    title: `${coerceString(listing?.title)}`,
-    description: `${coerceString(listing?.description)}`,
+    title: `${coerceStringLocale(listing?.title)}`,
+    description: `${coerceStringLocale(listing?.description)}`,
     where: `${listing?.location?.name}`,
     latlng: `${listing?.location?.geo}`,
     when: `${listing?.scheduledFor}`,
