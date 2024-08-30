@@ -6,7 +6,8 @@ import type { ICard } from '@dreampipcom/oneiros';
 /* private */
 const decorateListing = (listing: Record<string, any>, uMeta: any, locale?: string): ICard => {
   const coerceStringLocale = (localeString: any) => {
-    return localeString[locale?.split('-')[1]] || localeString[locale?.split('-')[0]];
+    const strArr;
+    return strArr[[1]] || strArr[locale?.split('-')[0]];
   };
   const decd: ICard = {
     id: `${listing.id}`,
