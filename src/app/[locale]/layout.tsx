@@ -40,6 +40,8 @@ export default async function RootLayout({ children, params }: { children: React
   const _services = (await getUserServices())?.data?.services || [];
   const _abilities = (await getUserAbilities())?.data?.abilities || [];
 
+  console.log({ _services, _abilities });
+
   // to-do: IMPROVE THIS
   // https://www.notion.so/angeloreale/Nyx-Improve-locale-parsing-for-services-d02ab83262be4c19987119c30a530480?pvs=4
   const parseData = (dataset: any) =>
