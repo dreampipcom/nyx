@@ -51,7 +51,7 @@ export function RootProviders({
     <AuthContext.Provider value={authState}>
       <GlobalContext.Provider value={globalState}>
         <Globals theme={globalState?.theme || 'dark'}>
-          <main className="min-h-screen">{children}</main>
+          <main style={{ minHeight: '100vh' }}>{children}</main>
         </Globals>
       </GlobalContext.Provider>
     </AuthContext.Provider>

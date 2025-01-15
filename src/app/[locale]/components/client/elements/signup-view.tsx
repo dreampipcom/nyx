@@ -95,7 +95,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
   };
 
   if (user || authd) {
-    return <section>
+    return <section style={{ padding: '8px' }} >
         <Typography>{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
         <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
