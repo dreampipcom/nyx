@@ -8,7 +8,7 @@ export default async function SignUp() {
 
   return (
     <main>
-      <article className="p-a8">
+      <article>
         <VSignUp providers={providers} csrf={csrf} />
       </article>
     </main>
