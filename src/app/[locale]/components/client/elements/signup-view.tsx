@@ -8,7 +8,6 @@ import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate, setCookie, getCookie } from '@gateway';
 import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
-import "@dreampipcom/oneiros/styles"
 
 interface IAuthProvider {
   id?: string;
@@ -97,15 +96,15 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <Typography className="py-a3">{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
+        <Typography>{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
         <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
   }
 
   if (!Object.keys(prov).length) return
   
-  return <section className="p-a8">
-      <div className="py-a4 "> 
+  return <section>
+      <div> 
         <form action={`${signInUrl}/email`} method="post">
           <input type="hidden" name="csrfToken" defaultValue={csrf} />
           <input type="hidden" name="callbackUrl" value="/verify" />
@@ -124,7 +123,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
         </form>
        </div>
     {providers.map((provider) => (
-      <div className="py-a1 p-a8"> 
+      <div> 
         {(provider.type === "oauth" || provider.type === "oidc") && (
           <form action={`${signInUrl}/${provider.id}`} method="POST">
             <input type="hidden" name="csrfToken" value={csrf} />
