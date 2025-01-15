@@ -105,7 +105,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
   
   return <section>
     <Grid variant={EGridVariant.ONE_COLUMN} bleed={EBleedVariant.ZERO}>
-      <div style={{ padding: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+      <div style={{ paddingTop: '64px', paddingBottom: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
         <div style={{ maxWidth: '320px' }} >
           <div> 
             <form style={{ marginBottom: '16px' }} action={`${signInUrl}/email`} method="post">
