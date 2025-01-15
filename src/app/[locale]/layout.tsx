@@ -71,7 +71,7 @@ export default async function RootLayout({ children, params }: { children: React
         <RootProviders locale={locale || libLocale} user={user} services={services} abilities={abilities}>
           <NextIntlClientProvider messages={messages}>
             <DPTopNav user={user} services={services} />
-            {children}
+            <div style={{ maxWidth: '320px', padding: '16px', margin: '0 auto' }}>{children}</div>
           </NextIntlClientProvider>
         </RootProviders>
       </body>
