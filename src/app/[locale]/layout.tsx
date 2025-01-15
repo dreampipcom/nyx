@@ -6,8 +6,8 @@ import { getSession } from '@auth';
 import { DPTopNav } from '@blocks/server';
 import { RootProviders } from '@state';
 import { getUserServices, getUserAbilities } from '@gateway';
-// import "@dreampipcom/oneiros/styles"
 import './globals.css';
+import '@dreampipcom/oneiros/styles';
 
 export async function generateMetadata(): Promise<Metadata> {
   // fetch data

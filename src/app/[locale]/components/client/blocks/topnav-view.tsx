@@ -10,6 +10,7 @@ import { Nav, Grid, EGridVariant, EBleedVariant } from "@dreampipcom/oneiros";
 import { VSignIn, InternalLink } from '@elements/client';
 import { useTranslations, useLocale } from 'next-intl';
 
+import "@dreampipcom/oneiros/styles"
 
 interface IAuthProvider {
   id?: string;
@@ -73,10 +74,10 @@ export const VTopNav = ({ user, services }: VTopNavProps) => {
 
   return (<div className="">
       {/* temp hack please fix sticky */}
-      <div className="static top-0">
+{/*      <div className="static top-0">
         <Nav hideSpots hideProfile={isUserLoaded ? false : true} className="opacity-0" />
-      </div>
-      <div className="w-full fixed top-0 z-[999]">
+      </div>*/}
+      <div className="w-full top-0 z-[999]">
         <Nav hideSpots hideProfile={isUserLoaded ? false : true} className="" />
       </div>
   </div>);
