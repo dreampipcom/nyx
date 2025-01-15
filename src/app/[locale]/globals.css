@@ -1,30 +1,7 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* nyx is a hydration enginge. we don't style here.
+that's why just the base. 
+but oneiros is a public component library, and tailwind, 
+being peer dependant, allow for better branding flexibility.
+that's why we need tailwind in this repo. */
 @import '../../../node_modules/@dreampipcom/oneiros/dist/esm/style.css';
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html,
-body {
-  max-width: 100vw;
-}
-
-body {
-  background: var(--background-color) !important;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
