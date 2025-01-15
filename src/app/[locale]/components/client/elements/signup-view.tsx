@@ -95,7 +95,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
   };
 
   if (user || authd) {
-    return <section style={{ padding: '8px' }} >
+    return <section>
         <Typography>{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
         <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
@@ -105,7 +105,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
   
   return <section>
     <Grid variant={EGridVariant.ONE_COLUMN} bleed={EBleedVariant.ZERO}>
-      <div style={{ paddingTop: '64px', paddingBottom: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
         <div style={{ maxWidth: '320px' }} >
           <div> 
             <form style={{ marginBottom: '16px' }} action={`${signInUrl}/email`} method="post">
@@ -119,7 +119,7 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
                   onChange={(e) => setEmail(e)}
                   label={t("your email")}
                   className="pb-a1"
-                  placeholder="jack@doe.com"
+                  placeholder="jackie@dpip.cc"
                 />
               </div>
               <Button id="submitButton" type="submit">
