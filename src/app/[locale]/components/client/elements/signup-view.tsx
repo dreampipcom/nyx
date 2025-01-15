@@ -7,7 +7,7 @@ import { signIn, signOut, getCsrf, getSession } from "@auth";
 import { AuthContext } from '@state';
 import { ALogIn, ALogOut } from '@actions';
 import { navigate, setCookie, getCookie } from '@gateway';
-import { Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
+import { Grid, EGridVariant, EBleedVariant, Button, TextInput, Logo, Typography  } from "@dreampipcom/oneiros";
 
 interface IAuthProvider {
   id?: string;
@@ -96,55 +96,60 @@ export const VSignUp = ({ providers }: VSignUpProps) => {
 
   if (user || authd) {
     return <section>
-        <Typography className="py-a3">{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
+        <Typography>{t('welcome')}, {coercedName}. {t('i hope you make yourself at home')}.</Typography>
         <Button onClick={handleSignOut}>{t('sign out')}</Button>
     </section>
   }
 
   if (!Object.keys(prov).length) return
   
-  return <section className="">
-      <div className="py-a4 "> 
-        <div className="m-auto w-full flex flex-col items-center justify-center">
-          <Logo  />
+  return <section>
+    <Grid variant={EGridVariant.ONE_COLUMN} bleed={EBleedVariant.ZERO}>
+      <div style={{ paddingTop: '64px', paddingBottom: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+        <div style={{ maxWidth: '320px' }} >
+          <div> 
+            <form style={{ marginBottom: '16px' }} action={`${signInUrl}/email`} method="post">
+              <input type="hidden" name="csrfToken" defaultValue={csrf} />
+              <input type="hidden" name="callbackUrl" value="/verify" />
+              <div style={{ marginBottom: '8px' }} >
+                <TextInput
+                  id={`input-email-for-${defaultP.id}-provider`}
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e)}
+                  label={t("your email")}
+                  className="pb-a1"
+                  placeholder="jack@doe.com"
+                />
+              </div>
+              <Button id="submitButton" type="submit">
+                {t('continue')}
+              </Button>
+            </form>
+           </div>
+          {providers.map((provider) => (
+            <div> 
+              {(provider.type === "oauth" || provider.type === "oidc") && (
+                <form style={{ marginBottom: '8px' }} action={`${signInUrl}/${provider.id}`} method="POST">
+                  <input type="hidden" name="csrfToken" value={csrf} />
+                  {callbackUrl && (
+                    <input
+                      type="hidden"
+                      name="callbackUrl"
+                      value={"/dash"}
+                    />
+                  )}
+                  <Button
+                    type="submit"
+                  >
+                    {t('continue with')} {provider.name}
+                  </Button>
+                </form>
+              )}
+            </div>
+          ))}
         </div>
-        <form action={`${signInUrl}/email`} method="post">
-          <input type="hidden" name="csrfToken" defaultValue={csrf} />
-          <input type="hidden" name="callbackUrl" value="/verify" />
-          <TextInput
-            id={`input-email-for-${defaultP.id}-provider`}
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e)}
-            label={t("your email")}
-            className="pb-a1"
-            placeholder="jack@doe.com"
-          />
-          <Button id="submitButton" type="submit">
-            {t('continue')}
-          </Button>
-        </form>
-       </div>
-    {providers.map((provider) => (
-      <div className="py-a1"> 
-        {(provider.type === "oauth" || provider.type === "oidc") && (
-          <form action={`${signInUrl}/${provider.id}`} method="POST">
-            <input type="hidden" name="csrfToken" value={csrf} />
-            {callbackUrl && (
-              <input
-                type="hidden"
-                name="callbackUrl"
-                value={"/dash"}
-              />
-            )}
-            <Button
-              type="submit"
-            >
-              {t('continue with')} {provider.name}
-            </Button>
-          </form>
-        )}
       </div>
-    ))}
+    </Grid>
   </section>
 }
