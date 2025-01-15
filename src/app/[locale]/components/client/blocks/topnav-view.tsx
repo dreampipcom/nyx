@@ -72,13 +72,5 @@ export const VTopNav = ({ user, services }: VTopNavProps) => {
       });
   }
 
-  return (<div className="">
-      {/* temp hack please fix sticky */}
-{/*      <div className="static top-0">
-        <Nav hideSpots hideProfile={isUserLoaded ? false : true} className="opacity-0" />
-      </div>*/}
-      <div className="w-full top-0 z-[999]">
-        <Nav onThemeChange={handleThemeSwitch} hideBg hideSpots hideProfile={isUserLoaded ? false : true} className="" />
-      </div>
-  </div>);
+  return (<Nav onThemeChange={handleThemeSwitch} hideBg hideSpots hideProfile={isUserLoaded ? false : true} className="" />);
 };

@@ -22,7 +22,5 @@ interface IAuthProviders {
 }
 
 export const CTopNav = async ({ user, services }: ITopNavProps) => {
-  return <div>
-    <VTopNav user={user} services={services} />
-  </div>;
+  return <VTopNav user={user} services={services} />;
 };
